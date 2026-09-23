@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <rect width="1200" height="750" fill="#111214"/>
+  <rect x="100" y="100" width="1000" height="550" rx="12" fill="#17181B" stroke="#292A2E" stroke-width="2"/>
+  <path d="M100 160H1100" stroke="#292A2E" stroke-width="2"/>
+  <circle cx="138" cy="130" r="6" fill="#FF8A54"/>
+  <rect x="155" y="225" width="340" height="24" rx="4" fill="#A3A49F"/>
+  <rect x="155" y="280" width="250" height="12" rx="4" fill="#666762"/>
+  <rect x="155" y="310" width="290" height="12" rx="4" fill="#666762"/>
+  <rect x="155" y="370" width="110" height="40" rx="6" fill="#FF8A54"/>
+  <rect x="610" y="220" width="420" height="290" rx="8" fill="#FF8A54" fill-opacity="0.15" stroke="#FF8A54" stroke-width="2"/>
+  <text x="155" y="580" fill="#F4F4F1" font-family="Arial, sans-serif" font-size="22">PROJET 01 — VISUEL TEMPORAIRE</text>
+</svg>

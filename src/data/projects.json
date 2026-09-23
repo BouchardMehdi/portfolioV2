@@ -1,0 +1,144 @@
+{
+  "projects": [
+    {
+      "slug": "projet-01",
+      "name": "Projet 01",
+      "shortDescription": "Projet de démonstration. Description à remplacer par celle d’une réalisation réelle.",
+      "year": 2026,
+      "type": "Démonstration",
+      "status": "ongoing",
+      "published": true,
+      "placeholder": true,
+      "featured": true,
+      "featuredOrder": 1,
+      "accent": "#FF8A54",
+      "technologies": [],
+      "media": {
+        "cover": "cover.svg",
+        "thumbnail": "cover.svg"
+      },
+      "content": {
+        "overview": "Cet emplacement accueillera la présentation d’un projet réel. Le contenu et le visuel sont temporaires."
+      },
+      "caseStudy": {
+        "context": "Contexte du projet à renseigner.",
+        "problem": "Problème rencontré à renseigner.",
+        "role": "Contribution personnelle à renseigner.",
+        "solution": "Solution réalisée à renseigner.",
+        "technicalDecisions": [
+          {
+            "title": "Décision à documenter",
+            "description": "Choix technique et raisons à renseigner."
+          }
+        ],
+        "results": ["Résultats vérifiables à renseigner."],
+        "conclusion": "Bilan du projet à renseigner."
+      }
+    },
+    {
+      "slug": "projet-02",
+      "name": "Projet 02",
+      "shortDescription": "Projet de démonstration. Description à remplacer par celle d’une réalisation réelle.",
+      "year": 2026,
+      "type": "Démonstration",
+      "status": "ongoing",
+      "published": true,
+      "placeholder": true,
+      "featured": true,
+      "featuredOrder": 2,
+      "accent": "#6889EB",
+      "technologies": [],
+      "media": {
+        "cover": "cover.svg",
+        "thumbnail": "cover.svg"
+      },
+      "content": {
+        "overview": "Cet emplacement accueillera la présentation d’un projet réel. Le contenu et le visuel sont temporaires."
+      },
+      "caseStudy": {
+        "context": "Contexte du projet à renseigner.",
+        "problem": "Problème rencontré à renseigner.",
+        "role": "Contribution personnelle à renseigner.",
+        "solution": "Solution réalisée à renseigner.",
+        "technicalDecisions": [
+          {
+            "title": "Décision à documenter",
+            "description": "Choix technique et raisons à renseigner."
+          }
+        ],
+        "results": ["Résultats vérifiables à renseigner."],
+        "conclusion": "Bilan du projet à renseigner."
+      }
+    },
+    {
+      "slug": "projet-03",
+      "name": "Projet 03",
+      "shortDescription": "Projet de démonstration. Description à remplacer par celle d’une réalisation réelle.",
+      "year": 2026,
+      "type": "Démonstration",
+      "status": "ongoing",
+      "published": true,
+      "placeholder": true,
+      "featured": true,
+      "featuredOrder": 3,
+      "accent": "#76A989",
+      "technologies": [],
+      "media": {
+        "cover": "cover.svg",
+        "thumbnail": "cover.svg"
+      },
+      "content": {
+        "overview": "Cet emplacement accueillera la présentation d’un projet réel. Le contenu et le visuel sont temporaires."
+      },
+      "caseStudy": {
+        "context": "Contexte du projet à renseigner.",
+        "problem": "Problème rencontré à renseigner.",
+        "role": "Contribution personnelle à renseigner.",
+        "solution": "Solution réalisée à renseigner.",
+        "technicalDecisions": [
+          {
+            "title": "Décision à documenter",
+            "description": "Choix technique et raisons à renseigner."
+          }
+        ],
+        "results": ["Résultats vérifiables à renseigner."],
+        "conclusion": "Bilan du projet à renseigner."
+      }
+    },
+    {
+      "slug": "projet-04",
+      "name": "Projet 04",
+      "shortDescription": "Projet de démonstration. Description à remplacer par celle d’une réalisation réelle.",
+      "year": 2026,
+      "type": "Démonstration",
+      "status": "ongoing",
+      "published": true,
+      "placeholder": true,
+      "featured": true,
+      "featuredOrder": 4,
+      "accent": "#AA8CD4",
+      "technologies": [],
+      "media": {
+        "cover": "cover.svg",
+        "thumbnail": "cover.svg"
+      },
+      "content": {
+        "overview": "Cet emplacement accueillera la présentation d’un projet réel. Le contenu et le visuel sont temporaires."
+      },
+      "caseStudy": {
+        "context": "Contexte du projet à renseigner.",
+        "problem": "Problème rencontré à renseigner.",
+        "role": "Contribution personnelle à renseigner.",
+        "solution": "Solution réalisée à renseigner.",
+        "technicalDecisions": [
+          {
+            "title": "Décision à documenter",
+            "description": "Choix technique et raisons à renseigner."
+          }
+        ],
+        "results": ["Résultats vérifiables à renseigner."],
+        "conclusion": "Bilan du projet à renseigner."
+      }
+    }
+  ]
+}
