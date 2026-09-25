@@ -110,13 +110,37 @@ Elle est exécutée avant chaque `npm run build` et bloque la compilation si une
 erreur est détectée. La lecture des données par les pages applique également
 le schéma. Les erreurs indiquent le champ ou le fichier à corriger.
 
+## Interface et thèmes
+
+Les couleurs, espacements, styles de texte et variantes de boutons sont définis
+dans `src/styles/globals.css`. Space Grotesk et Inter sont chargées avec
+`next/font/local` depuis les paquets Fontsource : aucune requête vers un service
+de polices n’est nécessaire. Leurs licences sont dans `public/fonts/`.
+
+`next-themes` suit la préférence système au premier affichage et mémorise le
+choix clair/sombre dans `localStorage`. Le menu permet de revenir au réglage
+système. Le bouton Menu fonctionne au clic et au clavier ; le survol du bord
+supérieur ajoute un accès à la souris. Échap ferme le panneau et rend le focus
+au bouton. Les transitions respectent `prefers-reduced-motion`.
+
+Les tests navigateur couvrent les thèmes, le menu, la navigation et les petites
+largeurs sur Chromium desktop et mobile. Après installation du navigateur :
+
+```sh
+npx playwright install chromium
+npm run build
+npm run test:e2e
+```
+
+Playwright démarre le build de production sur le port 3100, qui doit être libre.
+
 ## État actuel
 
-`/` reste une page d’attente. `/projects` affiche les onze projets
+`/` reste une introduction simple. `/projects` affiche les onze projets
 et `/projects/[slug]` une présentation minimale avec les liens précédent/suivant.
 Les slugs inconnus et les brouillons renvoient une page 404.
 Le dossier `api/contact` ne déclare pas encore de route active.
 
-Le design system complet, les thèmes, les études de cas détaillées et les
-animations seront ajoutés ensuite. Les pages portent une directive `noindex`
+Le mini design system, les thèmes et la navigation commune sont en place.
+Le parcours de scroll, la 3D et les études de cas détaillées restent à construire. Les pages portent une directive `noindex`
 pendant cette préparation.

@@ -41,21 +41,23 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const nextProject = getNextProject(slug);
 
   return (
-    <main className="mx-auto min-h-svh max-w-360 px-5 py-16 sm:px-8 lg:px-16">
-      <Link href="/projects" className="underline underline-offset-4">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="layout-container page-shell"
+    >
+      <Link href="/projects" className="text-link">
         <span aria-hidden="true">←</span> Tous les projets
       </Link>
 
-      <header className="mt-16 max-w-3xl">
+      <header className="page-heading content-column">
         {project.placeholder && (
           <p className="mb-4 text-sm text-muted">
             Démonstration · contenu et visuel temporaires
           </p>
         )}
-        <h1 className="text-5xl font-medium tracking-tight sm:text-7xl">
-          {project.name}
-        </h1>
-        <p className="mt-8 text-lg text-muted">{project.shortDescription}</p>
+        <h1>{project.name}</h1>
+        <p className="body-large text-muted">{project.shortDescription}</p>
       </header>
 
       <Image
@@ -67,24 +69,26 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         }
         width={project.media.coverSize?.width ?? 1200}
         height={project.media.coverSize?.height ?? 750}
-        className="mt-12 h-auto w-full"
+        className="project-cover"
         sizes="(min-width: 1440px) 1312px, 100vw"
       />
 
       {project.content?.overview && (
-        <section className="mt-12 max-w-3xl" aria-labelledby="overview-heading">
-          <h2 id="overview-heading" className="text-2xl font-medium">
-            Présentation
-          </h2>
-          <p className="mt-4 text-lg text-muted">{project.content.overview}</p>
+        <section
+          className="project-section content-column"
+          aria-labelledby="overview-heading"
+        >
+          <h2 id="overview-heading">Présentation</h2>
+          <p className="body-large text-muted">{project.content.overview}</p>
         </section>
       )}
 
       {project.technologies.length > 0 && (
-        <section className="mt-12" aria-labelledby="technologies-heading">
-          <h2 id="technologies-heading" className="text-2xl font-medium">
-            Technologies
-          </h2>
+        <section
+          className="project-section"
+          aria-labelledby="technologies-heading"
+        >
+          <h2 id="technologies-heading">Technologies</h2>
           <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-muted">
             {project.technologies.map((technology) => (
               <li key={technology}>{technology}</li>
@@ -99,32 +103,23 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           className="mt-12 flex flex-wrap gap-6"
         >
           {project.links.live && (
-            <a
-              href={project.links.live}
-              className="underline underline-offset-4"
-            >
+            <a href={project.links.live} className="text-link">
               Voir le site
             </a>
           )}
           {project.links.github && (
-            <a
-              href={project.links.github}
-              className="underline underline-offset-4"
-            >
+            <a href={project.links.github} className="text-link">
               Code sur GitHub
             </a>
           )}
         </nav>
       )}
 
-      <nav
-        aria-label="Autres projets"
-        className="mt-16 flex flex-wrap justify-between gap-8 border-t border-foreground/15 pt-8"
-      >
+      <nav aria-label="Autres projets" className="project-navigation">
         {previousProject && (
           <Link
             href={`/projects/${previousProject.slug}`}
-            className="underline underline-offset-4"
+            className="button button--ghost"
           >
             <span aria-hidden="true">←</span> Précédent : {previousProject.name}
           </Link>
@@ -132,7 +127,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {nextProject && (
           <Link
             href={`/projects/${nextProject.slug}`}
-            className="ml-auto underline underline-offset-4"
+            className="button button--ghost ml-auto"
           >
             Suivant : {nextProject.name} <span aria-hidden="true">→</span>
           </Link>
