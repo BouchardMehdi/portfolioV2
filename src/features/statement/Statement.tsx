@@ -11,9 +11,6 @@ export function Statement() {
         <span>Je conçois et développe</span>
         <span>des produits numériques.</span>
       </h2>
-      <p className="statement-line body-large">
-        De l’interface à l’infrastructure.
-      </p>
     </section>
   );
 }

@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties } from "react";
-import { getFeaturedProjects } from "@/lib/projects";
+import { getFeaturedProjects, getProjectMediaPath } from "@/lib/projects";
 
 export function SelectedWork() {
   const projects = getFeaturedProjects();
@@ -30,24 +30,28 @@ export function SelectedWork() {
         </header>
         <div className="selected-work__viewport">
           <div className="selected-work__track">
-            {projects.map((project, index) => (
+            {projects.map((project) => (
               <article
                 id={`project-${project.slug}`}
                 tabIndex={-1}
                 aria-labelledby={`title-${project.slug}`}
                 className="work-panel layout-container"
                 key={project.slug}
-                style={{ "--project-accent": project.accent } as CSSProperties}
               >
                 <div
                   className="work-preview"
-                  aria-label={`Visuel temporaire pour ${project.name}`}
+                  data-project-preview={project.slug}
                 >
-                  <span className="eyebrow">Écran projet · placeholder</span>
-                  <span className="work-preview__number" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span>{project.name}</span>
+                  <Image
+                    src={getProjectMediaPath(project, project.media.cover)}
+                    alt={`Aperçu de ${project.name}`}
+                    width={600}
+                    height={Math.round(
+                      (600 * (project.media.coverSize?.height ?? 750)) /
+                        (project.media.coverSize?.width ?? 1200),
+                    )}
+                    className="work-preview__image"
+                  />
                 </div>
                 <div className="work-information">
                   <p className="eyebrow">{project.type}</p>

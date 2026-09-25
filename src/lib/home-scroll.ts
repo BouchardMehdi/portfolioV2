@@ -3,9 +3,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { createSelectedWorkScroll } from "@/features/selected-work/selected-work-scroll";
 
+import { immersiveMedia, type HomeMotion } from "./home-motion";
+
 gsap.registerPlugin(ScrollTrigger);
 
-export function setupHomeScroll(root: HTMLElement) {
+export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
   const media = gsap.matchMedia();
   let lenis: Lenis | undefined;
   let gallery: ReturnType<typeof createSelectedWorkScroll> | undefined;
@@ -43,8 +45,9 @@ export function setupHomeScroll(root: HTMLElement) {
   }
 
   media.add(
-    "(min-width: 1024px) and (min-height: 700px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+    immersiveMedia,
     () => {
+      root.dataset.heroPinned = "true";
       lenis = new Lenis({
         autoRaf: false,
         lerp: 0.12,
@@ -59,8 +62,10 @@ export function setupHomeScroll(root: HTMLElement) {
       gallery = createSelectedWorkScroll(
         root.querySelector<HTMLElement>("#selected-work")!,
         headerHeight,
+        motion.invalidate,
       );
       const hero = root.querySelector<HTMLElement>("#hero")!;
+      const statement = root.querySelector<HTMLElement>("#statement")!;
       gsap.to(hero.querySelectorAll(".home-title span"), {
         x: (index) => (index === 0 ? -40 : 40),
         ease: "none",
@@ -71,18 +76,19 @@ export function setupHomeScroll(root: HTMLElement) {
           scrub: true,
         },
       });
-      gsap.to(hero.querySelector(".hero-volume"), {
-        scale: 1.15,
-        y: -40,
-        ease: "none",
-        scrollTrigger: {
-          trigger: hero,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
+      ScrollTrigger.create({
+        trigger: hero,
+        pin: hero.querySelector<HTMLElement>(".hero-volume")!,
+        pinSpacing: false,
+        start: () => `top top+=${headerHeight()}`,
+        endTrigger: statement,
+        end: "bottom bottom",
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          motion.heroProgress = self.progress;
+          motion.invalidate();
         },
       });
-      const statement = root.querySelector<HTMLElement>("#statement")!;
       gsap.fromTo(
         statement.querySelectorAll("h2 span, .statement-line"),
         { opacity: 0.35, y: 24 },
@@ -114,6 +120,7 @@ export function setupHomeScroll(root: HTMLElement) {
         gsap.ticker.remove(tick);
         currentLenis.destroy();
         lenis = undefined;
+        delete root.dataset.heroPinned;
       };
     },
     root,
@@ -204,7 +211,7 @@ export function setupHomeScroll(root: HTMLElement) {
   window.addEventListener("hashchange", handleHistory);
   window.addEventListener("popstate", handleHistory);
   window.addEventListener("wheel", interrupt, { passive: true });
-  window.addEventListener("touchstart", interrupt, { passive: true });
+  window.addEventListener("pointerdown", interrupt, { passive: true });
   window.addEventListener("keydown", handleKey);
 
   return () => {
@@ -216,7 +223,7 @@ export function setupHomeScroll(root: HTMLElement) {
     window.removeEventListener("hashchange", handleHistory);
     window.removeEventListener("popstate", handleHistory);
     window.removeEventListener("wheel", interrupt);
-    window.removeEventListener("touchstart", interrupt);
+    window.removeEventListener("pointerdown", interrupt);
     window.removeEventListener("keydown", handleKey);
   };
 }

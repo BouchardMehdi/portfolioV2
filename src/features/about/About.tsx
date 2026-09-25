@@ -12,10 +12,7 @@ export function About() {
       </div>
       <div className="about-content">
         <p className="body-large">Présentation personnelle à compléter.</p>
-        <p className="text-muted">
-          Ce texte sera remplacé par ton parcours, ta manière de travailler et
-          ce que tu souhaites partager.
-        </p>
+        <p className="text-muted"></p>
         <div className="about-portrait">
           <span className="eyebrow">Portrait · placeholder</span>
         </div>

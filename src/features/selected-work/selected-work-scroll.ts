@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 export function createSelectedWorkScroll(
   section: HTMLElement,
   headerHeight: () => number,
+  onMove: () => void,
 ) {
   const stage = section.querySelector<HTMLElement>(".selected-work__stage")!;
   const viewport = section.querySelector<HTMLElement>(
@@ -23,6 +24,7 @@ export function createSelectedWorkScroll(
   section.dataset.horizontal = "true";
 
   function updateActiveProject() {
+    onMove();
     const index = Math.max(
       0,
       Math.min(
