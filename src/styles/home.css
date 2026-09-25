@@ -17,7 +17,7 @@
   }
   .hero-copy {
     position: relative;
-    z-index: 1;
+    z-index: 20;
   }
   .hero-summary {
     display: flex;
@@ -30,27 +30,19 @@
     color: var(--muted);
   }
   .home-hero .home-title {
-    font-size: clamp(2.75rem, 10vw, 9rem);
+    font-size: clamp(2.75rem, 8.2vw, 8rem);
   }
   .hero-volume {
     margin-top: var(--space-6);
-    min-height: 10rem;
+    height: 13rem;
     display: grid;
-    align-content: center;
-    justify-items: center;
-    gap: var(--space-2);
-    background: var(--surface);
-    border: 1px solid var(--border);
+    place-items: center;
+    pointer-events: none;
   }
-  .hero-volume > span {
-    color: var(--muted);
-    font-size: 0.75rem;
-  }
-  .hero-volume > div {
-    width: 7rem;
-    height: 4rem;
-    border: 1px solid var(--border);
-    box-shadow: 0.5rem 0.5rem 0 0 var(--border-subtle);
+  .hero-structure-fallback {
+    width: 100%;
+    height: 100%;
+    max-width: 24rem;
   }
   .hero-explore {
     margin-top: var(--space-4);
@@ -74,6 +66,20 @@
   .statement-line {
     margin-top: var(--space-6);
     color: var(--muted);
+  }
+  .home-page[data-hero-pinned] .home-hero {
+    overflow: visible;
+  }
+  .home-page[data-hero-pinned] .home-statement {
+    min-height: 120svh;
+  }
+  .home-page[data-hero-pinned] .home-statement > * {
+    position: relative;
+    z-index: 20;
+    max-width: 54%;
+  }
+  .home-page[data-hero-pinned] .home-statement h2 {
+    font-size: clamp(2rem, 3.7vw, 3.8rem);
   }
   .selected-work {
     background: var(--surface);
@@ -259,19 +265,14 @@
 
 @media (min-width: 1024px) {
   .hero-copy {
-    width: 78%;
+    width: 68%;
   }
   .hero-volume {
     position: absolute;
-    right: var(--gutter);
-    top: 20%;
-    width: 26%;
-    height: 50%;
+    right: 0;
+    top: 0;
+    width: 42%;
+    height: 100%;
     margin: 0;
-  }
-  .hero-volume > div {
-    width: 50%;
-    height: 30%;
-    min-height: 5rem;
   }
 }

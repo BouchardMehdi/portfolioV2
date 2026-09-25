@@ -47,6 +47,7 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
   media.add(
     immersiveMedia,
     () => {
+      root.dataset.heroPinned = "true";
       lenis = new Lenis({
         autoRaf: false,
         lerp: 0.12,
@@ -64,6 +65,7 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
         motion.invalidate,
       );
       const hero = root.querySelector<HTMLElement>("#hero")!;
+      const statement = root.querySelector<HTMLElement>("#statement")!;
       gsap.to(hero.querySelectorAll(".home-title span"), {
         x: (index) => (index === 0 ? -40 : 40),
         ease: "none",
@@ -74,22 +76,19 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
           scrub: true,
         },
       });
-      gsap.to(hero.querySelector(".hero-volume"), {
-        scale: 1.15,
-        y: -40,
-        ease: "none",
-        scrollTrigger: {
-          trigger: hero,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-          onUpdate: (self) => {
-            motion.heroProgress = self.progress;
-            motion.invalidate();
-          },
+      ScrollTrigger.create({
+        trigger: hero,
+        pin: hero.querySelector<HTMLElement>(".hero-volume")!,
+        pinSpacing: false,
+        start: () => `top top+=${headerHeight()}`,
+        endTrigger: statement,
+        end: "bottom bottom",
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          motion.heroProgress = self.progress;
+          motion.invalidate();
         },
       });
-      const statement = root.querySelector<HTMLElement>("#statement")!;
       gsap.fromTo(
         statement.querySelectorAll("h2 span, .statement-line"),
         { opacity: 0.35, y: 24 },
@@ -121,6 +120,7 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
         gsap.ticker.remove(tick);
         currentLenis.destroy();
         lenis = undefined;
+        delete root.dataset.heroPinned;
       };
     },
     root,

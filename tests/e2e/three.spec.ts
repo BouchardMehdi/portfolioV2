@@ -1,5 +1,74 @@
 import { expect, test } from "@playwright/test";
 
+test("la sculpture accompagne Intention puis arrête son rendu avant les projets", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "Le mobile utilise la sculpture fixe.");
+  await page.addInitScript(() => {
+    const state = Object.assign(window, { drawCalls: 0 });
+    const original = WebGL2RenderingContext.prototype.drawElements;
+    WebGL2RenderingContext.prototype.drawElements = function (...args) {
+      state.drawCalls++;
+      return original.apply(this, args);
+    };
+    const arrays = WebGL2RenderingContext.prototype.drawArrays;
+    WebGL2RenderingContext.prototype.drawArrays = function (...args) {
+      state.drawCalls++;
+      return arrays.apply(this, args);
+    };
+  });
+  const draws = () =>
+    page.evaluate(() => Reflect.get(window, "drawCalls") as number);
+  await page.goto("/");
+  await expect(page.locator(".hero-volume")).toHaveAttribute(
+    "data-three-ready",
+    "true",
+    { timeout: 20000 },
+  );
+  const start = await draws();
+  await expect.poll(draws).toBeGreaterThan(start + 24);
+  await page.getByRole("link", { name: "Explorer", exact: true }).click();
+  await expect(page.locator("#statement")).toBeFocused();
+  const sculpture = page.locator(".hero-volume");
+  await expect
+    .poll(async () => Math.round((await sculpture.boundingBox())!.y))
+    .toBe(80);
+  const statement = await page.locator("#statement-heading").boundingBox();
+  expect(statement!.x + statement!.width).toBeLessThan(
+    (await sculpture.boundingBox())!.x,
+  );
+  const reading = await draws();
+  await expect.poll(draws).toBeGreaterThan(reading + 24);
+  await page.reload();
+  await expect(sculpture).toHaveAttribute("data-three-ready", "true", {
+    timeout: 20000,
+  });
+  await expect
+    .poll(async () => Math.round((await sculpture.boundingBox())!.y))
+    .toBe(80);
+  await page.getByRole("button", { name: "Menu", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Navigation principale" })
+    .getByRole("link", { name: "Sélection", exact: true })
+    .click();
+  await expect(
+    page.locator('[data-project-preview="the-river"]'),
+  ).toHaveAttribute("data-three-ready", "true", { timeout: 20000 });
+  await page.getByRole("link", { name: "Continuer", exact: true }).click();
+  await expect(page.locator("#about")).toBeFocused();
+  await page.waitForTimeout(700);
+  const stopped = await draws();
+  await page.waitForTimeout(400);
+  expect(await draws()).toBe(stopped);
+  await page.getByRole("button", { name: "Menu", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Navigation principale" })
+    .getByRole("link", { name: "Accueil", exact: true })
+    .click();
+  await expect.poll(draws).toBeGreaterThan(stopped + 24);
+});
+
 test("un seul Canvas accompagne le Hero et les trois projets", async ({
   page,
   isMobile,
@@ -149,6 +218,9 @@ test("le mouvement réduit et le mobile utilisent les images sans Canvas", async
   isMobile,
 }) => {
   if (!isMobile) await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator(".hero-structure-fallback")).toBeVisible();
+  await expect(page.locator("canvas")).toHaveCount(0);
   await page.goto("/#selected-work");
   await expect(page.locator(".work-preview img")).toHaveCount(3);
   await expect(page.locator("canvas")).toHaveCount(0);

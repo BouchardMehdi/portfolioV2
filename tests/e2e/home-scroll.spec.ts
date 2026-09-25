@@ -219,7 +219,7 @@ test("le changement de taille et de préférence démonte puis rétablit la gale
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await expect(page.locator("html")).not.toHaveClass(/lenis/);
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await expect(page.locator(".pin-spacer")).toHaveCount(1);
+  await expect(page.locator(".pin-spacer")).toHaveCount(2);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await expect(page.locator(".selected-work__track")).toHaveCSS(
@@ -227,7 +227,7 @@ test("le changement de taille et de préférence démonte puis rétablit la gale
     "none",
   );
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect(page.locator(".pin-spacer")).toHaveCount(1);
+  await expect(page.locator(".pin-spacer")).toHaveCount(2);
 });
 
 test("sans JavaScript les projets et les ancres restent utilisables", async ({

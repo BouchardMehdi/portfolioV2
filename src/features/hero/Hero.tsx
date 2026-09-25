@@ -1,3 +1,5 @@
+import { StructureFallback } from "./StructureFallback";
+
 export function Hero() {
   return (
     <section
@@ -20,8 +22,7 @@ export function Hero() {
         </div>
       </div>
       <div className="hero-volume" aria-hidden="true">
-        <span>Volume 3D · placeholder</span>
-        <div />
+        <StructureFallback />
       </div>
       <a href="#statement" className="text-link hero-explore">
         Explorer <span aria-hidden="true">↓</span>

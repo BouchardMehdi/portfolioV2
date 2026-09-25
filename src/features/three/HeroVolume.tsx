@@ -1,6 +1,14 @@
-import { useEffect, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import type { Group } from "three";
+﻿import { useEffect, useMemo, useRef } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import {
+  Group,
+  MathUtils,
+  Mesh,
+  MeshStandardMaterial,
+  PerspectiveCamera,
+} from "three";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { structure } from "@/features/hero/structure";
 import type { HomeMotion } from "@/lib/home-motion";
 import type { ScenePalette } from "./scene-types";
 
@@ -14,42 +22,94 @@ export function HeroVolume({
   palette: ScenePalette;
 }) {
   const group = useRef<Group>(null);
-  useEffect(
-    () => () => {
-      target.removeAttribute("data-three-ready");
-    },
-    [target],
+  const pieces = useRef<(Mesh | null)[]>([]);
+  const visible = useRef(false);
+  const time = useRef(0);
+  const invalidate = useThree((state) => state.invalidate);
+  const geometry = useMemo(
+    () => new RoundedBoxGeometry(1.42, 0.42, 0.42, 3, 0.045),
+    [],
   );
-  useFrame(() => {
-    if (!group.current) return;
-    group.current.rotation.set(
-      0.2 + motion.heroProgress * 0.12,
-      -0.4 + motion.heroProgress * 0.3,
-      -0.08,
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      visible.current = entry.isIntersecting;
+      if (entry.isIntersecting) invalidate();
+    });
+    observer.observe(target);
+    return () => {
+      observer.disconnect();
+      geometry.dispose();
+      target.removeAttribute("data-three-ready");
+    };
+  }, [target, geometry, invalidate]);
+
+  useFrame(({ camera }, delta) => {
+    if (!group.current || !(camera instanceof PerspectiveCamera)) return;
+    const progress = motion.heroProgress;
+    const spread = MathUtils.smoothstep(progress, 0.05, 0.9);
+    const opacity = 1 - MathUtils.smoothstep(progress, 0.8, 1);
+    const rect = target.getBoundingClientRect();
+    const viewHeight =
+      2 * Math.tan(MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+    const scale = Math.min(
+      viewHeight / 4.2,
+      (viewHeight * rect.width) / rect.height / 3.6,
     );
+    const active = visible.current && !document.hidden && opacity > 0;
+    if (active) time.current += Math.min(delta, 0.05);
+    group.current.scale.setScalar(scale * (0.9 - spread * 0.22));
+    group.current.rotation.set(
+      0.32 + Math.sin(time.current * 0.35) * 0.035,
+      -0.55 + Math.sin(time.current * 0.25) * 0.06,
+      Math.sin(time.current * 0.3) * 0.025,
+    );
+    group.current.position.y = Math.sin(time.current * 0.5) * 0.035;
+    structure.forEach((piece, index) => {
+      const mesh = pieces.current[index];
+      if (!mesh) return;
+      const [x, y, z] = piece.position;
+      mesh.position.set(
+        x * (1 + spread * 1.15),
+        y * (1 + spread * 1.4),
+        z * (1 + spread * 0.7),
+      );
+      mesh.rotation.set(
+        piece.spin[0] * spread,
+        piece.turn + piece.spin[1] * spread,
+        piece.spin[2] * spread,
+      );
+      (mesh.material as MeshStandardMaterial).opacity = opacity;
+    });
+    // La sculpture entretient le rendu jusqu’à sa disparition ; la galerie reste à la demande.
+    if (active) invalidate();
   });
+
   return (
     <group ref={group}>
-      <mesh
-        onAfterRender={() => {
-          target.setAttribute("data-three-ready", "true");
-        }}
-      >
-        <boxGeometry args={[1.5, 1.9, 0.22]} />
-        <meshStandardMaterial
-          color={palette.surface}
-          metalness={0.2}
-          roughness={palette.dark ? 0.35 : 0.7}
-        />
-      </mesh>
-      <mesh position={[0, 0, 0.13]}>
-        <boxGeometry args={[1.23, 1.63, 0.06]} />
-        <meshStandardMaterial color={palette.border} roughness={0.8} />
-      </mesh>
-      <mesh position={[0, -0.6, 0.18]}>
-        <boxGeometry args={[0.85, 0.025, 0.015]} />
-        <meshBasicMaterial color={palette.accent} toneMapped={false} />
-      </mesh>
+      {structure.map((piece, index) => (
+        <mesh
+          key={index}
+          ref={(mesh) => {
+            pieces.current[index] = mesh;
+          }}
+          geometry={geometry}
+          onAfterRender={() => target.setAttribute("data-three-ready", "true")}
+        >
+          <meshStandardMaterial
+            color={
+              piece.accent
+                ? palette.accent
+                : palette.dark
+                  ? "#646e7d"
+                  : "#606977"
+            }
+            metalness={0.25}
+            roughness={0.5}
+            transparent
+          />
+        </mesh>
+      ))}
     </group>
   );
 }

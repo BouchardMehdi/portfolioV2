@@ -171,14 +171,21 @@ profondeur. Seuls les panneaux défilent horizontalement ; une bordure fine
 encadre chaque aperçu.
 
 `lib/home-motion.ts` partage la progression du scroll avec la caméra et les
-objets sans mise à jour React à chaque image. Le rendu se fait à la demande,
-avec un ratio de pixels plafonné à 1,5. Les textures sont chargées à l’approche
+objets sans mise à jour React à chaque image. Douze blocs aux arêtes adoucies
+composent la sculpture du Hero. Ils oscillent doucement au repos, se séparent
+au scroll puis se recomposent au retour. La sculpture reste épinglée à droite
+jusqu’à la fin d’Intention, dont le texte occupe la colonne gauche sur desktop.
+Les blocs s’effacent avant les projets. La boucle de rendu s’arrête lorsque
+la sculpture disparaît ou que l’onglet est masqué ; la galerie reste à la demande.
+Le ratio de pixels est plafonné à 1,5. Les textures sont chargées à l’approche
 de la galerie ; leurs URL passent par l’optimisation d’images Next.js. Les
 matériaux reprennent les variables CSS du thème.
 
 Les captures HTML restent accessibles pendant le chargement et en cas d’échec
 d’une texture, de WebGL ou de perte du contexte graphique. Sur mobile et avec
-`prefers-reduced-motion`, elles remplacent la scène. Le Canvas ne capte aucun
+`prefers-reduced-motion`, elles remplacent la scène. Le Hero utilise alors une
+projection SVG fixe issue de la même structure, également visible sans JavaScript.
+Le Canvas ne capte aucun
 clic : les liens, le texte et les commandes restent en HTML. La sortie de
 l’accueil libère la scène et les textures.
 
