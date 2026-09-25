@@ -176,13 +176,9 @@ export function PortfolioCanvas({
                 track={targets.projects[index]}
                 index={index + 2}
               >
-                <SceneLighting palette={palette} />
                 <ProjectScreen
                   project={project}
-                  index={index}
                   target={targets.projects[index].current}
-                  motion={motion}
-                  palette={palette}
                 />
               </View>
             ))}

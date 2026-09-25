@@ -109,17 +109,14 @@
   }
   .work-preview {
     min-height: 15rem;
-    padding: var(--space-3);
     display: grid;
     place-items: center;
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--project-accent);
-    background: var(--background);
+    border: 1px solid var(--border-subtle);
   }
   .work-preview__image {
-    width: 100%;
+    width: 96%;
     height: auto;
-    max-height: 100%;
+    max-height: 96%;
     object-fit: contain;
   }
   .work-preview[data-three-ready] .work-preview__image {
@@ -242,7 +239,6 @@
     min-height: 0;
     max-height: 34rem;
     align-self: center;
-    padding: var(--space-4);
   }
   .selected-work[data-horizontal] .selected-work__header,
   .selected-work[data-horizontal] .selected-work__footer {

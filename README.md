@@ -166,6 +166,10 @@ uniquement en mode desktop animé. Un seul Canvas dessert le Hero et les trois
 provisoires ; aucun modèle externe, shader personnalisé ou post-traitement
 n’est chargé.
 
+Les captures de la sélection restent de face, sans rotation ni déplacement en
+profondeur. Seuls les panneaux défilent horizontalement ; une bordure fine
+encadre chaque aperçu.
+
 `lib/home-motion.ts` partage la progression du scroll avec la caméra et les
 objets sans mise à jour React à chaque image. Le rendu se fait à la demande,
 avec un ratio de pixels plafonné à 1,5. Les textures sont chargées à l’approche

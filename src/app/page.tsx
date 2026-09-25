@@ -21,7 +21,6 @@ export default function HomePage() {
       slug: project.slug,
       texture: props.src,
       aspect,
-      accent: project.accent,
     };
   });
   return (

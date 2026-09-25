@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties } from "react";
 import { getFeaturedProjects, getProjectMediaPath } from "@/lib/projects";
 
 export function SelectedWork() {
@@ -38,7 +37,6 @@ export function SelectedWork() {
                 aria-labelledby={`title-${project.slug}`}
                 className="work-panel layout-container"
                 key={project.slug}
-                style={{ "--project-accent": project.accent } as CSSProperties}
               >
                 <div
                   className="work-preview"

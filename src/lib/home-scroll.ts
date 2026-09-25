@@ -61,10 +61,7 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
       gallery = createSelectedWorkScroll(
         root.querySelector<HTMLElement>("#selected-work")!,
         headerHeight,
-        (position) => {
-          motion.projectPosition = position;
-          motion.invalidate();
-        },
+        motion.invalidate,
       );
       const hero = root.querySelector<HTMLElement>("#hero")!;
       gsap.to(hero.querySelectorAll(".home-title span"), {
@@ -214,7 +211,7 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
   window.addEventListener("hashchange", handleHistory);
   window.addEventListener("popstate", handleHistory);
   window.addEventListener("wheel", interrupt, { passive: true });
-  window.addEventListener("touchstart", interrupt, { passive: true });
+  window.addEventListener("pointerdown", interrupt, { passive: true });
   window.addEventListener("keydown", handleKey);
 
   return () => {
@@ -226,7 +223,7 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
     window.removeEventListener("hashchange", handleHistory);
     window.removeEventListener("popstate", handleHistory);
     window.removeEventListener("wheel", interrupt);
-    window.removeEventListener("touchstart", interrupt);
+    window.removeEventListener("pointerdown", interrupt);
     window.removeEventListener("keydown", handleKey);
   };
 }

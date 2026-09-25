@@ -110,6 +110,11 @@ test("les ancres du menu quittent la galerie et la navigation reste prioritaire"
   await page.getByRole("link", { name: "Afficher RamèneTaPoire" }).click();
   await page.getByRole("link", { name: "Continuer", exact: true }).click();
   await page.getByRole("button", { name: "Menu", exact: true }).click();
+  // Le menu reste ouvert au-delà de la durée de sortie de la galerie (550 ms).
+  await page.waitForTimeout(700);
+  await expect(
+    page.getByRole("navigation", { name: "Navigation principale" }),
+  ).toBeVisible();
   await page
     .getByRole("navigation", { name: "Navigation principale" })
     .getByRole("link", { name: "Intention", exact: true })

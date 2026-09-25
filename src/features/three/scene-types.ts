@@ -4,7 +4,6 @@ export type ProjectVisual = {
   slug: string;
   texture: string;
   aspect: number;
-  accent: string;
 };
 
 export type PortfolioCanvasProps = {
