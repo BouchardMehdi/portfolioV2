@@ -3,9 +3,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { createSelectedWorkScroll } from "@/features/selected-work/selected-work-scroll";
 
+import { immersiveMedia, type HomeMotion } from "./home-motion";
+
 gsap.registerPlugin(ScrollTrigger);
 
-export function setupHomeScroll(root: HTMLElement) {
+export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
   const media = gsap.matchMedia();
   let lenis: Lenis | undefined;
   let gallery: ReturnType<typeof createSelectedWorkScroll> | undefined;
@@ -43,7 +45,7 @@ export function setupHomeScroll(root: HTMLElement) {
   }
 
   media.add(
-    "(min-width: 1024px) and (min-height: 700px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+    immersiveMedia,
     () => {
       lenis = new Lenis({
         autoRaf: false,
@@ -59,6 +61,10 @@ export function setupHomeScroll(root: HTMLElement) {
       gallery = createSelectedWorkScroll(
         root.querySelector<HTMLElement>("#selected-work")!,
         headerHeight,
+        (position) => {
+          motion.projectPosition = position;
+          motion.invalidate();
+        },
       );
       const hero = root.querySelector<HTMLElement>("#hero")!;
       gsap.to(hero.querySelectorAll(".home-title span"), {
@@ -80,6 +86,10 @@ export function setupHomeScroll(root: HTMLElement) {
           start: "top top",
           end: "bottom top",
           scrub: true,
+          onUpdate: (self) => {
+            motion.heroProgress = self.progress;
+            motion.invalidate();
+          },
         },
       });
       const statement = root.querySelector<HTMLElement>("#statement")!;

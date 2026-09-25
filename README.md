@@ -137,8 +137,9 @@ Playwright démarre le build de production sur le port 3100, qui doit être libr
 ## Parcours de l’accueil
 
 L’accueil enchaîne Hero, Statement, Selected Work et À propos. Les trois projets
-principaux viennent de `getFeaturedProjects()`. Les volumes et écrans restent des
-placeholders DOM ; le texte personnel et le portrait sont à compléter.
+principaux viennent de `getFeaturedProjects()`. Le Hero utilise un volume simple
+et les écrans présentent les captures des projets. Le texte personnel et le
+portrait sont à compléter.
 
 `src/lib/home-scroll.ts` relie Lenis, les ancres et les animations des sections.
 La timeline de la sélection reste dans `features/selected-work/selected-work-scroll.ts`.
@@ -157,13 +158,37 @@ Sinon, les projets s’empilent et Lenis est désactivé. Le changement de mode 
 la sortie de l’accueil nettoient les animations et le pin. Sans JavaScript,
 le contenu et les liens restent disponibles sous forme verticale.
 
+## Prototype 3D
+
+`features/three/PortfolioScene.tsx` charge Three.js, React Three Fiber et Drei
+uniquement en mode desktop animé. Un seul Canvas dessert le Hero et les trois
+écrans grâce aux vues liées à leurs emplacements HTML. Les formes restent
+provisoires ; aucun modèle externe, shader personnalisé ou post-traitement
+n’est chargé.
+
+`lib/home-motion.ts` partage la progression du scroll avec la caméra et les
+objets sans mise à jour React à chaque image. Le rendu se fait à la demande,
+avec un ratio de pixels plafonné à 1,5. Les textures sont chargées à l’approche
+de la galerie ; leurs URL passent par l’optimisation d’images Next.js. Les
+matériaux reprennent les variables CSS du thème.
+
+Les captures HTML restent accessibles pendant le chargement et en cas d’échec
+d’une texture, de WebGL ou de perte du contexte graphique. Sur mobile et avec
+`prefers-reduced-motion`, elles remplacent la scène. Le Canvas ne capte aucun
+clic : les liens, le texte et les commandes restent en HTML. La sortie de
+l’accueil libère la scène et les textures.
+
+Les tests navigateur utilisent WebGL logiciel pour vérifier le Canvas unique,
+les changements de thème et de route, les captures de secours et le changement
+de préférence de mouvement.
+
 ## État actuel
 
-`/` présente le prototype du parcours de scroll. `/projects` affiche les onze projets
+`/` présente le prototype du parcours de scroll avec sa scène 3D. `/projects` affiche les onze projets
 et `/projects/[slug]` une présentation minimale avec les liens précédent/suivant.
 Les slugs inconnus et les brouillons renvoient une page 404.
 Le dossier `api/contact` ne déclare pas encore de route active.
 
 Le mini design system, les thèmes et la navigation commune sont en place.
-La 3D, les autres sections de l’accueil et les études de cas détaillées restent
-à construire. Les pages portent une directive `noindex` pendant cette préparation.
+Les assets 3D définitifs, les autres sections de l’accueil et les études de cas
+détaillées restent à construire. Les pages portent une directive `noindex` pendant cette préparation.
