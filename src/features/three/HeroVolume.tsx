@@ -49,6 +49,7 @@ export function HeroVolume({
     const progress = motion.heroProgress;
     const spread = MathUtils.smoothstep(progress, 0.05, 0.9);
     const opacity = 1 - MathUtils.smoothstep(progress, 0.8, 1);
+    const idleStrength = 1 - MathUtils.smoothstep(progress, 0.02, 0.45) * 0.85;
     const rect = target.getBoundingClientRect();
     const viewHeight =
       2 * Math.tan(MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
@@ -60,11 +61,12 @@ export function HeroVolume({
     if (active) time.current += Math.min(delta, 0.05);
     group.current.scale.setScalar(scale * (0.9 - spread * 0.22));
     group.current.rotation.set(
-      0.32 + Math.sin(time.current * 0.35) * 0.035,
-      -0.55 + Math.sin(time.current * 0.25) * 0.06,
-      Math.sin(time.current * 0.3) * 0.025,
+      0.32 + Math.sin(time.current * 0.4) * 0.055 * idleStrength,
+      -0.55 + Math.sin(time.current * 0.45) * 0.22 * idleStrength,
+      Math.sin(time.current * 0.3) * 0.018 * idleStrength,
     );
-    group.current.position.y = Math.sin(time.current * 0.5) * 0.035;
+    group.current.position.y =
+      Math.sin(time.current * 0.5) * 0.035 * idleStrength;
     structure.forEach((piece, index) => {
       const mesh = pieces.current[index];
       if (!mesh) return;

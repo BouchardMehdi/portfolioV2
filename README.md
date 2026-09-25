@@ -172,7 +172,9 @@ encadre chaque aperçu.
 
 `lib/home-motion.ts` partage la progression du scroll avec la caméra et les
 objets sans mise à jour React à chaque image. Douze blocs aux arêtes adoucies
-composent la sculpture du Hero. Ils oscillent doucement au repos, se séparent
+composent la sculpture du Hero. Au repos, un va-et-vient sur l’axe vertical
+et une légère inclinaison rendent le volume lisible. Ce mouvement s’atténue
+au début du défilement : les blocs se séparent
 au scroll puis se recomposent au retour. La sculpture reste épinglée à droite
 jusqu’à la fin d’Intention, dont le texte occupe la colonne gauche sur desktop.
 Les blocs s’effacent avant les projets. La boucle de rendu s’arrête lorsque
