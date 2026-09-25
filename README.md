@@ -134,13 +134,36 @@ npm run test:e2e
 
 Playwright démarre le build de production sur le port 3100, qui doit être libre.
 
+## Parcours de l’accueil
+
+L’accueil enchaîne Hero, Statement, Selected Work et À propos. Les trois projets
+principaux viennent de `getFeaturedProjects()`. Les volumes et écrans restent des
+placeholders DOM ; le texte personnel et le portrait sont à compléter.
+
+`src/lib/home-scroll.ts` relie Lenis, les ancres et les animations des sections.
+La timeline de la sélection reste dans `features/selected-work/selected-work-scroll.ts`.
+ScrollTrigger épingle la galerie ; le scroll vertical déplace les panneaux, avec
+un temps de lecture entre les transitions. Les liens numérotés donnent aussi
+accès à chaque projet au clavier. Les panneaux hors champ sont inertes.
+
+Le bouton Continuer termine la séquence en 550 ms puis rejoint À propos. Une
+nouvelle navigation ou un geste de scroll peut interrompre cette sortie. Les
+ancres du menu sont immédiates. Le retour navigateur depuis un projet retrouve
+son ancre dans l’accueil, sans ajouter de route intermédiaire.
+
+Le mode horizontal nécessite une largeur d’au moins 1024 px, une hauteur d’au
+moins 700 px, un pointeur précis et l’absence de préférence de mouvement réduit.
+Sinon, les projets s’empilent et Lenis est désactivé. Le changement de mode et
+la sortie de l’accueil nettoient les animations et le pin. Sans JavaScript,
+le contenu et les liens restent disponibles sous forme verticale.
+
 ## État actuel
 
-`/` reste une introduction simple. `/projects` affiche les onze projets
+`/` présente le prototype du parcours de scroll. `/projects` affiche les onze projets
 et `/projects/[slug]` une présentation minimale avec les liens précédent/suivant.
 Les slugs inconnus et les brouillons renvoient une page 404.
 Le dossier `api/contact` ne déclare pas encore de route active.
 
 Le mini design system, les thèmes et la navigation commune sont en place.
-Le parcours de scroll, la 3D et les études de cas détaillées restent à construire. Les pages portent une directive `noindex`
-pendant cette préparation.
+La 3D, les autres sections de l’accueil et les études de cas détaillées restent
+à construire. Les pages portent une directive `noindex` pendant cette préparation.

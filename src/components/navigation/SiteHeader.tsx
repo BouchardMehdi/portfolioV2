@@ -125,29 +125,37 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
           </Button>
         </div>
       </div>
-      <div id="site-menu" className="menu-panel" hidden={!open}>
+      <div
+        id="site-menu"
+        className="menu-panel"
+        hidden={!open}
+        data-lenis-prevent
+      >
         <div className="layout-container menu-panel__content">
           <nav aria-label="Navigation principale">
-            <Link
-              href="/"
-              aria-current={pathname === "/" ? "page" : undefined}
-              onNavigate={navigate}
-            >
-              <span className="eyebrow" aria-hidden="true">
-                01
-              </span>{" "}
-              Accueil <span aria-hidden="true">↗</span>
-            </Link>
-            <Link
-              href="/projects"
-              aria-current={pathname === "/projects" ? "page" : undefined}
-              onNavigate={navigate}
-            >
-              <span className="eyebrow" aria-hidden="true">
-                02
-              </span>{" "}
-              Projets <span aria-hidden="true">↗</span>
-            </Link>
+            {(
+              [
+                { href: "/#hero", label: "Accueil" },
+                { href: "/#statement", label: "Intention" },
+                { href: "/#selected-work", label: "Sélection" },
+                { href: "/#about", label: "À propos" },
+                { href: "/projects", label: "Projets" },
+              ] as const
+            ).map((item, index) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={pathname === item.href ? "page" : undefined}
+                onClick={() => closeMenu()}
+                onNavigate={item.href.includes("#") ? undefined : navigate}
+              >
+                <span className="eyebrow" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                {item.label}
+                <span aria-hidden="true">↗</span>
+              </Link>
+            ))}
           </nav>
           <div className="menu-panel__preferences">
             <p className="eyebrow">Apparence</p>
