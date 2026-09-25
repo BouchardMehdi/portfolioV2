@@ -56,7 +56,7 @@ test("le menu se ferme hors du panneau et après une navigation", async ({
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Navigation principale" });
   await page.getByRole("button", { name: "Menu", exact: true }).click();
-  await page.getByRole("heading", { level: 1 }).click();
+  await page.mouse.click(8, page.viewportSize()!.height - 8);
   await expect(nav).toBeHidden();
   await page.getByRole("button", { name: "Menu", exact: true }).click();
   await nav.getByRole("link", { name: "Projets", exact: true }).click();
@@ -75,11 +75,11 @@ test("le bord supérieur ouvre le menu uniquement à la souris", async ({
 }) => {
   test.skip(isMobile, "Le tactile utilise le bouton Menu.");
   await page.goto("/");
-  await page.mouse.move(600, 600);
+  await page.mouse.move(600, page.viewportSize()!.height - 8);
   await page.mouse.move(600, 5);
   const nav = page.getByRole("navigation", { name: "Navigation principale" });
   await expect(nav).toBeVisible();
-  await page.mouse.move(600, 600);
+  await page.mouse.move(600, page.viewportSize()!.height - 8);
   await expect(nav).toBeHidden();
 });
 

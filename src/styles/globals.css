@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
+@import "./home.css";
 
 :root {
   color-scheme: light;
@@ -306,17 +308,6 @@
   .home-title span {
     display: block;
   }
-  .home-summary {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: var(--space-4);
-    margin-top: var(--space-6);
-  }
-  .home-summary p {
-    max-width: 26rem;
-    color: var(--muted);
-  }
   .page-heading {
     margin-top: var(--space-4);
     margin-bottom: var(--space-8);
@@ -392,12 +383,6 @@
 @media (min-width: 640px) {
   :root {
     --gutter: 2rem;
-  }
-  .home-summary {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: var(--space-8);
   }
   .project-row {
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
