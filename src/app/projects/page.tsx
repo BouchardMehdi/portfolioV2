@@ -38,8 +38,8 @@ export default function ProjectsPage() {
                     ? `Visuel temporaire — ${project.name}`
                     : project.name
                 }
-                width={1200}
-                height={750}
+                width={project.media.thumbnailSize?.width ?? 1200}
+                height={project.media.thumbnailSize?.height ?? 750}
                 className="h-auto w-full"
                 sizes="(min-width: 640px) 33vw, 100vw"
               />

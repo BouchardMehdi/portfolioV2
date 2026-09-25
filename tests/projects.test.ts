@@ -93,11 +93,18 @@ const invalidCases: {
     path: "projects.0.links.github",
   },
   {
-    name: "trois projets mis en avant",
+    name: "deux projets mis en avant",
     change: ({ projects }) => {
-      projects.pop();
+      projects.splice(2);
     },
     path: "projects",
+  },
+  {
+    name: "ordre discontinu avec trois projets",
+    change: ({ projects }) => {
+      projects.splice(2, 1);
+    },
+    path: "projects.2.featuredOrder",
   },
   {
     name: "cinq projets mis en avant",
@@ -237,6 +244,34 @@ test("un projet secondaire accepte l’absence des sections optionnelles", () =>
   );
 });
 
+test("trois projets principaux suffisent et un quatrième peut être ajouté", () => {
+  assert.equal(
+    projectsSchema.safeParse({ projects: data.projects.slice(0, 3) }).success,
+    true,
+  );
+  assert.equal(projectsSchema.safeParse(data).success, true);
+});
+
+test("une année inconnue reste explicitement non renseignée", () => {
+  assert.equal(
+    projectSchema.parse({ ...data.projects[0], year: null }).year,
+    null,
+  );
+});
+
+test("plusieurs vidéos sont acceptées sans autoriser les chemins relatifs", () => {
+  const project = {
+    ...data.projects[0],
+    media: {
+      ...data.projects[0].media,
+      videos: ["exploration.mp4", "controles.webm"],
+    },
+  };
+  assert.equal(projectSchema.safeParse(project).success, true);
+  project.media.videos.push("../autre.mp4");
+  assert.equal(projectSchema.safeParse(project).success, false);
+});
+
 test("les liens web et les médias optionnels valides sont acceptés", () => {
   const project = {
     ...data.projects[0],
@@ -268,7 +303,10 @@ test("la sélection suit featuredOrder et les lectures ne modifient pas le JSON"
   const slugs = getAllProjects().map((project) => project.slug);
   assert.deepEqual(
     getFeaturedProjects().map((project) => project.featuredOrder),
-    [1, 2, 3, 4],
+    Array.from(
+      { length: getFeaturedProjects().length },
+      (_, index) => index + 1,
+    ),
   );
   getAllProjects().reverse();
   assert.deepEqual(

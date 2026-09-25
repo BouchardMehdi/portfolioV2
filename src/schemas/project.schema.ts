@@ -8,6 +8,10 @@ const imageFile = z
     "Indiquer un nom de fichier image, sans chemin.",
   );
 const webUrl = z.httpUrl();
+const imageSize = z.strictObject({
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+});
 const accent = z
   .string()
   .regex(
@@ -40,7 +44,8 @@ const commonFields = {
     .number()
     .int()
     .min(2000)
-    .max(new Date().getFullYear() + 1),
+    .max(new Date().getFullYear() + 1)
+    .nullable(),
   type: text,
   status: z.enum(["ongoing", "completed"]),
   published: z.boolean(),
@@ -53,11 +58,16 @@ const commonFields = {
   media: z.strictObject({
     cover: imageFile,
     thumbnail: imageFile,
+    coverSize: imageSize.optional(),
+    thumbnailSize: imageSize.optional(),
     gallery: z.array(imageFile).optional(),
     video: z
       .string()
       .regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]*\.(?:mp4|webm)$/)
       .nullable()
+      .optional(),
+    videos: z
+      .array(z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]*\.(?:mp4|webm)$/))
       .optional(),
   }),
   content: z
@@ -116,14 +126,26 @@ export const projectsSchema = z
       }
     });
 
-    if (projects.filter((project) => project.featured).length !== 4) {
+    const featuredCount = projects.filter((project) => project.featured).length;
+    if (featuredCount < 3 || featuredCount > 4) {
       context.addIssue({
         code: "custom",
         path: ["projects"],
         message:
-          "La sélection doit contenir exactement quatre projets mis en avant.",
+          "La sélection doit contenir trois ou quatre projets mis en avant.",
       });
     }
+
+    projects.forEach((project, index) => {
+      if (project.featured && project.featuredOrder > featuredCount) {
+        context.addIssue({
+          code: "custom",
+          path: ["projects", index, "featuredOrder"],
+          message:
+            "Les projets mis en avant doivent être numérotés à partir de 1, sans interruption.",
+        });
+      }
+    });
   });
 
 export type Project = z.infer<typeof projectSchema>;

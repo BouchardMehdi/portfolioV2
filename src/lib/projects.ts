@@ -20,7 +20,8 @@ export function getAllProjects(): Project[] {
       }
 
       return (
-        second.year - first.year || first.name.localeCompare(second.name, "fr")
+        (second.year ?? 0) - (first.year ?? 0) ||
+        first.name.localeCompare(second.name, "fr")
       );
     });
 }

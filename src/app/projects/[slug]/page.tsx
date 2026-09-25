@@ -65,8 +65,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             ? `Visuel temporaire — ${project.name}`
             : project.name
         }
-        width={1200}
-        height={750}
+        width={project.media.coverSize?.width ?? 1200}
+        height={project.media.coverSize?.height ?? 750}
         className="mt-12 h-auto w-full"
         sizes="(min-width: 1440px) 1312px, 100vw"
       />

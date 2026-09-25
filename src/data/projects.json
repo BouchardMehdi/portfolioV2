@@ -1,143 +1,782 @@
 {
   "projects": [
     {
-      "slug": "projet-01",
-      "name": "Projet 01",
-      "shortDescription": "Projet de démonstration. Description à remplacer par celle d’une réalisation réelle.",
-      "year": 2026,
-      "type": "Démonstration",
+      "slug": "the-river",
+      "name": "The River",
+      "shortDescription": "Plateforme de casino avec poker et blackjack multijoueur en temps réel, roulette, machine à sous, chat et quêtes.",
+      "year": null,
+      "type": "Plateforme de jeux multijoueurs",
       "status": "ongoing",
       "published": true,
-      "placeholder": true,
+      "placeholder": false,
       "featured": true,
       "featuredOrder": 1,
       "accent": "#FF8A54",
-      "technologies": [],
+      "technologies": [
+        "NestJS",
+        "TypeScript",
+        "Node.js",
+        "MySQL",
+        "TypeORM",
+        "Socket.IO",
+        "JWT",
+        "Passport",
+        "Nodemailer",
+        "Helmet",
+        "JavaScript (ES Modules)",
+        "HTML5",
+        "CSS3"
+      ],
+      "links": {
+        "github": "https://github.com/BouchardMehdi/the-river"
+      },
       "media": {
-        "cover": "cover.svg",
-        "thumbnail": "cover.svg"
+        "cover": "menu.png",
+        "thumbnail": "menu.png",
+        "gallery": [
+          "blackjack.png",
+          "login.png",
+          "poker.png",
+          "quete.png",
+          "roulette.png",
+          "slot-machine.png"
+        ],
+        "coverSize": {
+          "width": 1288,
+          "height": 860
+        },
+        "thumbnailSize": {
+          "width": 1288,
+          "height": 860
+        }
       },
       "content": {
-        "overview": "Cet emplacement accueillera la présentation d’un projet réel. Le contenu et le visuel sont temporaires."
+        "overview": "Plateforme de casino en ligne développée de A à Z : poker et blackjack multijoueur en temps réel, slot machine animée, roulette française interactive, authentification sécurisée (JWT + email verification), dashboard crédits, chat par table et système de quêtes (daily/weekly/anti-tilt).",
+        "features": [
+          "Poker multijoueur en temps réel",
+          "Blackjack multijoueur",
+          "Slot animée + probabilités",
+          "Roulette française interactive + payouts",
+          "Quêtes (daily / weekly / anti-tilt) + dashboard"
+        ]
       },
       "caseStudy": {
-        "context": "Contexte du projet à renseigner.",
-        "problem": "Problème rencontré à renseigner.",
-        "role": "Contribution personnelle à renseigner.",
-        "solution": "Solution réalisée à renseigner.",
+        "context": "Projet personnel de plateforme de casino full-stack, centré sur les jeux multijoueurs en temps réel.",
+        "problem": "Synchroniser les parties entre plusieurs joueurs tout en conservant la gestion des comptes, des crédits et de la progression côté serveur.",
+        "role": "Conception et développement de la plateforme full-stack de A à Z.",
+        "solution": "Frontend modulaire en JavaScript et API NestJS avec poker et blackjack multijoueur, roulette, machine à sous, chat par table et système de quêtes.",
         "technicalDecisions": [
           {
-            "title": "Décision à documenter",
-            "description": "Choix technique et raisons à renseigner."
+            "title": "État de jeu côté serveur",
+            "description": "Socket.IO synchronise les parties avec un état autoritatif côté serveur et des espaces séparés pour le poker et le blackjack."
+          },
+          {
+            "title": "Architecture et persistance",
+            "description": "NestJS est organisé par modules métier. MySQL et TypeORM conservent les comptes, les tables et la progression, avec des migrations versionnées."
+          },
+          {
+            "title": "Comptes et progression",
+            "description": "JWT et Passport gèrent l’authentification. La vérification email, la réinitialisation de mot de passe et les délais des quêtes encadrent les parcours utilisateur."
           }
         ],
-        "results": ["Résultats vérifiables à renseigner."],
-        "conclusion": "Bilan du projet à renseigner."
+        "results": [
+          "Poker et blackjack multijoueur avec chat par table.",
+          "Roulette et machine à sous avec gestion des crédits.",
+          "Quêtes quotidiennes, hebdomadaires et anti-tilt avec progression persistée."
+        ],
+        "conclusion": "À compléter : bilan personnel de ce projet encore en cours."
       }
     },
     {
-      "slug": "projet-02",
-      "name": "Projet 02",
-      "shortDescription": "Projet de démonstration. Description à remplacer par celle d’une réalisation réelle.",
-      "year": 2026,
-      "type": "Démonstration",
-      "status": "ongoing",
+      "slug": "ramenetapoire",
+      "name": "RamèneTaPoire",
+      "shortDescription": "Repas chez l’habitant avec recherche cartographique, réservations, messagerie en temps réel et parcours hôte et administrateur.",
+      "year": null,
+      "type": "Plateforme de repas partagés",
+      "status": "completed",
       "published": true,
-      "placeholder": true,
+      "placeholder": false,
       "featured": true,
       "featuredOrder": 2,
-      "accent": "#6889EB",
-      "technologies": [],
+      "accent": "#76A989",
+      "technologies": [
+        "Next.js",
+        "React",
+        "SCSS Modules",
+        "NestJS",
+        "TypeORM",
+        "PostgreSQL",
+        "REST API",
+        "Socket.IO",
+        "Stripe",
+        "JWT",
+        "Google OAuth",
+        "PWA",
+        "Service Worker",
+        "Push Notifications",
+        "Docker",
+        "Docker Compose",
+        "Nginx",
+        "Certbot",
+        "VPS Linux"
+      ],
+      "links": {
+        "live": "https://ramenetapoire.bouchard-mehdi.fr/",
+        "github": "https://github.com/Dauv3514/ShareMyTable"
+      },
       "media": {
-        "cover": "cover.svg",
-        "thumbnail": "cover.svg"
+        "cover": "page-d-accueil.png",
+        "thumbnail": "page-d-accueil.png",
+        "gallery": [
+          "gestion-evenement-invite.png",
+          "login.png",
+          "paage-recherche-2.png",
+          "page-admin-demande-hote.png",
+          "page-admin-report.png",
+          "page-creation-evenement.png",
+          "page-demande-hote.png",
+          "page-fiche-repas.png",
+          "page-gestion-evenement-hote.png",
+          "page-messagerie-2.png",
+          "page-messagerie-3.png",
+          "page-messagerie.png",
+          "page-profil.png",
+          "page-recherche-1.png",
+          "page-reservation.png",
+          "register.png"
+        ],
+        "coverSize": {
+          "width": 1909,
+          "height": 903
+        },
+        "thumbnailSize": {
+          "width": 1909,
+          "height": 903
+        }
       },
       "content": {
-        "overview": "Cet emplacement accueillera la présentation d’un projet réel. Le contenu et le visuel sont temporaires."
+        "overview": "RamèneTaPoire est une plateforme de repas chez l'habitant. Elle permet de découvrir, réserver et organiser des moments conviviaux, tout en proposant des parcours distincts et sécurisés pour les invités, les hôtes et les administrateurs.",
+        "features": [
+          "Recherche de repas par localisation, date et disponibilité",
+          "Fiche événement avec détails, places, avis et informations pratiques",
+          "Réservation d'une ou plusieurs places",
+          "Messagerie de groupe liée à chaque repas"
+        ]
       },
       "caseStudy": {
-        "context": "Contexte du projet à renseigner.",
-        "problem": "Problème rencontré à renseigner.",
-        "role": "Contribution personnelle à renseigner.",
-        "solution": "Solution réalisée à renseigner.",
+        "context": "Plateforme de repas chez l’habitant avec des parcours distincts pour les invités, les hôtes et les administrateurs.",
+        "problem": "Permettre de découvrir et réserver un repas, puis faciliter les échanges entre participants et la gestion des événements par les hôtes.",
+        "role": "À compléter : préciser ma contribution personnelle et la répartition du travail sur ce projet.",
+        "solution": "Application Next.js et NestJS réunissant recherche cartographique, réservation de places, gestion des repas, avis, signalements et messagerie de groupe.",
         "technicalDecisions": [
           {
-            "title": "Décision à documenter",
-            "description": "Choix technique et raisons à renseigner."
+            "title": "Parcours et droits",
+            "description": "Les rôles USER, HOST et ADMIN sont contrôlés côté API avec JWT et des guards NestJS pour adapter les accès aux différents parcours."
+          },
+          {
+            "title": "Données et API",
+            "description": "PostgreSQL et TypeORM portent les relations entre repas, réservations, avis et utilisateurs. NestJS expose une API REST organisée en modules métier."
+          },
+          {
+            "title": "Échanges et réservation",
+            "description": "Socket.IO assure la messagerie de groupe liée à chaque repas. Stripe est utilisé en mode test pour les paiements."
           }
         ],
-        "results": ["Résultats vérifiables à renseigner."],
-        "conclusion": "Bilan du projet à renseigner."
+        "results": [
+          "Recherche de repas par localisation, date et disponibilité, avec réservation de places.",
+          "Gestion des événements et des demandes par les hôtes, avec messagerie de groupe.",
+          "Administration des demandes hôte et des signalements ; paiements de test et PWA installable."
+        ],
+        "conclusion": "À compléter : bilan personnel et enseignements du projet."
       }
     },
     {
-      "slug": "projet-03",
-      "name": "Projet 03",
-      "shortDescription": "Projet de démonstration. Description à remplacer par celle d’une réalisation réelle.",
-      "year": 2026,
-      "type": "Démonstration",
-      "status": "ongoing",
+      "slug": "wankultcg",
+      "name": "Wankul TCG",
+      "shortDescription": "Application fan-made non officielle de collection de cartes avec boosters, marché communautaire, monnaie virtuelle et PWA.",
+      "year": null,
+      "type": "Application de collection de cartes",
+      "status": "completed",
       "published": true,
-      "placeholder": true,
+      "placeholder": false,
       "featured": true,
       "featuredOrder": 3,
-      "accent": "#76A989",
-      "technologies": [],
+      "accent": "#AA8CD4",
+      "technologies": [
+        "React",
+        "Vite",
+        "TypeScript",
+        "React Router",
+        "NestJS",
+        "TypeORM",
+        "MySQL",
+        "REST API",
+        "JWT",
+        "Refresh Token",
+        "Google OAuth",
+        "PWA",
+        "Service Worker",
+        "Push Notifications",
+        "SMTP",
+        "Hostinger Node.js App"
+      ],
+      "links": {
+        "live": "https://wankultcg.bouchard-mehdi.fr/",
+        "github": "https://github.com/BouchardMehdi/wankul-tcg"
+      },
       "media": {
-        "cover": "cover.svg",
-        "thumbnail": "cover.svg"
+        "cover": "accueil.png",
+        "thumbnail": "accueil.png",
+        "gallery": [
+          "admin-login.png",
+          "backup.png",
+          "booster.png",
+          "collection-stats.png",
+          "collection.png",
+          "correction.png",
+          "dashboard.png",
+          "economie-2.png",
+          "economie-3.png",
+          "economie.png",
+          "eeconime-4.png",
+          "gestion-saison.png",
+          "historique-openning.png",
+          "login.png",
+          "market-1.png",
+          "market-2.png",
+          "market.png",
+          "moderation-2.png",
+          "moderation.png",
+          "monitoring-pwa.png",
+          "openning-2.png",
+          "openning-resume.png",
+          "openning.png",
+          "register.png",
+          "report-2.png",
+          "report-3.png",
+          "report.png",
+          "setting.png",
+          "vente-rapide.png"
+        ],
+        "coverSize": {
+          "width": 675,
+          "height": 425
+        },
+        "thumbnailSize": {
+          "width": 675,
+          "height": 425
+        }
       },
       "content": {
-        "overview": "Cet emplacement accueillera la présentation d’un projet réel. Le contenu et le visuel sont temporaires."
+        "overview": "Wankul TCG est une application web fan-made non officielle de collection de cartes. Elle propose une expérience complète : ouvrir des boosters, enrichir sa collection, suivre sa progression, acheter ou vendre sur un market communautaire et gérer une économie virtuelle en WankulCoins.",
+        "features": [
+          "Ouverture de boosters et displays avec animations, sons et raretés",
+          "Collection avec filtres, favoris, cartes manquantes et objectifs",
+          "Détail des cartes avec prix, historique, offres et watchlist",
+          "Profil joueur personnalisable avec badges, cadres et fonds"
+        ]
       },
       "caseStudy": {
-        "context": "Contexte du projet à renseigner.",
-        "problem": "Problème rencontré à renseigner.",
-        "role": "Contribution personnelle à renseigner.",
-        "solution": "Solution réalisée à renseigner.",
+        "context": "Projet de fin d’année CDA : application fan-made non officielle autour de la collection de cartes Wankul.",
+        "problem": "Réunir l’ouverture de boosters, le suivi d’une collection et un marché communautaire, avec une économie virtuelle administrable.",
+        "role": "À compléter : préciser ma contribution personnelle au projet de fin d’année CDA.",
+        "solution": "Frontend React et API NestJS pour ouvrir des boosters, suivre sa collection, acheter et vendre des cartes, et gérer les WankulCoins dans une PWA.",
         "technicalDecisions": [
           {
-            "title": "Décision à documenter",
-            "description": "Choix technique et raisons à renseigner."
+            "title": "Logique métier côté API",
+            "description": "Les récompenses, les prix, les achats et les ventes sont centralisés côté serveur pour encadrer les opérations sensibles et limiter les manipulations du marché."
+          },
+          {
+            "title": "Collection et comptes",
+            "description": "MySQL et TypeORM conservent les données et leurs relations. L’authentification utilise JWT, des refresh tokens et Google OAuth."
+          },
+          {
+            "title": "Installation et administration",
+            "description": "La PWA comprend un service worker, des notifications et une stratégie de mise à jour. Le back-office regroupe les outils de suivi économique, de modération et de gestion des saisons."
           }
         ],
-        "results": ["Résultats vérifiables à renseigner."],
-        "conclusion": "Bilan du projet à renseigner."
+        "results": [
+          "Ouverture de boosters et suivi de collection avec filtres, favoris et cartes manquantes.",
+          "Marché communautaire, vente rapide, historique des prix et watchlist.",
+          "PWA installable et administration de l’économie, de la modération et des saisons."
+        ],
+        "conclusion": "À compléter : bilan personnel et enseignements du projet de fin d’année."
       }
     },
     {
-      "slug": "projet-04",
-      "name": "Projet 04",
-      "shortDescription": "Projet de démonstration. Description à remplacer par celle d’une réalisation réelle.",
-      "year": 2026,
-      "type": "Démonstration",
-      "status": "ongoing",
+      "slug": "bde-eco",
+      "name": "BDE Éco Rennes",
+      "shortDescription": "Site du BDE Éco Rennes sans CMS, avec administration des événements, produits et partenaires, et archivage automatique.",
+      "year": null,
+      "type": "Site associatif",
+      "status": "completed",
       "published": true,
-      "placeholder": true,
-      "featured": true,
-      "featuredOrder": 4,
-      "accent": "#AA8CD4",
-      "technologies": [],
+      "placeholder": false,
+      "featured": false,
+      "technologies": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "PHP (natif)",
+        "MySQL",
+        "PDO",
+        "CSRF",
+        "Sessions",
+        "Uploads sécurisés"
+      ],
+      "links": {
+        "live": "https://bde-eco.bouchard-mehdi.fr"
+      },
       "media": {
-        "cover": "cover.svg",
-        "thumbnail": "cover.svg"
+        "cover": "public-home.png",
+        "thumbnail": "public-home.png",
+        "gallery": [
+          "admin-dashboard.png",
+          "admin-event-form.png",
+          "admin-event.png",
+          "admin-events-products.png",
+          "admin-partner-form.png",
+          "admin-partner.png",
+          "admin-product-form.png",
+          "admin-products.png",
+          "public-evenements-tarifs.png",
+          "public-page-pole.png",
+          "public-partner.png",
+          "public-pole.png"
+        ],
+        "coverSize": {
+          "width": 1907,
+          "height": 699
+        },
+        "thumbnailSize": {
+          "width": 1907,
+          "height": 699
+        }
       },
       "content": {
-        "overview": "Cet emplacement accueillera la présentation d’un projet réel. Le contenu et le visuel sont temporaires."
+        "overview": "Site public + interface d’administration sécurisée, autonome (sans CMS) et alimentée par MySQL. Gestion des événements, produits et partenaires, relations many-to-many, uploads sécurisés et archivage automatique.",
+        "features": [
+          "Sans dépendance à un CMS",
+          "Dynamique via base MySQL",
+          "Administration accessible aux non-techs",
+          "Préparé pour une mise en ligne réelle"
+        ]
+      }
+    },
+    {
+      "slug": "budgettracker",
+      "name": "BudgetTracker",
+      "shortDescription": "Suivi des revenus, dépenses, catégories, budgets mensuels et statistiques financières dans une application full-stack.",
+      "year": null,
+      "type": "Application de budget personnel",
+      "status": "completed",
+      "published": true,
+      "placeholder": false,
+      "featured": false,
+      "technologies": [
+        "React",
+        "Vite",
+        "React Router",
+        "Axios",
+        "Lucide React",
+        "ASP.NET Core 8",
+        "C#",
+        "Entity Framework Core",
+        "PostgreSQL",
+        "JWT",
+        "Swagger",
+        "Docker",
+        "Docker Compose",
+        "Nginx",
+        "Certbot",
+        "VPS Linux"
+      ],
+      "links": {
+        "live": "https://budgettracker.bouchard-mehdi.fr",
+        "github": "https://github.com/BouchardMehdi/BudgetTracker"
       },
-      "caseStudy": {
-        "context": "Contexte du projet à renseigner.",
-        "problem": "Problème rencontré à renseigner.",
-        "role": "Contribution personnelle à renseigner.",
-        "solution": "Solution réalisée à renseigner.",
-        "technicalDecisions": [
-          {
-            "title": "Décision à documenter",
-            "description": "Choix technique et raisons à renseigner."
-          }
+      "media": {
+        "cover": "dashboard.png",
+        "thumbnail": "dashboard.png",
+        "gallery": [
+          "categorie.png",
+          "create-transaction.png",
+          "history-transaction.png",
+          "login.png",
+          "register.png"
         ],
-        "results": ["Résultats vérifiables à renseigner."],
-        "conclusion": "Bilan du projet à renseigner."
+        "coverSize": {
+          "width": 1906,
+          "height": 902
+        },
+        "thumbnailSize": {
+          "width": 1906,
+          "height": 902
+        }
+      },
+      "content": {
+        "overview": "BudgetTracker est une application web full-stack de gestion de budget personnel. Elle permet de suivre ses revenus, ses dépenses, ses catégories, ses budgets mensuels et ses statistiques financières.",
+        "features": [
+          "Authentification JWT avec compte utilisateur",
+          "Création, consultation, modification et suppression des transactions financières",
+          "Catégories et budgets mensuels personnalisés",
+          "Tableau de bord de statistiques et suivi des budgets",
+          "Déploiement avec Docker sur VPS"
+        ]
+      }
+    },
+    {
+      "slug": "laradex",
+      "name": "Laradex",
+      "shortDescription": "Pokédex personnel avec déblocage des Pokémon, formes spéciales, mode Shiny, filtres et création d’équipes de six Pokémon.",
+      "year": null,
+      "type": "Application Pokédex",
+      "status": "completed",
+      "published": true,
+      "placeholder": false,
+      "featured": false,
+      "technologies": [
+        "Laravel",
+        "PHP",
+        "Blade",
+        "SQLite",
+        "JavaScript (Vanilla)",
+        "CSS",
+        "Vite",
+        "Auth Laravel",
+        "JSON (forms)",
+        "Seeders",
+        "Brevo SMTP (emails)"
+      ],
+      "links": {
+        "github": "https://github.com/BouchardMehdi/Laravel-Pokedex"
+      },
+      "media": {
+        "cover": "dashboard-unlock.png",
+        "thumbnail": "dashboard-unlock.png",
+        "gallery": [
+          "create-team.png",
+          "dashboard-lock.png",
+          "dashboard-shiny.png",
+          "edit-team.png",
+          "login.png",
+          "show-team.png"
+        ],
+        "videos": ["card-pokemon.mp4", "home.mp4"],
+        "coverSize": {
+          "width": 1218,
+          "height": 904
+        },
+        "thumbnailSize": {
+          "width": 1218,
+          "height": 904
+        }
+      },
+      "content": {
+        "overview": "Laradex est une application web développée avec Laravel permettant de suivre un Pokédex personnel (Pokémon débloqués par utilisateur), de gérer des formes spéciales (Mega, Gmax, Alola, Galar, Hisui, Paldea…), d’activer le mode Shiny, et de créer des équipes de 6 Pokémon en sauvegardant la forme sélectionnée dans chaque slot.",
+        "features": [
+          "Un Pokédex paginé, filtrable et personnalisé par compte",
+          "États verrouillé / débloqué visibles sur chaque carte Pokémon",
+          "Actions rapides : déblocage, shiny, navigation teams"
+        ]
+      }
+    },
+    {
+      "slug": "myexperiences",
+      "name": "MyExperiences",
+      "shortDescription": "Réservation d’activités locales avec catalogue, espaces utilisateur et organisateur, administration et paiements simulés.",
+      "year": null,
+      "type": "Plateforme de réservation",
+      "status": "completed",
+      "published": true,
+      "placeholder": false,
+      "featured": false,
+      "technologies": [
+        "SvelteKit",
+        "Symfony",
+        "Doctrine ORM",
+        "PostgreSQL",
+        "Docker",
+        "Docker Compose",
+        "Nginx",
+        "Certbot",
+        "REST API",
+        "VPS Linux"
+      ],
+      "links": {
+        "live": "https://experiences.bouchard-mehdi.fr",
+        "github": "https://github.com/BouchardMehdi/MyExperiences"
+      },
+      "media": {
+        "cover": "menu-1.png",
+        "thumbnail": "menu-1.png",
+        "gallery": [
+          "creer-experience.png",
+          "dashboard.png",
+          "details-experience.png",
+          "formulaire-hote.png",
+          "gestion-admin.png",
+          "login.png",
+          "menu-2.png",
+          "page-compte.png",
+          "page-experiences-1.png",
+          "page-experiences-2.png",
+          "register.png"
+        ],
+        "video": "inscription-experience.mp4",
+        "coverSize": {
+          "width": 1907,
+          "height": 941
+        },
+        "thumbnailSize": {
+          "width": 1907,
+          "height": 941
+        }
+      },
+      "content": {
+        "overview": "MyExperiences est une plateforme de réservation d’expériences locales : ateliers, activités sportives, sorties culturelles, bien-être et gastronomie. Elle comprend un catalogue public, un espace utilisateur, un espace organisateur et une administration. Les paiements sont simulés.",
+        "features": [
+          "Catalogue public avec filtres par ville, budget et date",
+          "Fiches d’expérience avec créneaux, avis et réservation",
+          "Espace utilisateur avec paiement simulé et suivi des réservations",
+          "Gestion des expériences et des créneaux par les organisateurs",
+          "Administration avec modération et traitement des demandes organisateur"
+        ]
+      }
+    },
+    {
+      "slug": "scratchwin",
+      "name": "ScratchWin",
+      "shortDescription": "Cinq tickets à gratter interactifs, un solde utilisateur, un historique des parties et une application installable en PWA.",
+      "year": null,
+      "type": "Application de jeux à gratter",
+      "status": "completed",
+      "published": true,
+      "placeholder": false,
+      "featured": false,
+      "technologies": [
+        "Vue 3",
+        "Vite",
+        "Vue Router",
+        "Pinia",
+        "Node.js",
+        "Express",
+        "MySQL",
+        "JWT",
+        "Refresh Token",
+        "PWA",
+        "Service Worker",
+        "Fetch API"
+      ],
+      "links": {
+        "live": "https://scratchwin.bouchard-mehdi.fr",
+        "github": "https://github.com/BouchardMehdi/ScratchWin"
+      },
+      "media": {
+        "cover": "home.png",
+        "thumbnail": "home.png",
+        "gallery": [
+          "app-icon-source.png",
+          "dashboard.png",
+          "history.png",
+          "login.png",
+          "mobile-dashboard.png",
+          "register.png",
+          "tickets.png"
+        ],
+        "video": "grattage-ticket.mp4",
+        "coverSize": {
+          "width": 1919,
+          "height": 943
+        },
+        "thumbnailSize": {
+          "width": 1919,
+          "height": 943
+        }
+      },
+      "content": {
+        "overview": "ScratchWin est une webapp de tickets à gratter pensée comme un petit produit complet : l’utilisateur peut créer un compte, se connecter, consulter son solde, choisir parmi 5 tickets, lancer une partie, gratter la grille avec un vrai effet visuel, voir le résultat immédiatement, puis retrouver l’historique de ses parties dans le dashboard.",
+        "features": [
+          "Inscription, connexion et session persistante",
+          "Solde utilisateur mis à jour après chaque partie",
+          "5 tickets avec identité et logique de gain propres",
+          "Historique consultable depuis le dashboard",
+          "Version installable en PWA"
+        ]
+      }
+    },
+    {
+      "slug": "socialinsight",
+      "name": "Social Insight",
+      "shortDescription": "Démonstration d’analyse de publications sociales : ingestion simulée, analyse du langage, sentiments, mots-clés et tableaux de bord.",
+      "year": null,
+      "type": "Application d’analyse de données",
+      "status": "completed",
+      "published": true,
+      "placeholder": false,
+      "featured": false,
+      "technologies": [
+        "Vue 3",
+        "TypeScript",
+        "Vite",
+        "Pinia",
+        "Vue Router",
+        "Axios",
+        "Chart.js",
+        "Python 3.12",
+        "FastAPI",
+        "Pydantic v2",
+        "Poetry",
+        "spaCy",
+        "Google Cloud BigQuery",
+        "Pytest",
+        "Docker",
+        "Docker Compose",
+        "Nginx",
+        "Certbot",
+        "GitHub Actions"
+      ],
+      "links": {
+        "live": "https://social-insight.bouchard-mehdi.fr/",
+        "github": "https://github.com/BouchardMehdi/Social-Insight"
+      },
+      "media": {
+        "cover": "dashboard.png",
+        "thumbnail": "dashboard.png",
+        "gallery": ["analyses.png", "create-post.png", "post.png"],
+        "coverSize": {
+          "width": 1919,
+          "height": 901
+        },
+        "thumbnailSize": {
+          "width": 1919,
+          "height": 901
+        }
+      },
+      "content": {
+        "overview": "Social Insight est une application SaaS de démonstration dédiée à l’analyse de publications sociales. Elle simule l’ingestion de textes, applique une analyse automatique du langage, stocke les résultats dans Google BigQuery et expose les données via une API FastAPI consommée par une interface Vue 3.",
+        "features": [
+          "Ingestion de publications via un formulaire et une API REST",
+          "Analyse automatique de la langue, du sentiment et des mots-clés",
+          "Stockage des résultats dans Google BigQuery",
+          "Tableau de bord analytique et vues filtrées",
+          "Déploiement avec Docker sur VPS"
+        ]
+      }
+    },
+    {
+      "slug": "solaris",
+      "name": "Solaris",
+      "shortDescription": "Exploration interactive du système solaire en 3D, avec sélection des planètes, mouvements de caméra et contrôle du temps.",
+      "year": null,
+      "type": "Expérience web 3D",
+      "status": "completed",
+      "published": true,
+      "placeholder": false,
+      "featured": false,
+      "technologies": [
+        "React",
+        "Vite",
+        "TypeScript",
+        "Three.js",
+        "React Three Fiber",
+        "@react-three/drei",
+        "GSAP",
+        "HTML5",
+        "CSS3",
+        "Nginx",
+        "Certbot",
+        "VPS Linux"
+      ],
+      "links": {
+        "live": "https://solaris.bouchard-mehdi.fr",
+        "github": "https://github.com/BouchardMehdi/solaris"
+      },
+      "media": {
+        "cover": "menu.png",
+        "thumbnail": "menu.png",
+        "gallery": ["info-planete.png"],
+        "videos": ["video-controle.mp4", "video-exploration.mp4"],
+        "coverSize": {
+          "width": 1919,
+          "height": 940
+        },
+        "thumbnailSize": {
+          "width": 1919,
+          "height": 940
+        }
+      },
+      "content": {
+        "overview": "Solaris est une expérience web 3D autour du système solaire, développée avec React, Vite et TypeScript. L’utilisateur peut explorer la scène, observer les planètes en mouvement, ajuster la vitesse du temps, mettre l’animation en pause et sélectionner une planète pour rapprocher la caméra.",
+        "features": [
+          "Exploration libre du système solaire en temps réel",
+          "Sélection d’une planète et zoom caméra animé",
+          "Vitesse du temps ajustable et mise en pause",
+          "Informations scientifiques liées à la planète sélectionnée",
+          "Textures procédurales et scène 3D modulaire"
+        ]
+      }
+    },
+    {
+      "slug": "taskflow",
+      "name": "TaskFlow",
+      "shortDescription": "Gestion de tâches personnelles et collaboratives avec équipes, invitations, affectations et diagramme de Gantt.",
+      "year": null,
+      "type": "Application de gestion de tâches",
+      "status": "completed",
+      "published": true,
+      "placeholder": false,
+      "featured": false,
+      "technologies": [
+        "Angular",
+        "TypeScript",
+        "Angular Router",
+        "Reactive Forms",
+        "RxJS",
+        "SCSS",
+        "Node.js",
+        "Express",
+        "MySQL",
+        "JWT",
+        "bcrypt",
+        "HttpClient"
+      ],
+      "links": {
+        "live": "https://taskflow.bouchard-mehdi.fr",
+        "github": "https://github.com/BouchardMehdi/taskflow"
+      },
+      "media": {
+        "cover": "dashboard-perso.png",
+        "thumbnail": "dashboard-perso.png",
+        "gallery": [
+          "dashboard-groupe.png",
+          "gantt.png",
+          "groupe-request.png",
+          "groupe.png",
+          "login.png",
+          "profil.png",
+          "register.png",
+          "task-groupe.png",
+          "task-perso.png"
+        ],
+        "coverSize": {
+          "width": 1919,
+          "height": 945
+        },
+        "thumbnailSize": {
+          "width": 1919,
+          "height": 945
+        }
+      },
+      "content": {
+        "overview": "TaskFlow est une application de gestion de tâches pensée comme un vrai produit de productivité : un utilisateur peut créer son compte, gérer ses tâches personnelles, rejoindre ou créer des équipes, organiser des catégories et sous-catégories, envoyer des invitations, affecter des membres à des zones de travail, puis visualiser l’avancement global via un diagramme de Gantt.",
+        "features": [
+          "Authentification complète avec JWT",
+          "Dashboard personnel avec statistiques",
+          "CRUD de tâches personnelles et de groupe",
+          "Invitations et gestion des membres",
+          "Diagramme de Gantt pour la vue planning"
+        ]
       }
     }
   ]

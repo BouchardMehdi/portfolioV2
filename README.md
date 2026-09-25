@@ -66,30 +66,40 @@ Le contenu se trouve dans `src/data/projects.json`. Les pages passent par
 `src/lib/projects.ts` pour lire les projets, la sélection, les technologies
 et les voisins d’un projet.
 
-Les quatre entrées actuelles sont des démonstrations identifiées par
-`placeholder: true`. Leurs technologies sont vides, les liens externes sont
-absents et les études de cas contiennent uniquement des textes à remplacer.
-Mettre `placeholder` à `false` après avoir renseigné le contenu réel.
+Les onze projets de l’ancien portfolio sont importés avec leurs descriptions,
+technologies, liens, captures et vidéos. La sélection principale suit cet ordre :
+The River, RamèneTaPoire, Wankul TCG. Les huit autres projets sont secondaires.
+Un quatrième projet principal pourra être ajouté plus tard.
+
+Les années non confirmées sont indiquées par `year: null`. Les contributions
+personnelles non détaillées dans les sources et les bilans des études de cas
+portent la mention « À compléter ». `placeholder: false` indique que les entrées
+correspondent à des projets réels, même lorsque certains champs restent à préciser.
 
 Le schéma Zod dans `src/schemas/project.schema.ts` vérifie notamment :
 
 - les champs obligatoires, les slugs uniques et les statuts `ongoing` / `completed` ;
-- les URL HTTP(S), les couleurs et les années entre 2000 et l’année prochaine ;
-- exactement quatre projets `featured`, publiés, avec les ordres 1 à 4 distincts ;
-- une étude de cas complète pour chaque projet mis en avant.
+- les URL HTTP(S), les couleurs et les années connues entre 2000 et l’année prochaine ;
+- trois ou quatre projets `featured`, publiés, numérotés depuis 1 sans doublon ni interruption ;
+- les champs requis de l’étude de cas pour chaque projet mis en avant.
 
 Un projet secondaire peut rester en brouillon avec `published: false`. Il ne
 figure ni dans le catalogue, ni dans les pages publiques, ni dans la navigation.
-Pour retirer un projet de la sélection, le remplacer par un autre afin de
-conserver quatre projets publiés mis en avant.
+La sélection doit conserver au moins trois projets publiés mis en avant.
 
 Le catalogue présente d’abord la sélection dans son ordre, puis les autres
-projets par année décroissante et par nom. La navigation précédent/suivant
+projets par année décroissante et par nom ; les années inconnues viennent après
+les années connues. La navigation précédent/suivant
 utilise le même ordre, sans reboucler aux extrémités.
 
 Les médias se placent dans `public/projects/<slug>/`. Le JSON stocke uniquement
-les noms de fichiers, par exemple `cover.webp`. Les SVG actuels sont des visuels
-temporaires. Les sections et liens optionnels absents ne sont pas affichés.
+les noms de fichiers, par exemple `cover.webp`. Les captures PNG et vidéos MP4
+de l’ancien portfolio sont conservées sans transformation, avec des noms sans
+espaces ni accents. `coverSize` et `thumbnailSize` décrivent les dimensions des
+images pour réserver leur place à l’affichage. `video` désigne une vidéo unique ;
+`videos` permet d’en conserver plusieurs. Les médias de galerie sont référencés
+dans les données, mais les pages minimales affichent uniquement la couverture.
+Les sections et liens optionnels absents ne sont pas affichés.
 
 ```sh
 npm run validate:projects
@@ -102,7 +112,7 @@ le schéma. Les erreurs indiquent le champ ou le fichier à corriger.
 
 ## État actuel
 
-`/` reste une page d’attente. `/projects` affiche le catalogue de démonstration
+`/` reste une page d’attente. `/projects` affiche les onze projets
 et `/projects/[slug]` une présentation minimale avec les liens précédent/suivant.
 Les slugs inconnus et les brouillons renvoient une page 404.
 Le dossier `api/contact` ne déclare pas encore de route active.

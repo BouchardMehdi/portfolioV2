@@ -16,6 +16,7 @@ try {
       project.media.thumbnail,
       ...(project.media.gallery ?? []),
       ...(project.media.video ? [project.media.video] : []),
+      ...(project.media.videos ?? []),
     ]);
 
     for (const filename of filenames) {
@@ -39,7 +40,7 @@ try {
   }
 
   console.log(
-    `${projects.length} projets validés, dont 4 mis en avant. Médias publiés vérifiés.`,
+    `${projects.length} projets validés, dont ${projects.filter((project) => project.featured).length} mis en avant. Médias publiés vérifiés.`,
   );
 } catch (error) {
   console.error(error instanceof Error ? error.message : error);
