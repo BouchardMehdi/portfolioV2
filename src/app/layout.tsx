@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import { SiteHeader } from "@/components/navigation/SiteHeader";
+import { SiteFooter } from "@/components/navigation/SiteFooter";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { inter, spaceGrotesk } from "@/styles/fonts";
 
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </a>
           <SiteHeader />
           {children}
+          <SiteFooter />
         </ThemeProvider>
       </body>
     </html>

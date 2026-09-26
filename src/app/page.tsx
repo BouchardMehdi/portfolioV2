@@ -5,6 +5,7 @@ import { Hero } from "@/features/hero/Hero";
 import { Statement } from "@/features/statement/Statement";
 import { SelectedWork } from "@/features/selected-work/SelectedWork";
 import { About } from "@/features/about/About";
+import { Contact } from "@/features/contact/Contact";
 
 export default function HomePage() {
   const visuals = getFeaturedProjects().map((project) => {
@@ -29,6 +30,7 @@ export default function HomePage() {
       <Statement />
       <SelectedWork />
       <About />
+      <Contact />
     </HomeScroll>
   );
 }

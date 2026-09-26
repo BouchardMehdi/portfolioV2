@@ -302,9 +302,43 @@
     margin-top: var(--space-3);
     color: var(--muted);
   }
-  .about-back {
-    display: inline-flex;
-    margin-top: var(--space-6);
+  .home-contact {
+    display: grid;
+    gap: var(--space-6);
+    padding-block: var(--space-12);
+    border-top: 1px solid var(--border);
+  }
+  .home-contact h2 {
+    margin-top: var(--space-3);
+  }
+  .contact-content {
+    min-width: 0;
+  }
+  .contact-email {
+    display: inline-block;
+    margin-block: var(--space-4) var(--space-3);
+    font-family: var(--font-space-grotesk), sans-serif;
+    font-size: clamp(1.25rem, 2.2vw, 2rem);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 0.25em;
+  }
+  .contact-email:hover {
+    text-decoration-color: currentColor;
+  }
+  .contact-copy-status {
+    min-height: 3rem;
+    margin-top: var(--space-1);
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
   }
 
   .selected-work[data-horizontal] .selected-work__stage {
@@ -352,7 +386,8 @@
     align-items: center;
     gap: var(--space-6);
   }
-  .about-intro {
+  .about-intro,
+  .home-contact {
     grid-template-columns: 1fr 1fr;
   }
   .journey-list::before {
