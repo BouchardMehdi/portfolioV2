@@ -189,8 +189,9 @@
     color: var(--accent);
   }
   .home-about {
-    min-height: calc(100svh - var(--header-height));
     padding-block: var(--space-12);
+  }
+  .about-intro {
     display: grid;
     gap: var(--space-6);
   }
@@ -204,13 +205,106 @@
   .about-content > p + p {
     margin-top: var(--space-3);
   }
-  .about-portrait {
-    min-height: 14rem;
+  .about-approach {
+    margin-block: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+  }
+  .about-approach h3 {
+    font-size: 1.25rem;
+    letter-spacing: -0.025em;
+    margin-bottom: var(--space-2);
+  }
+  .about-approach p {
+    color: var(--muted);
+  }
+  .about-cv-format {
+    font-size: 0.75rem;
+    opacity: 0.75;
+  }
+  .about-journey {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--border);
+  }
+  .journey-heading p {
+    margin-top: var(--space-2);
+  }
+  .journey-list {
+    position: relative;
+    margin-top: var(--space-8);
+    isolation: isolate;
+  }
+  .journey-list::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0;
+    left: 0.4375rem;
+    width: 1px;
+    background: var(--border);
+    z-index: -1;
+  }
+  .journey-entry {
+    position: relative;
+    padding: 0 0 var(--space-6) var(--space-4);
+  }
+  .journey-period {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: var(--space-2);
+  }
+  .journey-marker {
+    position: absolute;
+    top: 0.3rem;
+    left: 0;
+    width: 0.9375rem;
+    height: 0.9375rem;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    background: var(--background);
+  }
+  .journey-entry[data-kind="internship"] .journey-marker {
+    background: var(--accent);
+  }
+  .journey-card {
+    min-width: 0;
+    padding: var(--space-3);
     border: 1px solid var(--border);
     background: var(--surface);
-    display: grid;
-    place-items: center;
-    margin-block: var(--space-4);
+  }
+  .journey-kind {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--accent);
+  }
+  .journey-current {
+    color: var(--muted);
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  .journey-card h4 {
+    margin-top: var(--space-2);
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+  }
+  .journey-organization {
+    margin-top: var(--space-1);
+    font-size: 0.875rem;
+  }
+  .journey-description {
+    margin-top: var(--space-3);
+    color: var(--muted);
+  }
+  .about-back {
+    display: inline-flex;
+    margin-top: var(--space-6);
   }
 
   .selected-work[data-horizontal] .selected-work__stage {
@@ -258,8 +352,38 @@
     align-items: center;
     gap: var(--space-6);
   }
-  .home-about {
+  .about-intro {
     grid-template-columns: 1fr 1fr;
+  }
+  .journey-list::before {
+    left: calc(50% - 0.5px);
+  }
+  .journey-entry {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 4rem minmax(0, 1fr);
+    align-items: start;
+    padding: 0 0 var(--space-8);
+  }
+  .journey-card {
+    grid-column: 1;
+    grid-row: 1;
+    padding: var(--space-4);
+  }
+  .journey-period {
+    grid-column: 3;
+    grid-row: 1;
+    padding-top: var(--space-4);
+  }
+  .journey-marker {
+    top: 2.25rem;
+    left: calc(50% - 0.46875rem);
+  }
+  .journey-entry:nth-child(even) .journey-card {
+    grid-column: 3;
+  }
+  .journey-entry:nth-child(even) .journey-period {
+    grid-column: 1;
+    text-align: right;
   }
 }
 

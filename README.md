@@ -139,7 +139,7 @@ Playwright démarre le build de production sur le port 3100, qui doit être libr
 L’accueil enchaîne Hero, Statement, Selected Work et À propos. Les trois projets
 principaux viennent de `getFeaturedProjects()`. Le Hero utilise un volume simple
 et les écrans présentent les captures des projets. Le texte personnel et le
-portrait sont à compléter.
+parcours figurent dans la section À propos.
 
 `src/lib/home-scroll.ts` relie Lenis, les ancres et les animations des sections.
 La timeline de la sélection reste dans `features/selected-work/selected-work-scroll.ts`.
@@ -194,6 +194,21 @@ l’accueil libère la scène et les textures.
 Les tests navigateur utilisent WebGL logiciel pour vérifier le Canvas unique,
 les changements de thème et de route, les captures de secours et le changement
 de préférence de mouvement.
+
+## À propos et parcours
+
+`features/about/About.tsx` contient la présentation et le lien de téléchargement
+vers `public/cv/CV_Bouchard_Mehdi.pdf`. Aucun portrait n’est affiché.
+`data/journey.ts` regroupe les sept étapes d’études et de stages. Les dates et
+missions des stages viennent du CV ; les formations reprennent les précisions
+confirmées : Bachelor 2025–2026, CDA obtenu en 2026 et première année de MBA
+développeur fullstack à MyDigitalSchool Rennes.
+
+La frise alterne les étapes sur desktop et les aligne en une colonne sur mobile.
+`features/about/about-scroll.ts` anime l’apparition des étapes à la descente et
+joue l’animation en sens inverse à la remontée via GSAP et ScrollTrigger.
+Le contenu reste visible sans JavaScript et avec
+`prefers-reduced-motion`. Le fichier PDF fourni est conservé tel quel.
 
 ## État actuel
 
