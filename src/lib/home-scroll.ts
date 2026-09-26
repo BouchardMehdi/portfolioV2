@@ -2,6 +2,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { createSelectedWorkScroll } from "@/features/selected-work/selected-work-scroll";
+import { createAboutScroll } from "@/features/about/about-scroll";
 
 import { immersiveMedia, type HomeMotion } from "./home-motion";
 
@@ -122,6 +123,14 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
         lenis = undefined;
         delete root.dataset.heroPinned;
       };
+    },
+    root,
+  );
+
+  media.add(
+    "(prefers-reduced-motion: no-preference)",
+    () => {
+      createAboutScroll(root);
     },
     root,
   );
