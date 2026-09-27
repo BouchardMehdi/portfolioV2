@@ -72,9 +72,8 @@ The River, RamèneTaPoire, Wankul TCG. Les huit autres projets sont secondaires.
 Un quatrième projet principal pourra être ajouté plus tard.
 
 Les années non confirmées sont indiquées par `year: null`. Les contributions
-personnelles non détaillées dans les sources et les bilans des études de cas
-portent la mention « À compléter ». `placeholder: false` indique que les entrées
-correspondent à des projets réels, même lorsque certains champs restent à préciser.
+personnelles non renseignées et les bilans sont omis. BDE Éco est présenté comme
+un stage. `placeholder: false` indique que les entrées correspondent à des projets réels.
 
 Le schéma Zod dans `src/schemas/project.schema.ts` vérifie notamment :
 
@@ -97,8 +96,11 @@ les noms de fichiers, par exemple `cover.webp`. Les captures PNG et vidéos MP4
 de l’ancien portfolio sont conservées sans transformation, avec des noms sans
 espaces ni accents. `coverSize` et `thumbnailSize` décrivent les dimensions des
 images pour réserver leur place à l’affichage. `video` désigne une vidéo unique ;
-`videos` permet d’en conserver plusieurs. Les médias de galerie sont référencés
-dans les données, mais les pages minimales affichent uniquement la couverture.
+`videos` permet d’en conserver plusieurs. `content.sections` regroupe les textes,
+captures légendées avec leurs dimensions et vidéos des pages détaillées. Les images
+s’ouvrent en taille originale dans un nouvel onglet ; les vidéos sont lancées
+manuellement, sans préchargement. `deployment` décrit l’hébergement ou sa préparation
+et `future` rassemble les évolutions envisagées, séparées des fonctionnalités existantes.
 Les sections et liens optionnels absents ne sont pas affichés.
 
 ```sh
@@ -247,9 +249,10 @@ au reverse proxy avant une ouverture publique. Les tests utilisent des réponses
 simulées et n’envoient aucun email réel.
 
 `/` présente le prototype du parcours de scroll avec sa scène 3D. `/projects` affiche les onze projets
-et `/projects/[slug]` une présentation minimale avec les liens précédent/suivant.
+et `/projects/[slug]` les fonctionnalités, captures, vidéos et choix techniques,
+avec les liens précédent/suivant.
 Les slugs inconnus et les brouillons renvoient une page 404.
 
 Le mini design system, les thèmes et la navigation commune sont en place.
-Les assets 3D définitifs, les traversées immersives des projets et les études de cas
-détaillées restent à construire. Les pages portent une directive `noindex` pendant cette préparation.
+Les assets 3D définitifs et les traversées immersives des projets restent à construire.
+Les pages portent une directive `noindex` pendant cette préparation.

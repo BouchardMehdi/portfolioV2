@@ -52,6 +52,44 @@ test("le fichier projets respecte le schéma final", () => {
   assert.doesNotThrow(() => parseProjects(projectData));
 });
 
+test("une étude de cas peut omettre la contribution et le bilan", () => {
+  const { role, conclusion, ...caseStudy } = data.projects[0].caseStudy;
+  assert.ok(role && conclusion);
+  assert.equal(
+    projectSchema.safeParse({ ...data.projects[0], caseStudy }).success,
+    true,
+  );
+});
+
+test("les sections illustrées exigent des médias locaux et des dimensions positives", () => {
+  const section = {
+    title: "Parcours utilisateur",
+    description: "Présentation du parcours.",
+    images: [
+      {
+        file: "capture.png",
+        caption: "Écran principal.",
+        width: 1200,
+        height: 800,
+      },
+    ],
+    videos: [{ file: "demo.mp4", caption: "Démonstration du parcours." }],
+  };
+  const project = {
+    ...data.projects[0],
+    content: { overview: "Présentation.", sections: [section] },
+  };
+  assert.equal(projectSchema.safeParse(project).success, true);
+  section.images[0].width = 0;
+  assert.equal(projectSchema.safeParse(project).success, false);
+  section.images[0].width = 1200;
+  section.images[0].file = "../capture.png";
+  assert.equal(projectSchema.safeParse(project).success, false);
+  section.images[0].file = "capture.png";
+  section.videos[0].file = "https://example.com/demo.mp4";
+  assert.equal(projectSchema.safeParse(project).success, false);
+});
+
 const invalidCases: {
   name: string;
   change: (draft: TestData) => void;

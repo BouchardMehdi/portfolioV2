@@ -58,6 +58,62 @@
           "Slot animée + probabilités",
           "Roulette française interactive + payouts",
           "Quêtes (daily / weekly / anti-tilt) + dashboard"
+        ],
+        "sections": [
+          {
+            "title": "Des tables en temps réel",
+            "description": "Le poker suit les étapes d’une main, du préflop à la river, avec calcul des combinaisons et nettoyage automatique des tables. Au blackjack, le propriétaire lance la partie et le croupier joue automatiquement. Chaque table dispose de son propre chat.",
+            "images": [
+              {
+                "file": "poker.png",
+                "caption": "Table de poker multijoueur.",
+                "width": 1894,
+                "height": 831
+              },
+              {
+                "file": "blackjack.png",
+                "caption": "Table de blackjack et commandes de jeu.",
+                "width": 1262,
+                "height": 895
+              }
+            ]
+          },
+          {
+            "title": "Roulette et machine à sous",
+            "description": "La roulette française permet de combiner plusieurs mises, avec prise en charge des chevaux, carrés et transversales. La machine à sous associe une animation de tirage à un calcul probabiliste des gains. Les crédits sont suivis côté serveur.",
+            "images": [
+              {
+                "file": "roulette.png",
+                "caption": "Roulette française et zone de mise.",
+                "width": 1303,
+                "height": 917
+              },
+              {
+                "file": "slot-machine.png",
+                "caption": "Machine à sous et solde de crédits.",
+                "width": 738,
+                "height": 483
+              }
+            ]
+          },
+          {
+            "title": "Comptes et progression",
+            "description": "L’authentification associe JWT, vérification de l’adresse email et réinitialisation du mot de passe. Les quêtes quotidiennes, hebdomadaires et anti-tilt utilisent des délais et des états persistés. Le joueur réclame ses récompenses en crédits ou en points de compétition depuis son tableau de bord.",
+            "images": [
+              {
+                "file": "quete.png",
+                "caption": "Quêtes disponibles et suivi des récompenses.",
+                "width": 416,
+                "height": 883
+              }
+            ]
+          }
+        ],
+        "deployment": "Le projet est décrit avec un hébergement Node.js sur Hostinger, une base MySQL distante et un service SMTP pour les emails de compte.",
+        "future": [
+          "Mode frénésie avec objets, bonus et monnaie dédiée.",
+          "Personnalisation des avatars, skins et badges.",
+          "Saisons de compétition de poker avec récompenses et remises à zéro."
         ]
       },
       "caseStudy": {
@@ -83,8 +139,7 @@
           "Poker et blackjack multijoueur avec chat par table.",
           "Roulette et machine à sous avec gestion des crédits.",
           "Quêtes quotidiennes, hebdomadaires et anti-tilt avec progression persistée."
-        ],
-        "conclusion": "À compléter : bilan personnel de ce projet encore en cours."
+        ]
       }
     },
     {
@@ -161,12 +216,73 @@
           "Fiche événement avec détails, places, avis et informations pratiques",
           "Réservation d'une ou plusieurs places",
           "Messagerie de groupe liée à chaque repas"
+        ],
+        "sections": [
+          {
+            "title": "Trouver un repas et réserver",
+            "description": "Les invités recherchent un repas par localisation, date et disponibilité, puis consultent sa fiche : informations pratiques, places et avis. La réservation peut porter sur plusieurs places. L’intégration Stripe fonctionne en mode test.",
+            "images": [
+              {
+                "file": "page-recherche-1.png",
+                "caption": "Recherche de repas disponibles.",
+                "width": 1913,
+                "height": 894
+              },
+              {
+                "file": "page-fiche-repas.png",
+                "caption": "Fiche d’un repas avant réservation.",
+                "width": 1908,
+                "height": 894
+              }
+            ]
+          },
+          {
+            "title": "Organiser et échanger",
+            "description": "Un utilisateur peut déposer une demande pour devenir hôte, avec son adresse et des photos de son logement. Après validation, il crée des repas et accepte ou refuse les participants. Une conversation de groupe liée à chaque repas permet aux participants d’échanger.",
+            "images": [
+              {
+                "file": "page-creation-evenement.png",
+                "caption": "Création d’un repas par un hôte.",
+                "width": 1915,
+                "height": 898
+              },
+              {
+                "file": "page-messagerie.png",
+                "caption": "Messagerie associée aux repas.",
+                "width": 1909,
+                "height": 914
+              }
+            ]
+          },
+          {
+            "title": "Administrer la plateforme",
+            "description": "L’administration traite les demandes d’hôtes et conserve les décisions. Elle permet aussi de consulter les signalements concernant les utilisateurs, les repas et les conversations. Les accès invité, hôte et administrateur sont contrôlés côté API.",
+            "images": [
+              {
+                "file": "page-admin-demande-hote.png",
+                "caption": "Traitement des demandes pour devenir hôte.",
+                "width": 1902,
+                "height": 902
+              },
+              {
+                "file": "page-admin-report.png",
+                "caption": "Suivi des signalements.",
+                "width": 1904,
+                "height": 901
+              }
+            ]
+          }
+        ],
+        "deployment": "La configuration de déploiement repose sur un VPS avec Docker Compose : frontend, API NestJS et PostgreSQL. Nginx assure le reverse proxy et Certbot la gestion du HTTPS.",
+        "future": [
+          "Calendrier des repas et liste d’attente.",
+          "Recommandations et profils enrichis.",
+          "Statistiques à destination des hôtes."
         ]
       },
       "caseStudy": {
         "context": "Plateforme de repas chez l’habitant avec des parcours distincts pour les invités, les hôtes et les administrateurs.",
         "problem": "Permettre de découvrir et réserver un repas, puis faciliter les échanges entre participants et la gestion des événements par les hôtes.",
-        "role": "À compléter : préciser ma contribution personnelle et la répartition du travail sur ce projet.",
         "solution": "Application Next.js et NestJS réunissant recherche cartographique, réservation de places, gestion des repas, avis, signalements et messagerie de groupe.",
         "technicalDecisions": [
           {
@@ -186,8 +302,7 @@
           "Recherche de repas par localisation, date et disponibilité, avec réservation de places.",
           "Gestion des événements et des demandes par les hôtes, avec messagerie de groupe.",
           "Administration des demandes hôte et des signalements ; paiements de test et PWA installable."
-        ],
-        "conclusion": "À compléter : bilan personnel et enseignements du projet."
+        ]
       }
     },
     {
@@ -274,12 +389,73 @@
           "Collection avec filtres, favoris, cartes manquantes et objectifs",
           "Détail des cartes avec prix, historique, offres et watchlist",
           "Profil joueur personnalisable avec badges, cadres et fonds"
+        ],
+        "sections": [
+          {
+            "title": "Ouvrir des boosters et compléter sa collection",
+            "description": "Ce projet de fin d’année CDA est une application fan-made non officielle. Les ouvertures de boosters et de displays associent animations, sons et niveaux de rareté. La collection propose des filtres, des favoris, le suivi des cartes manquantes et des objectifs de progression.",
+            "images": [
+              {
+                "file": "openning.png",
+                "caption": "Ouverture de cartes.",
+                "width": 592,
+                "height": 391
+              },
+              {
+                "file": "collection.png",
+                "caption": "Collection et filtres de consultation.",
+                "width": 675,
+                "height": 367
+              }
+            ]
+          },
+          {
+            "title": "Une économie en WankulCoins",
+            "description": "Le marché permet l’achat, la vente et la vente rapide de cartes avec une monnaie virtuelle. Les fiches affichent les prix, leur historique et les offres. Une liste de suivi permet de recevoir des alertes de prix ou de disponibilité. Les récompenses et les transactions sont calculées côté serveur.",
+            "images": [
+              {
+                "file": "market.png",
+                "caption": "Marché des cartes.",
+                "width": 542,
+                "height": 369
+              },
+              {
+                "file": "vente-rapide.png",
+                "caption": "Vente rapide depuis la collection.",
+                "width": 675,
+                "height": 358
+              }
+            ]
+          },
+          {
+            "title": "Modération et suivi",
+            "description": "L’administration regroupe la gestion des saisons, les signalements, les réglages et le suivi de l’économie. Les opérations sont journalisées pour faciliter les contrôles. L’application est installable en PWA et prend en charge les notifications push.",
+            "images": [
+              {
+                "file": "moderation.png",
+                "caption": "Outils de modération.",
+                "width": 675,
+                "height": 362
+              },
+              {
+                "file": "economie.png",
+                "caption": "Suivi de l’économie virtuelle.",
+                "width": 676,
+                "height": 353
+              }
+            ]
+          }
+        ],
+        "deployment": "L’architecture d’hébergement décrite utilise Hostinger avec un frontend React/Vite, une API NestJS, MySQL et un service SMTP. La configuration distingue les variables d’environnement et les accès HTTPS.",
+        "future": [
+          "Extensions de cartes et événements saisonniers.",
+          "Échanges directs entre joueurs.",
+          "Classements, quêtes quotidiennes et récompenses communautaires."
         ]
       },
       "caseStudy": {
         "context": "Projet de fin d’année CDA : application fan-made non officielle autour de la collection de cartes Wankul.",
         "problem": "Réunir l’ouverture de boosters, le suivi d’une collection et un marché communautaire, avec une économie virtuelle administrable.",
-        "role": "À compléter : préciser ma contribution personnelle au projet de fin d’année CDA.",
         "solution": "Frontend React et API NestJS pour ouvrir des boosters, suivre sa collection, acheter et vendre des cartes, et gérer les WankulCoins dans une PWA.",
         "technicalDecisions": [
           {
@@ -299,8 +475,7 @@
           "Ouverture de boosters et suivi de collection avec filtres, favoris et cartes manquantes.",
           "Marché communautaire, vente rapide, historique des prix et watchlist.",
           "PWA installable et administration de l’économie, de la modération et des saisons."
-        ],
-        "conclusion": "À compléter : bilan personnel et enseignements du projet de fin d’année."
+        ]
       }
     },
     {
@@ -308,7 +483,7 @@
       "name": "BDE Éco Rennes",
       "shortDescription": "Site du BDE Éco Rennes sans CMS, avec administration des événements, produits et partenaires, et archivage automatique.",
       "year": null,
-      "type": "Site associatif",
+      "type": "Site associatif · Stage",
       "status": "completed",
       "published": true,
       "placeholder": false,
@@ -354,13 +529,64 @@
         }
       },
       "content": {
-        "overview": "Site public + interface d’administration sécurisée, autonome (sans CMS) et alimentée par MySQL. Gestion des événements, produits et partenaires, relations many-to-many, uploads sécurisés et archivage automatique.",
+        "overview": "Réalisé dans le cadre d’un stage au BDE Éco de Rennes, ce site associe une vitrine publique et une administration sans CMS. Les événements, les produits et les partenaires sont gérés en PHP et stockés dans MySQL.",
         "features": [
-          "Sans dépendance à un CMS",
-          "Dynamique via base MySQL",
-          "Administration accessible aux non-techs",
-          "Préparé pour une mise en ligne réelle"
-        ]
+          "Présentation des pôles et des partenaires.",
+          "Publication des événements et de leurs tarifs.",
+          "Administration des événements, produits et partenaires.",
+          "Gestion des stocks par événement et archivage automatique."
+        ],
+        "sections": [
+          {
+            "title": "Informer les étudiants",
+            "description": "Le site présente les pôles du BDE, les partenaires et les événements actifs. Les informations et tarifs sont alimentés depuis MySQL. L’affichage des événements et des liens d’inscription tient compte de leur état et des disponibilités.",
+            "images": [
+              {
+                "file": "public-pole.png",
+                "caption": "Présentation des pôles du BDE.",
+                "width": 1914,
+                "height": 755
+              },
+              {
+                "file": "public-evenements-tarifs.png",
+                "caption": "Événements et tarifs proposés.",
+                "width": 1899,
+                "height": 871
+              }
+            ]
+          },
+          {
+            "title": "Gérer le contenu sans CMS",
+            "description": "L’administration permet de créer et modifier les événements, leurs produits et les partenaires. Un produit peut être associé à plusieurs événements, avec un stock propre à chaque association. Les prix sont enregistrés en centimes et les événements passés sont archivés automatiquement.",
+            "images": [
+              {
+                "file": "admin-dashboard.png",
+                "caption": "Tableau de bord de l’administration.",
+                "width": 1267,
+                "height": 658
+              },
+              {
+                "file": "admin-events-products.png",
+                "caption": "Association des produits aux événements.",
+                "width": 1159,
+                "height": 729
+              }
+            ]
+          },
+          {
+            "title": "Sécuriser les opérations",
+            "description": "Le backend utilise PHP natif et PDO avec des requêtes préparées. L’accès à l’administration repose sur des sessions et des mots de passe hachés. Les formulaires comportent une protection CSRF ; les fichiers téléversés sont validés et les fichiers associés sont supprimés lorsqu’ils ne sont plus utilisés.",
+            "images": [
+              {
+                "file": "admin-partner-form.png",
+                "caption": "Formulaire de gestion d’un partenaire et de son logo.",
+                "width": 1151,
+                "height": 520
+              }
+            ]
+          }
+        ],
+        "deployment": "Site préparé pour une mise en ligne réelle ; déploiement prévu."
       }
     },
     {
@@ -417,11 +643,52 @@
       "content": {
         "overview": "BudgetTracker est une application web full-stack de gestion de budget personnel. Elle permet de suivre ses revenus, ses dépenses, ses catégories, ses budgets mensuels et ses statistiques financières.",
         "features": [
-          "Authentification JWT avec compte utilisateur",
-          "Création, consultation, modification et suppression des transactions financières",
-          "Catégories et budgets mensuels personnalisés",
-          "Tableau de bord de statistiques et suivi des budgets",
-          "Déploiement avec Docker sur VPS"
+          "Compte utilisateur avec authentification JWT.",
+          "Gestion des revenus, dépenses et transactions récurrentes.",
+          "Catégories et budgets mensuels personnalisés.",
+          "Tableau de bord et historique filtrable."
+        ],
+        "sections": [
+          {
+            "title": "Suivre les opérations",
+            "description": "Les transactions regroupent revenus et dépenses, avec montant, catégorie et dates. Des opérations récurrentes peuvent être définies avec une date de début et une fin facultative. L’historique propose filtres et pagination ; la suppression conserve une trace en base.",
+            "images": [
+              {
+                "file": "create-transaction.png",
+                "caption": "Saisie d’une transaction.",
+                "width": 1251,
+                "height": 750
+              },
+              {
+                "file": "history-transaction.png",
+                "caption": "Historique des revenus et dépenses.",
+                "width": 1267,
+                "height": 573
+              }
+            ]
+          },
+          {
+            "title": "Organiser son budget",
+            "description": "Les catégories et les budgets mensuels permettent de répartir les dépenses. Le tableau de bord présente le solde, les dernières transactions et les dépenses par catégorie, avec des comparaisons entre périodes.",
+            "images": [
+              {
+                "file": "categorie.png",
+                "caption": "Gestion des catégories de dépenses.",
+                "width": 1299,
+                "height": 534
+              }
+            ]
+          },
+          {
+            "title": "Une API structurée",
+            "description": "Le frontend React consomme une API ASP.NET Core 8. Les contrôleurs, services et DTO séparent les échanges HTTP de la logique métier. Entity Framework Core gère PostgreSQL, les migrations et les données initiales ; Swagger documente les routes."
+          }
+        ],
+        "deployment": "La configuration prévue pour le VPS utilise Docker pour le frontend, l’API et PostgreSQL, avec Nginx et Certbot pour l’accès HTTPS.",
+        "future": [
+          "Alertes de budget et import bancaire CSV.",
+          "Graphiques complémentaires.",
+          "Gestion de plusieurs comptes et de tags."
         ]
       }
     },
@@ -478,6 +745,62 @@
           "Un Pokédex paginé, filtrable et personnalisé par compte",
           "États verrouillé / débloqué visibles sur chaque carte Pokémon",
           "Actions rapides : déblocage, shiny, navigation teams"
+        ],
+        "sections": [
+          {
+            "title": "Un Pokédex propre à chaque compte",
+            "description": "Chaque utilisateur dispose de sa propre progression. Les Pokémon peuvent être débloqués individuellement ou par groupe. Le catalogue est paginé et filtrable par nom, génération, types et catégories particulières.",
+            "images": [
+              {
+                "file": "dashboard-lock.png",
+                "caption": "Pokédex avec les Pokémon encore verrouillés.",
+                "width": 1236,
+                "height": 902
+              }
+            ],
+            "videos": [
+              {
+                "file": "home.mp4",
+                "caption": "Démonstration de la navigation dans le Pokédex."
+              }
+            ]
+          },
+          {
+            "title": "Formes et variantes shiny",
+            "description": "Les cartes donnent accès aux formes Mega, Gigamax et régionales. Le mode shiny peut être activé globalement ou sur une carte en conservant la forme sélectionnée. Les sprites, types et statistiques propres aux formes sont stockés dans un champ JSON.",
+            "images": [
+              {
+                "file": "dashboard-shiny.png",
+                "caption": "Pokédex avec les variantes shiny.",
+                "width": 1142,
+                "height": 894
+              }
+            ],
+            "videos": [
+              {
+                "file": "card-pokemon.mp4",
+                "caption": "Manipulation d’une carte et de ses variantes."
+              }
+            ]
+          },
+          {
+            "title": "Composer des équipes",
+            "description": "Une équipe comporte jusqu’à six emplacements. Chaque emplacement conserve le Pokémon et sa forme ; un même Pokémon peut apparaître plusieurs fois. Laravel gère les modèles, les relations et les sessions, tandis que Blade et JavaScript assurent l’interface et les interactions.",
+            "images": [
+              {
+                "file": "create-team.png",
+                "caption": "Création d’une équipe.",
+                "width": 1200,
+                "height": 389
+              },
+              {
+                "file": "show-team.png",
+                "caption": "Consultation des Pokémon d’une équipe.",
+                "width": 1181,
+                "height": 481
+              }
+            ]
+          }
         ]
       }
     },
@@ -541,6 +864,60 @@
           "Espace utilisateur avec paiement simulé et suivi des réservations",
           "Gestion des expériences et des créneaux par les organisateurs",
           "Administration avec modération et traitement des demandes organisateur"
+        ],
+        "sections": [
+          {
+            "title": "Découvrir et réserver une activité",
+            "description": "Le catalogue se filtre par ville, budget et date, avec une carte interactive. Chaque expérience présente ses créneaux et ses avis. Le parcours de réservation utilise un paiement simulé, avec des scénarios de réussite ou d’échec ; aucun paiement réel n’est proposé.",
+            "images": [
+              {
+                "file": "page-experiences-1.png",
+                "caption": "Catalogue des expériences.",
+                "width": 1905,
+                "height": 946
+              },
+              {
+                "file": "details-experience.png",
+                "caption": "Fiche d’une expérience et réservation.",
+                "width": 1907,
+                "height": 944
+              }
+            ],
+            "videos": [
+              {
+                "file": "inscription-experience.mp4",
+                "caption": "Démonstration du parcours d’inscription à une expérience."
+              }
+            ]
+          },
+          {
+            "title": "Des espaces selon le rôle",
+            "description": "Les organisateurs créent leurs expériences, gèrent les créneaux et consultent les réservations. L’administration traite les demandes d’organisateur et modère les utilisateurs et les avis.",
+            "images": [
+              {
+                "file": "creer-experience.png",
+                "caption": "Création d’une expérience par un organisateur.",
+                "width": 1208,
+                "height": 934
+              },
+              {
+                "file": "gestion-admin.png",
+                "caption": "Administration de la plateforme.",
+                "width": 1907,
+                "height": 944
+              }
+            ]
+          },
+          {
+            "title": "Frontend et API séparés",
+            "description": "Le monorepo associe SvelteKit à une API Symfony. Les appels HTTP sont centralisés côté frontend ; Doctrine gère les données PostgreSQL. Des données de démonstration permettent de parcourir les différents espaces."
+          }
+        ],
+        "deployment": "La configuration d’hébergement utilise Docker Compose pour le frontend, l’API et PostgreSQL, avec Nginx et Certbot sur VPS.",
+        "future": [
+          "Messagerie en temps réel et notifications.",
+          "Intégration de paiements réels.",
+          "Favoris, recommandations et statistiques organisateur."
         ]
       }
     },
@@ -602,6 +979,54 @@
           "5 tickets avec identité et logique de gain propres",
           "Historique consultable depuis le dashboard",
           "Version installable en PWA"
+        ],
+        "sections": [
+          {
+            "title": "Cinq tickets à gratter",
+            "description": "Flash, Fortune, Jackpot, Mystère et Lucky 7 possèdent chacun leur identité et leur logique de gain. Le serveur vérifie le coût d’une partie, calcule le résultat et met à jour le solde. L’interface révèle ce résultat grâce au grattage visuel et aux sons.",
+            "images": [
+              {
+                "file": "tickets.png",
+                "caption": "Choix des tickets disponibles.",
+                "width": 1919,
+                "height": 945
+              }
+            ],
+            "videos": [
+              {
+                "file": "grattage-ticket.mp4",
+                "caption": "Démonstration du grattage d’un ticket."
+              }
+            ]
+          },
+          {
+            "title": "Retrouver ses parties",
+            "description": "Le tableau de bord rassemble le solde et l’historique filtrable des parties. La session s’appuie sur JWT et des jetons de renouvellement révocables. L’interface Vue est également installable en PWA.",
+            "images": [
+              {
+                "file": "dashboard.png",
+                "caption": "Tableau de bord du joueur.",
+                "width": 1908,
+                "height": 939
+              },
+              {
+                "file": "history.png",
+                "caption": "Historique des parties et résultats.",
+                "width": 1902,
+                "height": 838
+              }
+            ]
+          },
+          {
+            "title": "La logique de jeu côté serveur",
+            "description": "L’API Express sépare routes, contrôleurs, services et modèles. MySQL conserve les utilisateurs, les tickets, les récompenses et les parties. Le navigateur gère le geste de grattage, sans déterminer les gains."
+          }
+        ],
+        "deployment": "Le déploiement décrit utilise trois services Docker sur VPS, avec Nginx comme reverse proxy et un accès HTTPS.",
+        "future": [
+          "Nouveaux tickets et récompenses quotidiennes.",
+          "Statistiques supplémentaires.",
+          "Administration des probabilités et animations selon la rareté."
         ]
       }
     },
@@ -661,6 +1086,48 @@
           "Stockage des résultats dans Google BigQuery",
           "Tableau de bord analytique et vues filtrées",
           "Déploiement avec Docker sur VPS"
+        ],
+        "sections": [
+          {
+            "title": "Du texte aux données",
+            "description": "Cette démonstration repose sur des publications saisies manuellement ou simulées. FastAPI reçoit les textes, puis le traitement NLP identifie la langue, le sentiment et les mots-clés. Les résultats sont enregistrés dans Google BigQuery ; aucun connecteur réel à un réseau social n’est intégré.",
+            "images": [
+              {
+                "file": "create-post.png",
+                "caption": "Formulaire d’ajout d’une publication.",
+                "width": 1915,
+                "height": 909
+              },
+              {
+                "file": "post.png",
+                "caption": "Consultation des publications ingérées.",
+                "width": 1908,
+                "height": 903
+              }
+            ]
+          },
+          {
+            "title": "Lire les tendances",
+            "description": "L’interface Vue présente le volume de publications, les auteurs, la répartition des sentiments et les mots-clés. Les graphiques utilisent Chart.js et les vues de consultation proposent des filtres et une pagination.",
+            "images": [
+              {
+                "file": "analyses.png",
+                "caption": "Vue d’analyse des publications.",
+                "width": 1902,
+                "height": 904
+              }
+            ]
+          },
+          {
+            "title": "Organiser le traitement",
+            "description": "Le backend distingue les routes, les services d’analyse et les accès aux données. Pydantic valide les échanges, spaCy intervient dans l’analyse des textes et un compte de service permet l’accès à BigQuery. Des tests Pytest sont exécutés dans la chaîne GitHub Actions."
+          }
+        ],
+        "deployment": "La configuration décrite pour le VPS associe des services Docker, Nginx pour le frontend et le reverse proxy, et Certbot pour HTTPS.",
+        "future": [
+          "Connecteurs réels aux sources de publications.",
+          "Comparaison de périodes et alertes.",
+          "Exports CSV et PDF."
         ]
       }
     },
@@ -714,6 +1181,46 @@
           "Vitesse du temps ajustable et mise en pause",
           "Informations scientifiques liées à la planète sélectionnée",
           "Textures procédurales et scène 3D modulaire"
+        ],
+        "sections": [
+          {
+            "title": "Explorer le système solaire",
+            "description": "La caméra permet une exploration libre de la scène. Sélectionner une planète déclenche un rapprochement animé avec GSAP et affiche ses informations scientifiques. Une commande ramène ensuite à la vue globale.",
+            "images": [
+              {
+                "file": "info-planete.png",
+                "caption": "Informations de la planète sélectionnée.",
+                "width": 1919,
+                "height": 944
+              }
+            ],
+            "videos": [
+              {
+                "file": "video-exploration.mp4",
+                "caption": "Exploration de la scène et sélection d’une planète."
+              }
+            ]
+          },
+          {
+            "title": "Contrôler le temps",
+            "description": "L’utilisateur peut régler la vitesse de l’animation, mettre les mouvements en pause et afficher ou masquer les orbites. Ces commandes agissent sur la même scène sans rechargement.",
+            "videos": [
+              {
+                "file": "video-controle.mp4",
+                "caption": "Démonstration des contrôles de l’animation."
+              }
+            ]
+          },
+          {
+            "title": "Une scène modulaire",
+            "description": "React Three Fiber et Drei relient React à Three.js. Le Soleil, les planètes, les orbites, la caméra et l’interface sont séparés en composants. Les textures sont produites par canvas puis utilisées dans la scène ; les données des planètes et l’état de navigation sont centralisés."
+          }
+        ],
+        "deployment": "Solaris est une application statique : le build Vite est servi par Nginx sur VPS avec HTTPS. Elle ne nécessite ni API ni base de données.",
+        "future": [
+          "Lunes, astéroïdes et comètes.",
+          "Parcours guidé et informations scientifiques supplémentaires.",
+          "Ambiances visuelles et sonores."
         ]
       }
     },
@@ -776,6 +1283,60 @@
           "CRUD de tâches personnelles et de groupe",
           "Invitations et gestion des membres",
           "Diagramme de Gantt pour la vue planning"
+        ],
+        "sections": [
+          {
+            "title": "Gérer ses tâches personnelles",
+            "description": "Chaque tâche possède un statut et peut recevoir des dates de début et d’échéance. Les filtres, la recherche et le tri facilitent la consultation, tandis que le tableau de bord synthétise l’avancement.",
+            "images": [
+              {
+                "file": "task-perso.png",
+                "caption": "Gestion des tâches personnelles.",
+                "width": 1919,
+                "height": 945
+              }
+            ]
+          },
+          {
+            "title": "Organiser le travail en équipe",
+            "description": "Les utilisateurs créent des groupes et invitent des membres par nom ou email. Les catégories et sous-catégories structurent le travail ; les affectations sont contrôlées selon les droits des membres.",
+            "images": [
+              {
+                "file": "groupe.png",
+                "caption": "Gestion des groupes et membres.",
+                "width": 1891,
+                "height": 935
+              },
+              {
+                "file": "task-groupe.png",
+                "caption": "Tâches et organisation du travail de groupe.",
+                "width": 1909,
+                "height": 942
+              }
+            ]
+          },
+          {
+            "title": "Visualiser le planning",
+            "description": "Le diagramme de Gantt présente les tâches et les sous-catégories sur une frise temporelle. Le responsable du groupe peut y organiser les tâches ; les affectations sont mises en évidence pour repérer les responsabilités.",
+            "images": [
+              {
+                "file": "gantt.png",
+                "caption": "Planning du groupe sous forme de diagramme de Gantt.",
+                "width": 1907,
+                "height": 931
+              }
+            ]
+          },
+          {
+            "title": "Séparer interface et logique métier",
+            "description": "Angular utilise le routeur, les formulaires réactifs et RxJS. Un intercepteur transmet le JWT à l’API Express. Le serveur vérifie l’authentification et les accès, avec des mots de passe hachés et une base MySQL."
+          }
+        ],
+        "deployment": "Le déploiement décrit repose sur Docker et un VPS, avec Nginx pour le reverse proxy et un accès HTTPS.",
+        "future": [
+          "Notifications en temps réel.",
+          "Commentaires et pièces jointes.",
+          "Vues calendrier et Kanban, avec des rôles plus détaillés."
         ]
       }
     }
