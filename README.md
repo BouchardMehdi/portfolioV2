@@ -122,6 +122,9 @@ choix clair/sombre dans `localStorage`. Le menu permet de revenir au réglage
 système. Le bouton Menu fonctionne au clic et au clavier ; le survol du bord
 supérieur ajoute un accès à la souris. Échap ferme le panneau et rend le focus
 au bouton. Les transitions respectent `prefers-reduced-motion`.
+L’entrée Projets mène à la sélection de l’accueil. Son lien secondaire Tous les
+projets ouvre le catalogue ; il apparaît au survol ou au focus clavier sur
+ordinateur, et reste affiché sous Projets sur mobile et écran tactile.
 
 Les tests navigateur couvrent les thèmes, le menu, la navigation et les petites
 largeurs sur Chromium desktop et mobile. Après installation du navigateur :

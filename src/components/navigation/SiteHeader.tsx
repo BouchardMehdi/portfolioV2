@@ -137,25 +137,35 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
               [
                 { href: "/#hero", label: "Accueil" },
                 { href: "/#statement", label: "Intention" },
-                { href: "/#selected-work", label: "Sélection" },
+                { href: "/#selected-work", label: "Projets" },
                 { href: "/#about", label: "À propos" },
-                { href: "/projects", label: "Projets" },
                 { href: "/#contact", label: "Contact" },
               ] as const
             ).map((item, index) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={pathname === item.href ? "page" : undefined}
-                onClick={() => closeMenu()}
-                onNavigate={item.href.includes("#") ? undefined : navigate}
-              >
-                <span className="eyebrow" aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                {item.label}
-                <span aria-hidden="true">↗</span>
-              </Link>
+              <div className="menu-item" key={item.href}>
+                <Link
+                  className="menu-link"
+                  href={item.href}
+                  onClick={() => closeMenu()}
+                >
+                  <span className="eyebrow" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  {item.label}
+                  <span aria-hidden="true">↗</span>
+                </Link>
+                {item.href === "/#selected-work" && (
+                  <Link
+                    className="menu-projects-link text-link"
+                    href="/projects"
+                    aria-current={pathname === "/projects" ? "page" : undefined}
+                    onClick={() => closeMenu()}
+                    onNavigate={navigate}
+                  >
+                    Tous les projets <span aria-hidden="true">↗</span>
+                  </Link>
+                )}
+              </div>
             ))}
           </nav>
           <div className="menu-panel__preferences">

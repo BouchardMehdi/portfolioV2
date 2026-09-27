@@ -88,7 +88,7 @@ for (const name of ["The River", "RamèneTaPoire", "Wankul TCG"]) {
     await page.getByRole("button", { name: "Menu", exact: true }).click();
     await page
       .getByRole("navigation", { name: "Navigation principale" })
-      .getByRole("link", { name: "Sélection", exact: true })
+      .getByRole("link", { name: "Projets", exact: true })
       .click();
     await expect(page.locator("[data-work-current]")).toHaveText("01");
     await expect

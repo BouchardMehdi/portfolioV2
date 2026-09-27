@@ -59,13 +59,16 @@ test("le menu se ferme hors du panneau et après une navigation", async ({
   await page.mouse.click(8, page.viewportSize()!.height - 8);
   await expect(nav).toBeHidden();
   await page.getByRole("button", { name: "Menu", exact: true }).click();
-  await nav.getByRole("link", { name: "Projets", exact: true }).click();
+  await nav.getByRole("link", { name: "Projets", exact: true }).focus();
+  await nav
+    .getByRole("link", { name: "Tous les projets", exact: true })
+    .click();
   await expect(page).toHaveURL("/projects");
   await expect(nav).toBeHidden();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Projets");
   await page.getByRole("button", { name: "Menu", exact: true }).click();
   await expect(
-    nav.getByRole("link", { name: "Projets", exact: true }),
+    nav.getByRole("link", { name: "Tous les projets", exact: true }),
   ).toHaveAttribute("aria-current", "page");
 });
 
@@ -80,6 +83,44 @@ test("le bord supérieur ouvre le menu uniquement à la souris", async ({
   const nav = page.getByRole("navigation", { name: "Navigation principale" });
   await expect(nav).toBeVisible();
   await page.mouse.move(600, page.viewportSize()!.height - 8);
+  await expect(nav).toBeHidden();
+});
+
+test("Projets mène à la section et son lien secondaire ouvre le catalogue", async ({
+  page,
+  isMobile,
+}) => {
+  await page.goto("/projects/the-river");
+  const nav = page.getByRole("navigation", { name: "Navigation principale" });
+  const projects = nav.getByRole("link", { name: "Projets", exact: true });
+  const catalogue = nav.getByRole("link", {
+    name: "Tous les projets",
+    exact: true,
+  });
+  await page.getByRole("button", { name: "Menu", exact: true }).click();
+  await expect(nav.locator(".menu-link")).toHaveCount(5);
+  if (isMobile) {
+    await expect(catalogue).toHaveCSS("opacity", "1");
+  } else {
+    await expect(catalogue).toHaveCSS("opacity", "0");
+    await projects.hover();
+    await expect(catalogue).toHaveCSS("opacity", "1");
+    await nav.getByRole("link", { name: "Accueil", exact: true }).hover();
+    await expect(catalogue).toHaveCSS("opacity", "0");
+  }
+  await projects.click();
+  await expect(page).toHaveURL("/#selected-work");
+  await expect(
+    page.getByRole("heading", { name: "Projets sélectionnés" }),
+  ).toBeInViewport();
+  await expect(nav).toBeHidden();
+  await page.getByRole("button", { name: "Menu", exact: true }).click();
+  await projects.focus();
+  await expect(catalogue).toHaveCSS("opacity", "1");
+  await page.keyboard.press("Tab");
+  await expect(catalogue).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL("/projects");
   await expect(nav).toBeHidden();
 });
 
