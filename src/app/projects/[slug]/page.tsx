@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectImageViewer } from "@/components/projects/ProjectImageViewer";
+import { ProjectVideo } from "@/components/projects/ProjectVideo";
 
 import {
   getAllProjects,
@@ -162,25 +163,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             )}
             {section.videos?.map((video) => (
               <figure className="project-video" key={video.file}>
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  disablePictureInPicture
-                  disableRemotePlayback
-                  tabIndex={-1}
-                  preload="metadata"
-                  aria-label={video.caption}
-                >
-                  <source
-                    src={getProjectMediaPath(project, video.file)}
-                    type={
-                      video.file.endsWith(".webm") ? "video/webm" : "video/mp4"
-                    }
-                  />
-                  Votre navigateur ne prend pas en charge cette vidéo.
-                </video>
+                <ProjectVideo
+                  src={getProjectMediaPath(project, video.file)}
+                  caption={video.caption}
+                />
                 <figcaption>{video.caption}</figcaption>
               </figure>
             ))}

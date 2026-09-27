@@ -100,7 +100,8 @@ images pour réserver leur place à l’affichage. `video` désigne une vidéo u
 captures légendées avec leurs dimensions et vidéos des pages détaillées. Les images
 s’ouvrent dans une visionneuse avec légendes, navigation au clavier ou par balayage
 sur mobile et fermeture avec Échap. Sans JavaScript, le lien ouvre l’image dans
-l’onglet courant. Les vidéos démarrent automatiquement, sans son, en boucle et
+l’onglet courant. Les vidéos sont chargées à l’approche de leur section pour éviter
+de télécharger les enregistrements dès l’ouverture d’une page. Elles démarrent automatiquement, sans son, en boucle et
 sans commandes. Les liens vers les sites des projets, GitHub et LinkedIn ouvrent
 un nouvel onglet. `deployment` décrit l’hébergement ou sa préparation
 et `future` rassemble les évolutions envisagées, séparées des fonctionnalités existantes.
