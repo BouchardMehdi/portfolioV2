@@ -8,6 +8,7 @@ const imageFile = z
     "Indiquer un nom de fichier image, sans chemin.",
   );
 const webUrl = z.httpUrl();
+const videoFile = z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]*\.(?:mp4|webm)$/);
 const imageSize = z.strictObject({
   width: z.number().int().positive(),
   height: z.number().int().positive(),
@@ -22,13 +23,13 @@ const accent = z
 const caseStudySchema = z.strictObject({
   context: text,
   problem: text,
-  role: text,
+  role: text.optional(),
   solution: text,
   technicalDecisions: z
     .array(z.strictObject({ title: text, description: text }))
     .min(1),
   results: z.array(text).min(1),
-  conclusion: text,
+  conclusion: text.optional(),
 });
 
 const commonFields = {
@@ -61,14 +62,8 @@ const commonFields = {
     coverSize: imageSize.optional(),
     thumbnailSize: imageSize.optional(),
     gallery: z.array(imageFile).optional(),
-    video: z
-      .string()
-      .regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]*\.(?:mp4|webm)$/)
-      .nullable()
-      .optional(),
-    videos: z
-      .array(z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]*\.(?:mp4|webm)$/))
-      .optional(),
+    video: videoFile.nullable().optional(),
+    videos: z.array(videoFile).optional(),
   }),
   content: z
     .strictObject({
@@ -76,6 +71,33 @@ const commonFields = {
       features: z.array(text).optional(),
       challenges: z.array(text).optional(),
       lessons: text.optional(),
+      sections: z
+        .array(
+          z.strictObject({
+            title: text,
+            description: text,
+            images: z
+              .array(
+                z.strictObject({
+                  file: imageFile,
+                  caption: text,
+                  ...imageSize.shape,
+                }),
+              )
+              .optional(),
+            videos: z
+              .array(
+                z.strictObject({
+                  file: videoFile,
+                  caption: text,
+                }),
+              )
+              .optional(),
+          }),
+        )
+        .optional(),
+      deployment: text.optional(),
+      future: z.array(text).optional(),
     })
     .optional(),
   caseStudy: caseStudySchema.optional(),

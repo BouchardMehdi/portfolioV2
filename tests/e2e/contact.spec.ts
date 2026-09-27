@@ -47,6 +47,13 @@ test("le contact est accessible depuis un projet et permet de copier l’email",
   await page.getByRole("button", { name: "Menu", exact: true }).click();
   await page.getByRole("link", { name: "Contact", exact: true }).click();
   await expect(page).toHaveURL("/#contact");
+  for (const link of await page
+    .getByRole("navigation", { name: "Profils en ligne" })
+    .getByRole("link")
+    .all()) {
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  }
   await expect(
     page.getByRole("heading", { name: "On en parle ?" }),
   ).toBeInViewport();

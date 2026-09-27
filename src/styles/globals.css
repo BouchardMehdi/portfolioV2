@@ -385,7 +385,7 @@
     margin-top: var(--space-6);
     width: 100%;
     height: auto;
-    border-radius: 0.75rem;
+    border: 1px solid var(--border);
     background: var(--surface);
   }
   .project-section {
@@ -406,6 +406,147 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--space-3);
+  }
+  .project-detail {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border);
+  }
+  .project-points {
+    padding-left: 1.25rem;
+    list-style: disc;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .project-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    align-items: start;
+  }
+  .project-gallery a {
+    display: block;
+    cursor: zoom-in;
+  }
+  .project-cover-link {
+    display: block;
+    cursor: zoom-in;
+  }
+  .project-gallery img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .project-gallery figcaption,
+  .project-video figcaption {
+    margin-top: var(--space-2);
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  .project-video {
+    margin-top: var(--space-4);
+  }
+  .project-video video {
+    pointer-events: none;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .project-decisions {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+  .project-decisions dt {
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+  }
+  .project-technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    color: var(--muted);
+  }
+  .project-technologies li {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    transition:
+      color 180ms ease,
+      border-color 180ms ease,
+      background 180ms ease,
+      transform 180ms ease;
+  }
+  .project-lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 0;
+    color: var(--foreground);
+    background: color-mix(in srgb, var(--background) 96%, transparent);
+    overscroll-behavior: contain;
+  }
+  .project-lightbox[open] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 1rem;
+  }
+  .project-lightbox::backdrop {
+    background: rgb(0 0 0 / 60%);
+  }
+  .project-lightbox button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+  }
+  .project-lightbox button:hover {
+    color: var(--accent);
+    border-color: currentColor;
+  }
+  .project-lightbox__close {
+    justify-self: end;
+  }
+  .project-lightbox__close span {
+    margin-left: 0.75rem;
+  }
+  .project-lightbox figure {
+    min-height: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 1rem;
+    pointer-events: none;
+  }
+  .project-lightbox__image {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    align-self: center;
+    justify-self: center;
+    pointer-events: auto;
+  }
+  .project-lightbox figcaption {
+    text-align: center;
+    font-size: 0.875rem;
+    pointer-events: auto;
+  }
+  .project-lightbox__navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    font-variant-numeric: tabular-nums;
   }
 }
 
@@ -464,6 +605,12 @@
   .text-link:hover {
     text-decoration-color: currentColor;
   }
+  .project-technologies li:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--surface);
+    transform: translateY(-3px);
+  }
   .project-row:hover .project-row__arrow {
     transform: translate(2px, -2px);
   }
@@ -477,6 +624,12 @@
   .button,
   .project-row__arrow {
     transition: none;
+  }
+  .project-technologies li {
+    transition: none;
+  }
+  .project-technologies li:hover {
+    transform: none;
   }
   .project-row:hover .project-row__arrow {
     transform: none;

@@ -17,6 +17,10 @@ try {
       ...(project.media.gallery ?? []),
       ...(project.media.video ? [project.media.video] : []),
       ...(project.media.videos ?? []),
+      ...(project.content?.sections ?? []).flatMap((section) => [
+        ...(section.images ?? []).map((image) => image.file),
+        ...(section.videos ?? []).map((video) => video.file),
+      ]),
     ]);
 
     for (const filename of filenames) {
