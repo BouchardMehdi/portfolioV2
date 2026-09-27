@@ -47,8 +47,8 @@ export function HeroVolume({
   useFrame(({ camera }, delta) => {
     if (!group.current || !(camera instanceof PerspectiveCamera)) return;
     const progress = motion.heroProgress;
-    const spread = MathUtils.smoothstep(progress, 0.05, 0.9);
-    const opacity = 1 - MathUtils.smoothstep(progress, 0.8, 1);
+    const spread = MathUtils.smoothstep(progress, 0.05, 0.65);
+    const opacity = 1 - MathUtils.smoothstep(progress, 0.9, 1);
     const idleStrength = 1 - MathUtils.smoothstep(progress, 0.02, 0.45) * 0.85;
     const rect = target.getBoundingClientRect();
     const viewHeight =
@@ -103,7 +103,7 @@ export function HeroVolume({
               piece.accent
                 ? palette.accent
                 : palette.dark
-                  ? "#646e7d"
+                  ? "#818c9c"
                   : "#606977"
             }
             metalness={0.25}

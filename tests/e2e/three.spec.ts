@@ -4,7 +4,7 @@ test("la sculpture accompagne Intention puis arrête son rendu avant les projets
   page,
   isMobile,
 }) => {
-  test.skip(isMobile, "Le mobile utilise la sculpture fixe.");
+  test.skip(isMobile, "La sculpture est masquée sur mobile.");
   await page.addInitScript(() => {
     const state = Object.assign(window, { drawCalls: 0 });
     const original = WebGL2RenderingContext.prototype.drawElements;
@@ -50,7 +50,7 @@ test("la sculpture accompagne Intention puis arrête son rendu avant les projets
   await page.getByRole("button", { name: "Menu", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Navigation principale" })
-    .getByRole("link", { name: "Sélection", exact: true })
+    .getByRole("link", { name: "Projets", exact: true })
     .click();
   await expect(
     page.locator('[data-project-preview="the-river"]'),
@@ -219,7 +219,15 @@ test("le mouvement réduit et le mobile utilisent les images sans Canvas", async
 }) => {
   if (!isMobile) await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  await expect(page.locator(".hero-structure-fallback")).toBeVisible();
+  if (isMobile) {
+    await expect(page.locator(".hero-volume")).toBeHidden();
+    await expect(page.locator(".hero-explore")).toBeHidden();
+    const hero = (await page.locator("#hero").boundingBox())!;
+    expect(hero.height).toBeLessThan(page.viewportSize()!.height * 0.75);
+    const statement = (await page.locator("#statement").boundingBox())!;
+    expect(statement.y).toBeCloseTo(hero.y + hero.height, 0);
+    expect(statement.height).toBeLessThan(page.viewportSize()!.height * 0.85);
+  } else await expect(page.locator(".hero-structure-fallback")).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(0);
   await page.goto("/#selected-work");
   await expect(page.locator(".work-preview img")).toHaveCount(3);
