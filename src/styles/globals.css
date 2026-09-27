@@ -11,7 +11,7 @@
   --muted: #666762;
   --border: #d8d7d1;
   --border-subtle: #e7e6e1;
-  --accent: #536bda;
+  --accent: #4b61c8;
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
@@ -273,6 +273,7 @@
     border-top: 1px solid var(--border-subtle);
     max-height: calc(100dvh - var(--header-height));
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .menu-panel__content {
     display: grid;

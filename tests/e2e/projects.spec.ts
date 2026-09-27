@@ -114,7 +114,7 @@ for (const project of getAllProjects()) {
           ),
         )
         .toBe(true);
-      const source = await video.locator("source").getAttribute("src");
+      const source = await video.getAttribute("src");
       const response = await page.request.head(source!);
       expect(response.ok()).toBe(true);
     }
