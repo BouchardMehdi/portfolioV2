@@ -177,7 +177,9 @@ et une légère inclinaison rendent le volume lisible. Ce mouvement s’atténue
 au début du défilement : les blocs se séparent
 au scroll puis se recomposent au retour. La sculpture reste épinglée à droite
 jusqu’à la fin d’Intention, dont le texte occupe la colonne gauche sur desktop.
-Les blocs s’effacent avant les projets. La boucle de rendu s’arrête lorsque
+Le désassemblage se termine avant la fin du défilement pour maintenir les blocs
+éclatés pendant la lecture, puis ils s’effacent à la fin d’Intention, avant les
+projets. La boucle de rendu s’arrête lorsque
 la sculpture disparaît ou que l’onglet est masqué ; la galerie reste à la demande.
 Le ratio de pixels est plafonné à 1,5. Les textures sont chargées à l’approche
 de la galerie ; leurs URL passent par l’optimisation d’images Next.js. Les
@@ -185,8 +187,11 @@ matériaux reprennent les variables CSS du thème.
 
 Les captures HTML restent accessibles pendant le chargement et en cas d’échec
 d’une texture, de WebGL ou de perte du contexte graphique. Sur mobile et avec
-`prefers-reduced-motion`, elles remplacent la scène. Le Hero utilise alors une
-projection SVG fixe issue de la même structure, également visible sans JavaScript.
+`prefers-reduced-motion`, elles remplacent la scène. Sur desktop, le Hero utilise
+une projection SVG fixe lorsque la 3D est indisponible ou le mouvement réduit,
+également visible sans JavaScript. Sur mobile et écran tactile, la sculpture et
+le lien Explorer sont masqués. Le Hero et Intention suivent la hauteur de leur
+contenu, sans espace réservé à la scène ; le nom prend davantage de place.
 Le Canvas ne capte aucun
 clic : les liens, le texte et les commandes restent en HTML. La sortie de
 l’accueil libère la scène et les textures.

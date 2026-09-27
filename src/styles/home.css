@@ -65,6 +65,7 @@
   }
   .statement-line {
     margin-top: var(--space-6);
+    max-width: 48ch;
     color: var(--muted);
   }
   .home-page[data-hero-pinned] .home-hero {
@@ -495,5 +496,35 @@
     width: 42%;
     height: 100%;
     margin: 0;
+  }
+}
+
+@media (max-width: 1023px), (hover: none), (pointer: coarse) {
+  .hero-copy {
+    width: 100%;
+  }
+  .home-hero {
+    min-height: 0;
+    padding-block: var(--space-8) var(--space-6);
+  }
+  .home-hero .home-title {
+    font-size: clamp(3rem, 11.5vw, 5rem);
+  }
+  .hero-summary {
+    margin-top: var(--space-4);
+  }
+  .hero-volume,
+  .hero-explore {
+    display: none;
+  }
+  .home-statement {
+    min-height: 0;
+    padding-block: var(--space-6) var(--space-8);
+  }
+  .home-statement h2 {
+    margin-top: var(--space-3);
+  }
+  .statement-line {
+    margin-top: var(--space-3);
   }
 }
