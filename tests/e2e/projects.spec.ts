@@ -1,6 +1,76 @@
 import { expect, test } from "@playwright/test";
 import { getAllProjects } from "../../src/lib/projects";
 
+test("la visionneuse navigue sans quitter la page et restitue le focus", async ({
+  page,
+  context,
+}) => {
+  await page.goto("/projects/the-river");
+  const trigger = page.locator(".project-gallery a").first();
+  const dialog = page.getByRole("dialog", {
+    name: "Visionneuse des captures du projet",
+  });
+  await trigger.click();
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator("figcaption")).toHaveText(
+    "Table de poker multijoueur.",
+  );
+  const close = dialog.getByRole("button", { name: "Fermer la visionneuse" });
+  await expect(close).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await expect(
+    dialog.getByRole("button", { name: "Image suivante" }),
+  ).toBeFocused();
+  await page.keyboard.press("ArrowRight");
+  await expect(dialog.locator("figcaption")).toHaveText(
+    "Table de blackjack et commandes de jeu.",
+  );
+  await dialog.getByRole("button", { name: "Image précédente" }).click();
+  await expect(dialog.locator("figcaption")).toHaveText(
+    "Table de poker multijoueur.",
+  );
+  await dialog
+    .locator("figure")
+    .dispatchEvent("touchstart", {
+      touches: [{ identifier: 0, clientX: 260, clientY: 200 }],
+    });
+  await dialog.locator("figure").dispatchEvent("touchend", {
+    changedTouches: [{ identifier: 0, clientX: 100, clientY: 205 }],
+  });
+  await expect(dialog.locator("figcaption")).toHaveText(
+    "Table de blackjack et commandes de jeu.",
+  );
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe(
+    "hidden",
+  );
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+  await trigger.click();
+  await close.click();
+  await expect(dialog).not.toBeVisible();
+  await page.locator(".project-cover-link").click();
+  await expect(dialog.locator("figcaption")).toHaveText("The River");
+  await dialog.click({ position: { x: 5, y: 120 } });
+  await expect(dialog).not.toBeVisible();
+  await expect(page).toHaveURL(/\/projects\/the-river$/);
+  expect(context.pages()).toHaveLength(1);
+});
+
+test("le survol des technologies respecte la réduction des animations", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "Le survol est réservé aux pointeurs précis.");
+  await page.goto("/projects/the-river");
+  const technology = page.locator(".project-technologies li").first();
+  await technology.hover();
+  await expect(technology).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, -3)");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(technology).toHaveCSS("transform", "none");
+});
+
 for (const project of getAllProjects()) {
   test(`${project.name} : contenu, captures et navigation`, async ({
     page,

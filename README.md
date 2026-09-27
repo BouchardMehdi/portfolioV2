@@ -98,7 +98,9 @@ espaces ni accents. `coverSize` et `thumbnailSize` décrivent les dimensions des
 images pour réserver leur place à l’affichage. `video` désigne une vidéo unique ;
 `videos` permet d’en conserver plusieurs. `content.sections` regroupe les textes,
 captures légendées avec leurs dimensions et vidéos des pages détaillées. Les images
-s’ouvrent en taille originale dans un nouvel onglet ; les vidéos sont lancées
+s’ouvrent dans une visionneuse avec légendes, navigation au clavier ou par balayage
+sur mobile et fermeture avec Échap. Sans JavaScript, le lien ouvre l’image dans
+l’onglet courant. Les vidéos sont lancées
 manuellement, sans préchargement. `deployment` décrit l’hébergement ou sa préparation
 et `future` rassemble les évolutions envisagées, séparées des fonctionnalités existantes.
 Les sections et liens optionnels absents ne sont pas affichés.
