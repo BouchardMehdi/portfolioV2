@@ -448,14 +448,12 @@
     margin-top: var(--space-4);
   }
   .project-video video {
+    pointer-events: none;
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;
     background: var(--surface);
     border: 1px solid var(--border);
-  }
-  .project-video .text-link {
-    margin-left: 0.5rem;
   }
   .project-decisions {
     display: grid;

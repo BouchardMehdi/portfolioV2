@@ -29,11 +29,9 @@ test("la visionneuse navigue sans quitter la page et restitue le focus", async (
   await expect(dialog.locator("figcaption")).toHaveText(
     "Table de poker multijoueur.",
   );
-  await dialog
-    .locator("figure")
-    .dispatchEvent("touchstart", {
-      touches: [{ identifier: 0, clientX: 260, clientY: 200 }],
-    });
+  await dialog.locator("figure").dispatchEvent("touchstart", {
+    touches: [{ identifier: 0, clientX: 260, clientY: 200 }],
+  });
   await dialog.locator("figure").dispatchEvent("touchend", {
     changedTouches: [{ identifier: 0, clientX: 100, clientY: 205 }],
   });
@@ -98,16 +96,31 @@ for (const project of getAllProjects()) {
         .toBe(true);
     }
     for (const video of await page.locator("video").all()) {
-      await expect(video).toHaveAttribute("controls", "");
-      await expect(video).toHaveAttribute("preload", "none");
+      await video.scrollIntoViewIfNeeded();
+      await expect(video).not.toHaveAttribute("controls");
+      await expect(video).toHaveAttribute("loop", "");
+      await expect(video).toHaveCSS("pointer-events", "none");
       expect(
         await video.evaluate(
-          (element: HTMLVideoElement) => element.paused && !element.autoplay,
+          (element: HTMLVideoElement) =>
+            element.autoplay && element.muted && element.playsInline,
         ),
       ).toBe(true);
+      await expect
+        .poll(() =>
+          video.evaluate(
+            (element: HTMLVideoElement) =>
+              !element.paused && element.currentTime > 0,
+          ),
+        )
+        .toBe(true);
       const source = await video.locator("source").getAttribute("src");
       const response = await page.request.head(source!);
       expect(response.ok()).toBe(true);
+    }
+    for (const link of await page.locator('a[href^="https://"]').all()) {
+      await expect(link).toHaveAttribute("target", "_blank");
+      await expect(link).toHaveAttribute("rel", "noopener noreferrer");
     }
     expect(
       await page.evaluate(

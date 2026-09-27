@@ -163,9 +163,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {section.videos?.map((video) => (
               <figure className="project-video" key={video.file}>
                 <video
-                  controls
+                  autoPlay
+                  muted
+                  loop
                   playsInline
-                  preload="none"
+                  disablePictureInPicture
+                  disableRemotePlayback
+                  tabIndex={-1}
+                  preload="metadata"
                   aria-label={video.caption}
                 >
                   <source
@@ -176,15 +181,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   />
                   Votre navigateur ne prend pas en charge cette vidéo.
                 </video>
-                <figcaption>
-                  {video.caption}{" "}
-                  <a
-                    className="text-link"
-                    href={getProjectMediaPath(project, video.file)}
-                  >
-                    Ouvrir la vidéo
-                  </a>
-                </figcaption>
+                <figcaption>{video.caption}</figcaption>
               </figure>
             ))}
           </section>
@@ -254,12 +251,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             className="mt-12 flex flex-wrap gap-6"
           >
             {project.links.live && (
-              <a href={project.links.live} className="text-link">
+              <a
+                href={project.links.live}
+                className="text-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Voir le site
               </a>
             )}
             {project.links.github && (
-              <a href={project.links.github} className="text-link">
+              <a
+                href={project.links.github}
+                className="text-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Code sur GitHub
               </a>
             )}

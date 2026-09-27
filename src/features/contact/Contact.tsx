@@ -25,12 +25,19 @@ export function Contact() {
         </a>
         <CopyEmailButton email={email} />
         <nav className="contact-links" aria-label="Profils en ligne">
-          <a className="text-link" href="https://github.com/BouchardMehdi">
+          <a
+            className="text-link"
+            href="https://github.com/BouchardMehdi"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             GitHub <span aria-hidden="true">↗</span>
           </a>
           <a
             className="text-link"
             href="https://www.linkedin.com/in/mehdi-bouchard-mb"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             LinkedIn <span aria-hidden="true">↗</span>
           </a>
