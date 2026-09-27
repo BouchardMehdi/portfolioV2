@@ -1,4 +1,5 @@
 import { CopyEmailButton } from "./CopyEmailButton";
+import { ContactForm } from "./ContactForm";
 
 const email = "bouchardmehdi35@gmail.com";
 
@@ -10,7 +11,7 @@ export function Contact() {
       aria-labelledby="contact-heading"
       className="home-contact layout-container"
     >
-      <header>
+      <header className="contact-heading">
         <p className="eyebrow">04 / Contact</p>
         <h2 id="contact-heading">On en parle ?</h2>
       </header>
@@ -35,6 +36,7 @@ export function Contact() {
           </a>
         </nav>
       </div>
+      <ContactForm />
     </section>
   );
 }
