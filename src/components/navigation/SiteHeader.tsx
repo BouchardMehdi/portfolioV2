@@ -140,6 +140,7 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
                 { href: "/#selected-work", label: "Sélection" },
                 { href: "/#about", label: "À propos" },
                 { href: "/projects", label: "Projets" },
+                { href: "/#contact", label: "Contact" },
               ] as const
             ).map((item, index) => (
               <Link

@@ -42,7 +42,7 @@ src/
   app/                  Routes et layout commun
     projects/
       [slug]/           Pages projet
-    api/contact/        Emplacement du futur endpoint de contact
+    api/contact/        Validation et envoi des messages via Brevo
   components/           Navigation, thème, curseur et éléments partagés
   features/             Sections du portfolio et rendu 3D
   data/                 Contenu des projets
@@ -212,11 +212,36 @@ Le contenu reste visible sans JavaScript et avec
 
 ## État actuel
 
+La section Contact propose un lien email, la copie de l’adresse avec retour
+de succès ou d’échec, et les profils GitHub et LinkedIn repris de l’ancien
+portfolio. Les coordonnées se trouvent dans `features/contact/Contact.tsx`.
+Le menu donne accès à `/#contact` depuis toutes les pages. Le footer commun
+permet de revenir à l’accueil.
+
+Le formulaire passe par `POST /api/contact`, qui valide les champs avec Zod
+et appelle l’API transactionnelle de Brevo côté serveur. Copier `.env.example`
+vers `.env.local`, puis renseigner `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`
+(expéditeur validé dans Brevo) et `CONTACT_RECIPIENT_EMAIL`. Définir
+`CONTACT_ORIGIN` avec l’origine publique exacte, sans slash final ; en local,
+utiliser l’adresse du serveur de développement. Redémarrer le serveur après
+modification. Aucune variable d’envoi ne doit avoir le préfixe `NEXT_PUBLIC_`.
+
+L’adresse du visiteur est utilisée en `replyTo`, jamais comme expéditeur.
+Le message est envoyé en texte brut, sans pièce jointe ni copie automatique.
+Une configuration absente produit une erreur explicite, sans simuler un envoi.
+La saisie reste disponible en cas d’échec et le lien email reste accessible.
+
+La route vérifie l’origine, limite le corps à 24 Ko et utilise un champ piège.
+Les appels au prestataire sont limités à trois par adresse et vingt au total
+sur quinze minutes, en mémoire du processus. Cette limite est réinitialisée
+au redémarrage et n’est pas partagée entre instances : ajouter une limitation
+au reverse proxy avant une ouverture publique. Les tests utilisent des réponses
+simulées et n’envoient aucun email réel.
+
 `/` présente le prototype du parcours de scroll avec sa scène 3D. `/projects` affiche les onze projets
 et `/projects/[slug]` une présentation minimale avec les liens précédent/suivant.
 Les slugs inconnus et les brouillons renvoient une page 404.
-Le dossier `api/contact` ne déclare pas encore de route active.
 
 Le mini design system, les thèmes et la navigation commune sont en place.
-Les assets 3D définitifs, les autres sections de l’accueil et les études de cas
+Les assets 3D définitifs, les traversées immersives des projets et les études de cas
 détaillées restent à construire. Les pages portent une directive `noindex` pendant cette préparation.

@@ -43,9 +43,6 @@ export function About() {
         </div>
       </div>
       <Journey />
-      <a href="#hero" className="text-link about-back">
-        Retour en haut <span aria-hidden="true">↑</span>
-      </a>
     </section>
   );
 }
