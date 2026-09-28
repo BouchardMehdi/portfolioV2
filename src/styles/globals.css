@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 @import "./home.css";
+@import "./river.css";
 
 :root {
   color-scheme: light;

@@ -152,6 +152,16 @@ parcours figurent dans la section À propos.
 
 `src/lib/home-scroll.ts` relie Lenis, les ancres et les animations des sections.
 La timeline de la sélection reste dans `features/selected-work/selected-work-scroll.ts`.
+The River possède une séquence dédiée : machine à sous construite avec des primitives,
+passage vers quatre captures, table multijoueur synchronisée, tableau de bord et
+carte de transition. `river-story.ts` définit les étapes et leur durée ; `RiverWorld`
+les représente dans une vue du Canvas existant, avec une caméra propre. Les captures
+et les commandes restent dans le DOM. Les déplacements sont calculés depuis la
+progression du scroll pour retrouver le même état à la remontée.
+Le bouton Projet suivant rejoint la fiche suivante en 800 ms ; il disparaît pour
+le dernier projet. Continuer reste disponible pendant toute la séquence. Les deux
+autres projets gardent leur présentation actuelle. Sur mobile et avec réduction
+des animations, The River conserve sa capture, sa description et son lien détaillé.
 ScrollTrigger épingle la galerie ; le scroll vertical déplace les panneaux, avec
 un temps de lecture entre les transitions. Les liens numérotés donnent aussi
 accès à chaque projet au clavier. Les panneaux hors champ sont inertes.
@@ -258,5 +268,5 @@ avec les liens précédent/suivant.
 Les slugs inconnus et les brouillons renvoient une page 404.
 
 Le mini design system, les thèmes et la navigation commune sont en place.
-Les assets 3D définitifs et les traversées immersives des projets restent à construire.
+Les assets 3D définitifs et les parcours immersifs de RamèneTaPoire et Wankul TCG restent à construire.
 Les pages portent une directive `noindex` pendant cette préparation.

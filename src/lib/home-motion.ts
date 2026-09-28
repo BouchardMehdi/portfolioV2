@@ -5,6 +5,7 @@ export function createHomeMotion() {
   const listeners = new Set<() => void>();
   return {
     heroProgress: 0,
+    riverProgress: 0,
     invalidate() {
       listeners.forEach((listener) => listener());
     },

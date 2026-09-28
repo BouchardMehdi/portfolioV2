@@ -14,6 +14,7 @@ import { CameraRig } from "./CameraRig";
 import { HeroVolume } from "./HeroVolume";
 import { SceneLighting } from "./SceneLighting";
 import { ProjectScreen } from "./project/ProjectScreen";
+import { RiverWorld } from "./project/RiverWorld";
 import type { PortfolioCanvasProps } from "./scene-types";
 
 function readPalette(root: HTMLElement) {
@@ -176,10 +177,17 @@ export function PortfolioCanvas({
                 track={targets.projects[index]}
                 index={index + 2}
               >
-                <ProjectScreen
-                  project={project}
-                  target={targets.projects[index].current}
-                />
+                {project.slug === "the-river" ? (
+                  <RiverWorld
+                    target={targets.projects[index].current}
+                    motion={motion}
+                  />
+                ) : (
+                  <ProjectScreen
+                    project={project}
+                    target={targets.projects[index].current}
+                  />
+                )}
               </View>
             ))}
         </Canvas>

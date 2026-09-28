@@ -40,7 +40,7 @@ test("le scroll vertical parcourt les trois projets puis libère la page", async
         stage.getBoundingClientRect().height,
     };
   });
-  await page.mouse.wheel(0, range.distance * 0.48);
+  await page.mouse.wheel(0, range.distance * 0.77);
   await expect(page.locator("[data-work-current]")).toHaveText("02");
   await expect(page.locator("#project-ramenetapoire")).toHaveJSProperty(
     "inert",
@@ -57,7 +57,7 @@ test("le scroll vertical parcourt les trois projets puis libère la page", async
       ),
     )
     .toBe(80);
-  await page.mouse.wheel(0, range.distance * 0.42);
+  await page.mouse.wheel(0, range.distance * 0.14);
   await expect(page.locator("[data-work-current]")).toHaveText("03");
   await page.mouse.wheel(0, 1400);
   await expect(
