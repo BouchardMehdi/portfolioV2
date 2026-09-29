@@ -69,24 +69,16 @@ export function createSelectedWorkScroll(
         });
       }
       const p = riverProgress;
-      const gamesIn = riverSegment(p, 0.3, 0.34);
+      const start = riverBeats[beat].start;
+      const end = riverBeats[beat + 1]?.start ?? 1.04;
+      const opacity =
+        riverSegment(p, start, start + 0.018) *
+        (1 - riverSegment(p, end - 0.018, end));
       river.style.setProperty(
-        "--river-games-opacity",
-        String(gamesIn * (1 - riverSegment(p, 0.46, 0.5))),
+        "--river-copy-opacity",
+        String(beat === 0 ? 1 - riverSegment(p, 0.08, 0.1) : opacity),
       );
-      river.style.setProperty(
-        "--river-games-scale",
-        String(0.86 + gamesIn * 0.14 + riverSegment(p, 0.46, 0.5) * 0.08),
-      );
-      const dashboardIn = riverSegment(p, 0.7, 0.735);
-      river.style.setProperty(
-        "--river-dashboard-opacity",
-        String(dashboardIn * (1 - riverSegment(p, 0.935, 0.95))),
-      );
-      river.style.setProperty(
-        "--river-dashboard-y",
-        `${20 * (1 - dashboardIn)}px`,
-      );
+      section.dataset.riverMap = String(p > 0.975 && position < 0.5);
     }
     const index = Math.max(
       0,
@@ -195,15 +187,10 @@ export function createSelectedWorkScroll(
       gsap.set(track, { clearProps: "transform" });
       delete section.dataset.horizontal;
       delete section.dataset.riverActive;
+      delete section.dataset.riverMap;
       section.style.removeProperty("--work-progress");
       if (river) delete river.dataset.riverPhase;
-      for (const property of [
-        "games-opacity",
-        "games-scale",
-        "dashboard-opacity",
-        "dashboard-y",
-      ])
-        river?.style.removeProperty(`--river-${property}`);
+      river?.style.removeProperty("--river-copy-opacity");
       beats?.forEach((element, index) => {
         element.hidden = index !== 0;
       });

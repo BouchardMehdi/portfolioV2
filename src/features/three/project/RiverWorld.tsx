@@ -1,65 +1,39 @@
-import { useEffect, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import { Line, PerspectiveCamera } from "@react-three/drei";
-import { Group, Mesh, PerspectiveCamera as ThreeCamera } from "three";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import { PerspectiveCamera, RoundedBox } from "@react-three/drei";
+import {
+  Color,
+  Group,
+  MeshBasicMaterial,
+  PerspectiveCamera as ThreeCamera,
+  SRGBColorSpace,
+  Texture,
+  TextureLoader,
+  Vector3,
+} from "three";
 import type { HomeMotion } from "@/lib/home-motion";
 import { riverSegment } from "@/features/selected-work/river-story";
+import { createRiverTextures } from "./river-textures";
+import { RiverMachine } from "./RiverMachine";
+import { RiverTable } from "./RiverTable";
 
-const orange = "#FF8A54";
-const players: [number, number, number][] = [
-  [-2.1, 1.15, 0],
-  [2.1, 1.15, 0],
-  [-2.1, -1.15, 0],
-  [2.1, -1.15, 0],
-];
-const shell: {
-  position: [number, number, number];
-  size: [number, number, number];
-  exit: [number, number, number];
-  color: string;
-}[] = [
-  {
-    position: [-1.8, 0.2, 0],
-    size: [0.24, 3.8, 1.1],
-    exit: [-4, 0, -1],
-    color: "#89909a",
-  },
-  {
-    position: [1.8, 0.2, 0],
-    size: [0.24, 3.8, 1.1],
-    exit: [4, 0, -1],
-    color: "#89909a",
-  },
-  {
-    position: [0, 2, 0],
-    size: [3.84, 0.45, 1.1],
-    exit: [0, 3, 0],
-    color: "#414750",
-  },
-  {
-    position: [0, 1.47, 0.08],
-    size: [3.4, 0.55, 0.8],
-    exit: [0, 2.8, -1],
-    color: "#1b2028",
-  },
-  {
-    position: [0, -0.85, 0.06],
-    size: [3.45, 0.2, 1.35],
-    exit: [0, -2, 0],
-    color: "#59616c",
-  },
-  {
-    position: [0, -1.55, -0.12],
-    size: [3.4, 1.15, 0.95],
-    exit: [0, -3, -1],
-    color: "#292e38",
-  },
-  {
-    position: [0, -2.2, 0],
-    size: [3.85, 0.2, 1.2],
-    exit: [0, -3.5, 0],
-    color: "#89909a",
-  },
+type Shot = {
+  at: number;
+  eye: [number, number, number];
+  look: [number, number, number];
+};
+const shots: Shot[] = [
+  { at: 0, eye: [0, 1.2, 14], look: [0, 0.7, 0] },
+  { at: 0.1, eye: [0, 0.8, 10.5], look: [0, 0, 0] },
+  { at: 0.205, eye: [0, 0.8, 10.5], look: [0, 0, 0] },
+  { at: 0.33, eye: [0, 7, -5], look: [0, 0, -14] },
+  { at: 0.43, eye: [0, 7, -5], look: [0, 0, -14] },
+  { at: 0.56, eye: [0, 10, -7], look: [0, 1, -14] },
+  { at: 0.65, eye: [0, 10, -7], look: [0, 1, -14] },
+  { at: 0.75, eye: [0, 1, -18], look: [0.6, 0, -28] },
+  { at: 0.9, eye: [0, 1, -18], look: [0.6, 0, -28] },
+  { at: 0.955, eye: [0, 1, -18], look: [0, 1, -28] },
+  { at: 1, eye: [0, 1, -18], look: [0, 1, -28] },
 ];
 
 export function RiverWorld({
@@ -70,264 +44,226 @@ export function RiverWorld({
   motion: HomeMotion;
 }) {
   const camera = useRef<ThreeCamera>(null);
-  const machine = useRef<Group>(null);
-  const pieces = useRef<(Mesh | null)[]>([]);
-  const reels = useRef<(Group | null)[]>([]);
-  const details = useRef<Group>(null);
-  const table = useRef<Group>(null);
-  const connections = useRef<Group>(null);
-  const markers = useRef<(Group | null)[]>([]);
+  const consoleGroup = useRef<Group>(null);
   const card = useRef<Group>(null);
-  const cardFace = useRef<Mesh>(null);
+  const mapFace = useRef<MeshBasicMaterial>(null);
+  const pokerFace = useRef<MeshBasicMaterial>(null);
+  const pin = useRef<Group>(null);
+  const textures = useMemo(() => createRiverTextures(), []);
+  const [screen, setScreen] = useState<Texture | null>(null);
+  const invalidate = useThree((state) => state.invalidate);
+  const gl = useThree((state) => state.gl);
+  const look = useMemo(() => new Vector3(), []);
+  const background = useMemo(() => new Color("#0c1015"), []);
+  const night = useMemo(() => new Color("#0c1015"), []);
+  const cream = useMemo(() => new Color("#e6e1ce"), []);
 
+  useEffect(() => {
+    let cancelled = false;
+    let loaded: Texture | undefined;
+    new TextureLoader().load(
+      "/projects/the-river/menu.png",
+      (texture) => {
+        if (cancelled) {
+          texture.dispose();
+          return;
+        }
+        loaded = texture;
+        texture.colorSpace = SRGBColorSpace;
+        texture.anisotropy = Math.min(4, gl.capabilities.getMaxAnisotropy());
+        setScreen(texture);
+        target.dataset.riverScreenReady = "true";
+        invalidate();
+      },
+      undefined,
+      () => {
+        /* La capture HTML reste disponible si la texture échoue. */
+      },
+    );
+    return () => {
+      cancelled = true;
+      loaded?.dispose();
+      delete target.dataset.riverScreenReady;
+    };
+  }, [target, gl, invalidate]);
   useEffect(
     () => () => {
+      textures.marquee.dispose();
+      textures.map.dispose();
+      textures.cards.forEach((texture) => texture.dispose());
+      textures.symbols.forEach((texture) => texture.dispose());
       target.removeAttribute("data-three-ready");
     },
-    [target],
+    [textures, target],
   );
 
   useFrame(() => {
-    if (!camera.current || !machine.current || !table.current || !card.current)
-      return;
+    if (!camera.current || !card.current) return;
     const p = motion.riverProgress;
     target.setAttribute("data-three-ready", "true");
-    const opening = riverSegment(p, 0.2, 0.3);
-    const approach = riverSegment(p, 0, 0.12);
-    const through = riverSegment(p, 0.24, 0.34);
-    const toTable = riverSegment(p, 0.44, 0.53);
-    const toDashboard = riverSegment(p, 0.65, 0.72);
-    camera.current.position.set(
+    const index = Math.max(
       0,
-      0,
-      12 - approach * 3.5 - through * 10 - toTable * 5.5 - toDashboard * 8,
+      shots.findLastIndex((shot) => p >= shot.at),
     );
-    camera.current.lookAt(0, 0, camera.current.position.z - 10);
+    const from = shots[index],
+      to = shots[Math.min(index + 1, shots.length - 1)];
+    const t = from === to ? 0 : riverSegment(p, from.at, to.at);
+    const eye = from.eye.map((v, i) => v + (to.eye[i] - v) * t) as [
+      number,
+      number,
+      number,
+    ];
+    look.set(
+      ...(from.look.map((v, i) => v + (to.look[i] - v) * t) as [
+        number,
+        number,
+        number,
+      ]),
+    );
+    camera.current.position.set(...eye);
+    camera.current.lookAt(look);
     camera.current.updateMatrixWorld();
-    machine.current.visible = p < 0.35;
-    machine.current.rotation.y = -0.18 * (1 - through);
-    shell.forEach((piece, index) => {
-      pieces.current[index]?.position.set(
-        ...(piece.position.map(
-          (value, axis) => value + piece.exit[axis] * opening,
-        ) as [number, number, number]),
-      );
-    });
-    reels.current.forEach((reel, index) => {
-      if (!reel) return;
-      reel.position.set(
-        (index - 1) * (1.08 + opening * 4),
-        0.3 + (index === 1 ? opening * 4 : 0),
-        0.15,
-      );
-      reel.rotation.x =
-        Math.PI *
-        6 *
-        riverSegment(p, 0.045 + index * 0.012, 0.18 + index * 0.01);
-    });
-    if (details.current) details.current.scale.setScalar(1 - opening);
-    table.current.visible = p >= 0.46 && p < 0.72;
-    table.current.position.y = -riverSegment(p, 0.65, 0.72) * 3;
-    table.current.rotation.x = 0.95 - riverSegment(p, 0.49, 0.57) * 0.15;
-    markers.current.forEach((marker, index) =>
-      marker?.scale.setScalar(
-        riverSegment(p, 0.5 + index * 0.012, 0.56 + index * 0.012),
-      ),
+    if (consoleGroup.current) {
+      consoleGroup.current.visible = p > 0.65 && p < 0.998 && Boolean(screen);
+      consoleGroup.current.rotation.y =
+        0.13 * (1 - riverSegment(p, 0.67, 0.75));
+    }
+    const carry = riverSegment(p, 0.66, 0.75);
+    const lift = riverSegment(p, 0.895, 0.95);
+    const morph = riverSegment(p, 0.945, 0.985);
+    const fill = riverSegment(p, 0.955, 1);
+    card.current.visible = p > 0.27;
+    card.current.position.set(
+      1.36 + (3 - 1.36) * carry - 3 * lift,
+      -0.44 - 0.16 * carry + 1.6 * lift,
+      -14 - 10 * carry,
     );
-    if (connections.current)
-      connections.current.scale.setScalar(riverSegment(p, 0.54, 0.6));
-    card.current.visible = p >= 0.94;
-    card.current.position.z = -22 + riverSegment(p, 0.95, 1) * 4;
-    card.current.rotation.y = riverSegment(p, 0.95, 1) * Math.PI;
-    card.current.scale.setScalar(0.3 + riverSegment(p, 0.94, 1) * 1.5);
-    if (cardFace.current) cardFace.current.visible = p < 0.985;
+    card.current.rotation.set(
+      (-Math.PI / 2) * (1 - carry),
+      0.2 * carry * (1 - lift),
+      -0.12 * carry * (1 - lift),
+    );
+    card.current.scale.set(1 + fill * 28, 1 + fill * 12, 1);
+    if (mapFace.current) mapFace.current.opacity = morph;
+    if (pokerFace.current) pokerFace.current.opacity = 1 - morph;
+    if (pin.current) {
+      const size = 8 * riverSegment(p, 0.982, 1);
+      pin.current.scale.set(
+        size / (1 + fill * 28),
+        size / (1 + fill * 12),
+        size,
+      );
+    }
+    background.copy(night).lerp(cream, riverSegment(p, 0.977, 1));
   });
 
   return (
     <>
+      <primitive object={background} attach="background" />
+      <fog attach="fog" args={["#0c1015", 18, 48]} />
       <PerspectiveCamera
         ref={camera}
         makeDefault
-        position={[0, 0, 12]}
-        fov={38}
-        near={0.1}
-        far={60}
+        position={[0, 1.2, 14]}
+        fov={42}
+        near={0.08}
+        far={85}
       />
-      <ambientLight intensity={1.25} />
-      <directionalLight position={[3, 5, 8]} intensity={3} />
-      <directionalLight position={[-5, 0, 2]} color={orange} intensity={1.4} />
+      <ambientLight intensity={0.7} />
+      <directionalLight position={[4, 7, 7]} intensity={3.5} color="#e2ecff" />
+      <directionalLight position={[-5, 3, -4]} intensity={3} color="#ff9a51" />
       <pointLight
-        position={[0, 2, -12]}
-        color={orange}
-        intensity={35}
+        position={[0, 5, -13]}
+        intensity={65}
         distance={18}
+        color="#d7e5ff"
       />
-      <group ref={machine}>
-        {shell.map((piece, index) => (
-          <mesh
-            key={index}
-            position={piece.position}
-            ref={(element) => {
-              pieces.current[index] = element;
-            }}
-            onAfterRender={() =>
-              target.setAttribute("data-three-ready", "true")
-            }
-          >
-            <boxGeometry args={piece.size} />
-            <meshStandardMaterial
-              color={piece.color}
-              metalness={0.55}
-              roughness={0.35}
-            />
-          </mesh>
-        ))}
-        {[0, 1, 2].map((index) => (
-          <group
-            key={index}
-            ref={(element) => {
-              reels.current[index] = element;
-            }}
-            position={[(index - 1) * 1.08, 0.3, 0.15]}
-          >
-            <mesh rotation={[0, 0, Math.PI / 2]}>
-              <cylinderGeometry args={[0.76, 0.76, 0.94, 32]} />
-              <meshStandardMaterial color="#ddd9cb" roughness={0.65} />
-            </mesh>
-            {Array.from({ length: 8 }, (_, symbol) => {
-              const angle = (symbol * Math.PI) / 4;
-              return (
-                <mesh
-                  key={symbol}
-                  position={[
-                    0,
-                    Math.sin(angle) * 0.765,
-                    Math.cos(angle) * 0.765,
-                  ]}
-                  rotation={[-angle, 0, Math.PI / 4]}
-                >
-                  <boxGeometry args={[0.27, 0.27, 0.02]} />
-                  <meshStandardMaterial
-                    color={symbol % 2 === 0 ? orange : "#252b35"}
-                  />
-                </mesh>
-              );
-            })}
-          </group>
-        ))}
-        <group ref={details}>
-          <mesh position={[0, 1.47, 0.5]}>
-            <boxGeometry args={[2.7, 0.045, 0.02]} />
-            <meshBasicMaterial color={orange} />
-          </mesh>
-          <mesh position={[0, -1.38, 0.38]}>
-            <boxGeometry args={[1.3, 0.11, 0.04]} />
-            <meshBasicMaterial color="#111318" />
-          </mesh>
-          <mesh position={[2.15, 0.3, 0]}>
-            <cylinderGeometry args={[0.07, 0.07, 1.4, 12]} />
-            <meshStandardMaterial
-              color="#89909a"
-              metalness={0.7}
-              roughness={0.3}
-            />
-          </mesh>
-          <mesh position={[2.15, 1.05, 0]}>
-            <sphereGeometry args={[0.22, 16, 16]} />
-            <meshStandardMaterial color={orange} />
-          </mesh>
-        </group>
-      </group>
-      <group ref={table} position={[0, 0, -16]}>
-        <mesh scale={[1.7, 1, 1]}>
-          <cylinderGeometry args={[1.35, 1.35, 0.16, 48]} />
+      <pointLight
+        position={[-4, 3, -23]}
+        intensity={45}
+        distance={15}
+        color="#ffbb82"
+      />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3.1, -16]}>
+        <planeGeometry args={[100, 100]} />
+        <meshStandardMaterial color="#080b10" metalness={0.1} roughness={0.9} />
+      </mesh>
+      <RiverMachine motion={motion} textures={textures} />
+      <RiverTable motion={motion} textures={textures} />
+      <group ref={consoleGroup} position={[-0.8, -0.15, -28]} scale={0.78}>
+        <RoundedBox args={[7.4, 5.08, 0.3]} radius={0.16} smoothness={3}>
           <meshStandardMaterial
-            color="#4b535a"
-            metalness={0.3}
-            roughness={0.6}
+            color="#35414d"
+            metalness={0.65}
+            roughness={0.35}
           />
+        </RoundedBox>
+        <RoundedBox
+          args={[7.1, 4.78, 0.06]}
+          position={[0, 0, 0.18]}
+          radius={0.08}
+          smoothness={3}
+        >
+          <meshStandardMaterial color="#080d13" />
+        </RoundedBox>
+        {screen && (
+          <mesh position={[0, 0, 0.22]}>
+            <planeGeometry args={[6.8, 4.54]} />
+            <meshBasicMaterial map={screen} toneMapped={false} />
+          </mesh>
+        )}
+        <mesh position={[0, -2.47, 0.19]}>
+          <boxGeometry args={[1.3, 0.025, 0.025]} />
+          <meshBasicMaterial color="#f3a06d" />
         </mesh>
-        <mesh position={[0, 0.1, 0]} scale={[1.7, 1, 1]}>
-          <cylinderGeometry args={[1.22, 1.22, 0.02, 48]} />
-          <meshStandardMaterial color="#1e4140" roughness={1} />
-        </mesh>
-        <group rotation={[Math.PI / 2, 0, 0]} position={[0, 0.3, 0]}>
-          {[-0.65, -0.32, 0, 0.32, 0.65].map((x) => (
-            <mesh key={x} position={[x, 0, 0]}>
-              <boxGeometry args={[0.25, 0.36, 0.025]} />
-              <meshStandardMaterial color="#ece6d5" />
-            </mesh>
-          ))}
-        </group>
-        {players.map(([x, y], index) => (
-          <group
-            key={index}
-            position={[x, y * 1.45, 0]}
-            ref={(element) => {
-              markers.current[index] = element;
-            }}
-          >
-            <mesh>
-              <sphereGeometry args={[0.14, 16, 16]} />
-              <meshStandardMaterial color={orange} />
-            </mesh>
-            <mesh position={[0, -0.28, 0]}>
-              <boxGeometry args={[0.55, 0.055, 0.05]} />
-              <meshBasicMaterial color="#aeb6bc" />
+        {[-2.7, 2.7].map((x) => (
+          <group key={x} position={[x, -2.95, -0.45]}>
+            <RoundedBox args={[0.15, 1.4, 0.3]} radius={0.04} smoothness={2}>
+              <meshStandardMaterial
+                color="#566574"
+                metalness={0.65}
+                roughness={0.28}
+              />
+            </RoundedBox>
+            <mesh position={[0, -0.5, 0.35]}>
+              <boxGeometry args={[1.2, 0.15, 1.6]} />
+              <meshStandardMaterial color="#27313b" metalness={0.5} />
             </mesh>
           </group>
         ))}
-        <group ref={connections}>
-          <mesh position={[0, 0.7, 0.3]} rotation={[0, Math.PI / 4, 0]}>
-            <boxGeometry args={[0.3, 0.3, 0.3]} />
-            <meshStandardMaterial color={orange} />
-          </mesh>
-          {players.map(([x, y], index) => (
-            <Line
-              key={index}
-              points={[
-                [0, 0.7, 0.3],
-                [x, y * 1.45, 0],
-              ]}
-              color={orange}
-              lineWidth={1.2}
-              transparent
-              opacity={0.65}
-            />
-          ))}
-        </group>
       </group>
       <group ref={card}>
-        <mesh>
-          <boxGeometry args={[1.4, 2, 0.045]} />
-          <meshStandardMaterial color="#ede5d3" roughness={0.8} />
-        </mesh>
-        <mesh
-          ref={cardFace}
-          position={[0, 0, 0.026]}
-          rotation={[0, 0, Math.PI / 4]}
-        >
-          <planeGeometry args={[0.4, 0.4]} />
-          <meshBasicMaterial color={orange} />
-        </mesh>
-        <group rotation={[0, Math.PI, 0]} position={[0, 0, -0.026]}>
-          <mesh>
-            <planeGeometry args={[1.25, 1.85]} />
-            <meshBasicMaterial color="#76A989" />
-          </mesh>
-          <Line
-            points={[
-              [-0.55, -0.65, 0.01],
-              [-0.15, -0.25, 0.01],
-              [0.4, -0.2, 0.01],
-              [0.1, 0.65, 0.01],
-            ]}
-            color="#ede5d3"
-            lineWidth={3}
+        <RoundedBox args={[0.62, 0.88, 0.035]} radius={0.025} smoothness={3}>
+          <meshStandardMaterial color="#e6e1ce" roughness={0.85} />
+        </RoundedBox>
+        <mesh position={[0, 0, 0.021]}>
+          <planeGeometry args={[0.605, 0.865]} />
+          <meshBasicMaterial
+            ref={pokerFace}
+            map={textures.cards[0]}
+            transparent
+            toneMapped={false}
           />
-          <mesh position={[0.1, 0.25, 0.02]}>
-            <circleGeometry args={[0.12, 24]} />
-            <meshBasicMaterial color="#ede5d3" />
+        </mesh>
+        <mesh position={[0, 0, 0.024]}>
+          <planeGeometry args={[0.615, 0.875]} />
+          <meshBasicMaterial
+            ref={mapFace}
+            map={textures.map}
+            transparent
+            opacity={0}
+            depthWrite={false}
+            toneMapped={false}
+          />
+        </mesh>
+        <group ref={pin} position={[0.12, 0.09, 0.04]}>
+          <mesh>
+            <sphereGeometry args={[0.016, 16, 16]} />
+            <meshBasicMaterial color="#315c43" />
+          </mesh>
+          <mesh position={[0, 0, -0.008]}>
+            <ringGeometry args={[0.023, 0.026, 32]} />
+            <meshBasicMaterial color="#315c43" />
           </mesh>
         </group>
       </group>

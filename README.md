@@ -152,11 +152,12 @@ parcours figurent dans la section À propos.
 
 `src/lib/home-scroll.ts` relie Lenis, les ancres et les animations des sections.
 La timeline de la sélection reste dans `features/selected-work/selected-work-scroll.ts`.
-The River possède une séquence dédiée : machine à sous construite avec des primitives,
-passage vers quatre captures, table multijoueur synchronisée, tableau de bord et
-carte de transition. `river-story.ts` définit les étapes et leur durée ; `RiverWorld`
-les représente dans une vue du Canvas existant, avec une caméra propre. Les captures
-et les commandes restent dans le DOM. Les déplacements sont calculés depuis la
+The River utilise toute la surface de la sélection : machine à sous, traversée vers
+la table de poker, échanges entre joueurs et serveur, puis console du tableau de bord.
+Une carte de la table accompagne le parcours et devient une carte géographique qui
+remplit la vue. `river-story.ts` définit les étapes et leur durée ; `RiverWorld`
+décrit les cadrages et les plages de lecture. La capture réelle est une texture de
+la console ; les textes et les commandes restent dans le DOM. Les déplacements sont calculés depuis la
 progression du scroll pour retrouver le même état à la remontée.
 Le bouton Projet suivant rejoint la fiche suivante en 800 ms ; il disparaît pour
 le dernier projet. Continuer reste disponible pendant toute la séquence. Les deux

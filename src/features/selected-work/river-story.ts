@@ -1,11 +1,11 @@
-export const riverDuration = 4.2;
+export const riverDuration = 5.2;
 
 export const riverBeats = [
   {
     id: "intro",
     start: 0,
     label: "Entrer dans The River",
-    title: "Une plateforme. Plusieurs façons de jouer.",
+    title: "Entrez dans la partie.",
     description:
       "Du jeu solo aux tables multijoueurs, une même progression accompagne le joueur.",
   },

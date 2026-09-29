@@ -43,6 +43,18 @@ test("The River déroule ses étapes dans les deux sens, y compris après redime
     await seek(page, progress);
     await expect(river).toHaveAttribute("data-river-phase", phase);
     await expect(river.locator("[data-river-beat]:visible")).toHaveCount(1);
+    const copy = (await river
+      .locator("[data-river-beat]:visible")
+      .boundingBox())!;
+    const action = (await page
+      .getByRole("link", { name: "Voir le projet : The River" })
+      .boundingBox())!;
+    expect(
+      copy.x + copy.width <= action.x ||
+        action.x + action.width <= copy.x ||
+        copy.y + copy.height <= action.y ||
+        action.y + action.height <= copy.y,
+    ).toBe(true);
     await expect(
       page.getByRole("link", { name: "Voir le projet : The River" }),
     ).toBeInViewport();
@@ -52,18 +64,14 @@ test("The River déroule ses étapes dans les deux sens, y compris après redime
     await expect(
       page.getByRole("link", { name: "Continuer", exact: true }),
     ).toBeInViewport();
-    if (phase === "games") {
-      for (const image of await river.locator(".river-games img").all()) {
-        await expect
-          .poll(() =>
-            image.evaluate(
-              (element: HTMLImageElement) =>
-                element.complete && element.naturalWidth > 0,
-            ),
-          )
-          .toBe(true);
-      }
-    }
+    const view = await river.locator(".work-preview").boundingBox();
+    expect(view!.width).toBe(page.viewportSize()!.width);
+    expect(view!.height).toBeGreaterThan(page.viewportSize()!.height * 0.85);
+    if (phase === "progression")
+      await expect(river.locator(".work-preview")).toHaveAttribute(
+        "data-river-screen-ready",
+        "true",
+      );
   }
   await seek(page, 0.995);
   await page.setViewportSize({ width: 1024, height: 700 });
@@ -135,6 +143,30 @@ test("la présentation simple de The River reste disponible avec mouvement rédu
   await expect(page.locator(".river-panel .work-description")).toBeVisible();
   await expect(page.locator(".river-panel .work-preview img")).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(0);
+  await page.getByRole("link", { name: "Voir le projet : The River" }).click();
+  await expect(page).toHaveURL("/projects/the-river");
+});
+
+test("la console conserve une capture lisible si sa texture ne charge pas", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "La console 3D concerne le desktop.");
+  await page.route("**/projects/the-river/menu.png", (route) => route.abort());
+  await page.goto("/#selected-work");
+  const preview = page.locator(".river-panel .work-preview");
+  await expect(preview).toHaveAttribute("data-three-ready", "true", {
+    timeout: 20000,
+  });
+  await seek(page, 0.8);
+  await expect(preview.locator("img")).toHaveCSS("opacity", "1");
+  await expect
+    .poll(() =>
+      preview
+        .locator("img")
+        .evaluate((img: HTMLImageElement) => img.naturalWidth),
+    )
+    .toBeGreaterThan(0);
   await page.getByRole("link", { name: "Voir le projet : The River" }).click();
   await expect(page).toHaveURL("/projects/the-river");
 });
