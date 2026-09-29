@@ -138,8 +138,9 @@
   }
   .river-chapter {
     color: var(--accent);
-    font-size: 0.6875rem;
-    letter-spacing: 0.12em;
+    font-size: clamp(0.875rem, 1.05vw, 1rem);
+    font-weight: 600;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
   }
   .river-headline {
@@ -212,6 +213,12 @@
   .river-console-label {
     display: none;
   }
+  .river-game-list,
+  .river-network-label {
+    font-size: clamp(1rem, 1.25vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1.4;
+  }
   [data-river-phase="games"] .river-game-list {
     display: block;
     position: absolute;
@@ -220,12 +227,14 @@
     color: var(--accent);
   }
   [data-river-phase="realtime"] .river-network-label {
-    display: flex;
+    display: grid;
     position: absolute;
-    inset: auto 24% 19%;
-    justify-content: space-between;
+    inset: auto 20% 19%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     color: var(--accent);
+    text-align: center;
+    text-wrap: balance;
   }
   [data-river-phase="progression"] .river-console-label,
   [data-river-phase="reading"] .river-console-label {
@@ -234,7 +243,9 @@
     bottom: 20%;
     left: 50%;
     transform: translateX(-50%);
-    color: var(--muted);
+    color: var(--foreground);
+    font-size: clamp(0.875rem, 1.05vw, 1rem);
+    font-weight: 500;
   }
   .river-scroll-cue {
     position: absolute;

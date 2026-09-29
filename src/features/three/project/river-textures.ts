@@ -23,8 +23,8 @@ export function createRiverTextures() {
     ctx.font = "600 86px sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("THE RIVER", 512, 115);
-    ctx.fillStyle = "#f1a36e";
-    ctx.font = "20px sans-serif";
+    ctx.fillStyle = "#ffbd87";
+    ctx.font = "600 28px sans-serif";
     ctx.fillText("MULTIJOUEUR   /   TEMPS RÉEL   /   PROGRESSION", 512, 163);
   });
   const cards = ["A", "K", "Q", "J", "10"].map((rank, index) =>
