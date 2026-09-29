@@ -203,14 +203,16 @@ test("une texture indisponible laisse sa capture DOM visible", async ({
     if (url.searchParams.get("w") === "1200") return route.abort();
     return route.continue();
   });
-  await page.goto("/#selected-work");
-  const image = page.locator('[data-project-preview="the-river"] img');
+  await page.goto("/#project-ramenetapoire");
+  const image = page.locator('[data-project-preview="ramenetapoire"] img');
   await expect(image).toHaveCSS("opacity", "1");
   await expect
     .poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth))
     .toBeGreaterThan(0);
-  await page.getByRole("link", { name: "Voir le projet : The River" }).click();
-  await expect(page).toHaveURL("/projects/the-river");
+  await page
+    .getByRole("link", { name: "Voir le projet : RamèneTaPoire" })
+    .click();
+  await expect(page).toHaveURL("/projects/ramenetapoire");
 });
 
 test("le mouvement réduit et le mobile utilisent les images sans Canvas", async ({

@@ -1,10 +1,17 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { HomeMotion } from "@/lib/home-motion";
+import {
+  riverBeatIndex,
+  riverBeats,
+  riverDuration,
+  riverSegment,
+} from "./river-story";
 
 export function createSelectedWorkScroll(
   section: HTMLElement,
   headerHeight: () => number,
-  onMove: () => void,
+  motion: HomeMotion,
 ) {
   const stage = section.querySelector<HTMLElement>(".selected-work__stage")!;
   const viewport = section.querySelector<HTMLElement>(
@@ -18,24 +25,70 @@ export function createSelectedWorkScroll(
     section.querySelectorAll<HTMLAnchorElement>(".work-pagination a"),
   );
   const counter = section.querySelector<HTMLElement>("[data-work-current]")!;
+  const next = section.querySelector<HTMLAnchorElement>("[data-next-project]")!;
+  const river = section.querySelector<HTMLElement>(".river-panel");
+  const beats = river?.querySelectorAll<HTMLElement>("[data-river-beat]");
+  const setTrackX = gsap.quickSetter(track, "x", "px");
   let exiting = false;
   let exitTween: gsap.core.Tween | undefined;
   let active = -1;
+  let activeBeat = -1;
+  let destroyed = false;
   section.dataset.horizontal = "true";
 
   function updateActiveProject() {
-    onMove();
+    if (destroyed || viewport.clientWidth === 0) return;
+    const time = timeline.time();
+    const riverIndex = panels.findIndex((panel) => panel === river);
+    const riverProgress =
+      riverIndex < 0
+        ? 0
+        : Math.max(
+            0,
+            Math.min(
+              1,
+              (time - timeline.labels[`project-${riverIndex}`]) / riverDuration,
+            ),
+          );
+    const position = panels.reduce((value, _, index) => {
+      if (index === 0) return value;
+      const start = timeline.labels[`project-${index}`] - 0.35;
+      return value + Math.max(0, Math.min(1, (time - start) / 0.35));
+    }, 0);
+    setTrackX(-position * viewport.clientWidth);
+    motion.riverProgress = riverProgress;
+    motion.invalidate();
+    section.style.setProperty("--work-progress", String(timeline.progress()));
+    if (river) {
+      const beat = riverBeatIndex(riverProgress);
+      if (beat !== activeBeat) {
+        activeBeat = beat;
+        river.dataset.riverPhase = riverBeats[beat].id;
+        beats?.forEach((element, index) => {
+          element.hidden = index !== beat;
+        });
+      }
+      const p = riverProgress;
+      const start = riverBeats[beat].start;
+      const end = riverBeats[beat + 1]?.start ?? 1.04;
+      const opacity =
+        riverSegment(p, start, start + 0.018) *
+        (1 - riverSegment(p, end - 0.018, end));
+      river.style.setProperty(
+        "--river-copy-opacity",
+        String(beat === 0 ? 1 - riverSegment(p, 0.08, 0.1) : opacity),
+      );
+      section.dataset.riverMap = String(p > 0.975 && position < 0.5);
+    }
     const index = Math.max(
       0,
-      Math.min(
-        panels.length - 1,
-        Math.round(
-          -Number(gsap.getProperty(track, "x")) / viewport.clientWidth,
-        ),
-      ),
+      Math.min(panels.length - 1, Math.round(position)),
     );
     if (index === active) return;
     active = index;
+    section.dataset.riverActive = String(panels[index] === river);
+    next.hidden = index === panels.length - 1;
+    if (!next.hidden) next.href = `#${panels[index + 1].id}`;
     counter.textContent = String(index + 1).padStart(2, "0");
     panels.forEach((panel, i) => {
       panel.inert = i !== index;
@@ -50,24 +103,21 @@ export function createSelectedWorkScroll(
     paused: true,
     onUpdate: updateActiveProject,
   });
-  panels.forEach((_, index) => {
-    if (index > 0)
-      timeline.to(track, {
-        x: () => -index * viewport.clientWidth,
-        duration: 0.35,
-        ease: "none",
-      });
-    timeline.addLabel(`project-${index}`).to({}, { duration: 0.65 });
+  panels.forEach((panel, index) => {
+    if (index > 0) timeline.to({}, { duration: 0.35 });
+    timeline.addLabel(`project-${index}`);
+    timeline.to({}, { duration: panel === river ? riverDuration : 0.65 });
   });
 
   const trigger = ScrollTrigger.create({
     trigger: section,
     pin: stage,
     start: () => `top top+=${headerHeight()}`,
-    end: () => `+=${panels.length * Math.max(650, window.innerHeight * 0.85)}`,
+    end: () =>
+      `+=${timeline.duration() * Math.max(650, window.innerHeight * 0.85)}`,
     anticipatePin: 1,
     onRefresh: (self) => {
-      timeline.invalidate().progress(self.progress);
+      timeline.progress(self.progress);
       updateActiveProject();
     },
     onUpdate: (self) => {
@@ -85,6 +135,21 @@ export function createSelectedWorkScroll(
   }
 
   return {
+    advance(id: string, complete: () => void) {
+      const index = panels.findIndex((panel) => panel.id === id);
+      if (index < 0 || exiting) return;
+      exiting = true;
+      exitTween = gsap.to(timeline, {
+        time: timeline.labels[`project-${index}`] + 0.2,
+        duration: 0.8,
+        ease: "power2.inOut",
+        onComplete: () => {
+          exiting = false;
+          exitTween = undefined;
+          complete();
+        },
+      });
+    },
     positionFor(id: string) {
       const index = panels.findIndex((panel) => panel.id === id);
       if (id === section.id) return trigger.start;
@@ -115,10 +180,22 @@ export function createSelectedWorkScroll(
     },
     cancelExit,
     destroy() {
+      destroyed = true;
       exitTween?.kill();
       trigger.kill();
       timeline.revert();
+      gsap.set(track, { clearProps: "transform" });
       delete section.dataset.horizontal;
+      delete section.dataset.riverActive;
+      delete section.dataset.riverMap;
+      section.style.removeProperty("--work-progress");
+      if (river) delete river.dataset.riverPhase;
+      river?.style.removeProperty("--river-copy-opacity");
+      beats?.forEach((element, index) => {
+        element.hidden = index !== 0;
+      });
+      motion.riverProgress = 0;
+      next.hidden = true;
       panels.forEach((panel) => {
         panel.inert = false;
       });

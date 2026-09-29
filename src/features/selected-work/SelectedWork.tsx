@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getFeaturedProjects, getProjectMediaPath } from "@/lib/projects";
+import { RiverCopy } from "./RiverStory";
+import { RiverScreens } from "./RiverScreens";
 
 export function SelectedWork() {
   const projects = getFeaturedProjects();
@@ -35,7 +37,7 @@ export function SelectedWork() {
                 id={`project-${project.slug}`}
                 tabIndex={-1}
                 aria-labelledby={`title-${project.slug}`}
-                className="work-panel layout-container"
+                className={`work-panel layout-container${project.slug === "the-river" ? " river-panel" : ""}`}
                 key={project.slug}
               >
                 <div
@@ -57,11 +59,19 @@ export function SelectedWork() {
                   <p className="eyebrow">{project.type}</p>
                   <h3 id={`title-${project.slug}`}>{project.name}</h3>
                   <p className="work-description">{project.shortDescription}</p>
+                  {project.slug === "the-river" && <RiverCopy />}
                   <ul
                     className="work-technologies"
                     aria-label="Aperçu des technologies"
                   >
-                    {project.technologies.slice(0, 4).map((technology) => (
+                    {(project.slug === "the-river"
+                      ? project.technologies.filter((technology) =>
+                          ["NestJS", "Socket.IO", "MySQL", "TypeORM"].includes(
+                            technology,
+                          ),
+                        )
+                      : project.technologies.slice(0, 4)
+                    ).map((technology) => (
                       <li key={technology}>{technology}</li>
                     ))}
                   </ul>
@@ -74,6 +84,7 @@ export function SelectedWork() {
                     <span aria-hidden="true">↗</span>
                   </Link>
                 </div>
+                {project.slug === "the-river" && <RiverScreens />}
               </article>
             ))}
           </div>
@@ -90,6 +101,14 @@ export function SelectedWork() {
               </a>
             ))}
           </nav>
+          <a
+            href={`#project-${projects[1].slug}`}
+            data-next-project
+            className="text-link"
+            hidden
+          >
+            Projet suivant <span aria-hidden="true">→</span>
+          </a>
           <Link href="/projects" className="text-link">
             Voir tous les projets <span aria-hidden="true">↗</span>
           </Link>
@@ -97,6 +116,9 @@ export function SelectedWork() {
             Continuer <span aria-hidden="true">↓</span>
           </a>
         </footer>
+        <div className="work-progress" aria-hidden="true">
+          <span />
+        </div>
       </div>
     </section>
   );

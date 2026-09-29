@@ -63,7 +63,7 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
       gallery = createSelectedWorkScroll(
         root.querySelector<HTMLElement>("#selected-work")!,
         headerHeight,
-        motion.invalidate,
+        motion,
       );
       const hero = root.querySelector<HTMLElement>("#hero")!;
       const statement = root.querySelector<HTMLElement>("#statement")!;
@@ -177,7 +177,13 @@ export function setupHomeScroll(root: HTMLElement, motion: HomeMotion) {
     const target = hashTarget(url.hash);
     if (!target || !(root.contains(target) || target === root)) return;
     event.preventDefault();
-    if (link.hasAttribute("data-continue") && gallery) {
+    if (link.hasAttribute("data-next-project") && gallery) {
+      lenis?.scrollTo(window.scrollY, { immediate: true });
+      gallery.advance(target.id, () => {
+        rememberHash(target.id);
+        jump(target);
+      });
+    } else if (link.hasAttribute("data-continue") && gallery) {
       lenis?.scrollTo(window.scrollY, { immediate: true });
       gallery.leave(() => {
         rememberHash(target.id);
