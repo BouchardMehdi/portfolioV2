@@ -203,16 +203,14 @@ test("une texture indisponible laisse sa capture DOM visible", async ({
     if (url.searchParams.get("w") === "1200") return route.abort();
     return route.continue();
   });
-  await page.goto("/#project-ramenetapoire");
-  const image = page.locator('[data-project-preview="ramenetapoire"] img');
+  await page.goto("/#project-wankultcg");
+  const image = page.locator('[data-project-preview="wankultcg"] img');
   await expect(image).toHaveCSS("opacity", "1");
   await expect
     .poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth))
     .toBeGreaterThan(0);
-  await page
-    .getByRole("link", { name: "Voir le projet : RamèneTaPoire" })
-    .click();
-  await expect(page).toHaveURL("/projects/ramenetapoire");
+  await page.getByRole("link", { name: "Voir le projet : Wankul TCG" }).click();
+  await expect(page).toHaveURL("/projects/wankultcg");
 });
 
 test("le mouvement réduit et le mobile utilisent les images sans Canvas", async ({

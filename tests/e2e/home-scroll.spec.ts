@@ -57,7 +57,7 @@ test("le scroll vertical parcourt les trois projets puis libère la page", async
       ),
     )
     .toBe(80);
-  await page.mouse.wheel(0, range.distance * 0.14);
+  await page.mouse.wheel(0, range.distance * 0.2);
   await expect(page.locator("[data-work-current]")).toHaveText("03");
   await page.mouse.wheel(0, 1400);
   await expect(

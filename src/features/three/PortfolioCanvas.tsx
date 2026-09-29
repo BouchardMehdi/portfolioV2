@@ -15,6 +15,7 @@ import { HeroVolume } from "./HeroVolume";
 import { SceneLighting } from "./SceneLighting";
 import { ProjectScreen } from "./project/ProjectScreen";
 import { RiverWorld } from "./project/RiverWorld";
+import { PoireWorld } from "./project/PoireWorld";
 import type { PortfolioCanvasProps } from "./scene-types";
 
 function readPalette(root: HTMLElement) {
@@ -91,11 +92,16 @@ export function PortfolioCanvas({
 }: PortfolioCanvasProps) {
   const [failed, setFailed] = useState(false);
   const [galleryLoaded, setGalleryLoaded] = useState(false);
+  const [activeProject, setActiveProject] = useState(motion.projectIndex);
+  const [poireLoaded, setPoireLoaded] = useState(motion.projectIndex >= 1);
   const [palette, setPalette] = useState(() => readPalette(root));
   const fail = useCallback(() => setFailed(true), []);
   const targets = useMemo(
     () => ({
       hero: { current: root.querySelector<HTMLElement>(".hero-volume")! },
+      stage: {
+        current: root.querySelector<HTMLElement>(".selected-work__stage")!,
+      },
       projects: projects.map((project) => ({
         current: root.querySelector<HTMLElement>(
           `[data-project-preview="${project.slug}"]`,
@@ -104,6 +110,15 @@ export function PortfolioCanvas({
     }),
     [root, projects],
   );
+  useEffect(() => {
+    const update = () => {
+      setActiveProject(motion.projectIndex);
+      if (motion.riverProgress > 0.9 || motion.projectIndex >= 1)
+        setPoireLoaded(true);
+    };
+    update();
+    return motion.subscribe(update);
+  }, [motion]);
   useEffect(() => {
     // Les variables CSS sont lues après l’application du thème au document.
     const observer = new MutationObserver(() => setPalette(readPalette(root)));
@@ -174,7 +189,18 @@ export function PortfolioCanvas({
             projects.map((project, index) => (
               <View
                 key={project.slug}
-                track={targets.projects[index]}
+                track={
+                  project.slug === "the-river" ||
+                  project.slug === "ramenetapoire"
+                    ? targets.stage
+                    : targets.projects[index]
+                }
+                visible={
+                  project.slug === "the-river" ||
+                  project.slug === "ramenetapoire"
+                    ? activeProject === index
+                    : true
+                }
                 index={index + 2}
               >
                 {project.slug === "the-river" ? (
@@ -182,6 +208,13 @@ export function PortfolioCanvas({
                     target={targets.projects[index].current}
                     motion={motion}
                   />
+                ) : project.slug === "ramenetapoire" ? (
+                  poireLoaded && (
+                    <PoireWorld
+                      target={targets.projects[index].current}
+                      motion={motion}
+                    />
+                  )
                 ) : (
                   <ProjectScreen
                     project={project}

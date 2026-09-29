@@ -6,6 +6,8 @@ export function createHomeMotion() {
   return {
     heroProgress: 0,
     riverProgress: 0,
+    poireProgress: 0,
+    projectIndex: 0,
     invalidate() {
       listeners.forEach((listener) => listener());
     },

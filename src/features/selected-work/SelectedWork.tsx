@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getFeaturedProjects, getProjectMediaPath } from "@/lib/projects";
 import { RiverCopy } from "./RiverStory";
 import { RiverScreens } from "./RiverScreens";
+import { PoireCopy, PoireDetails } from "./PoireStory";
 
 export function SelectedWork() {
   const projects = getFeaturedProjects();
@@ -37,7 +38,7 @@ export function SelectedWork() {
                 id={`project-${project.slug}`}
                 tabIndex={-1}
                 aria-labelledby={`title-${project.slug}`}
-                className={`work-panel layout-container${project.slug === "the-river" ? " river-panel" : ""}`}
+                className={`work-panel layout-container${project.slug === "the-river" ? " river-panel" : project.slug === "ramenetapoire" ? " poire-panel" : ""}`}
                 key={project.slug}
               >
                 <div
@@ -60,6 +61,7 @@ export function SelectedWork() {
                   <h3 id={`title-${project.slug}`}>{project.name}</h3>
                   <p className="work-description">{project.shortDescription}</p>
                   {project.slug === "the-river" && <RiverCopy />}
+                  {project.slug === "ramenetapoire" && <PoireCopy />}
                   <ul
                     className="work-technologies"
                     aria-label="Aperçu des technologies"
@@ -70,7 +72,16 @@ export function SelectedWork() {
                             technology,
                           ),
                         )
-                      : project.technologies.slice(0, 4)
+                      : project.slug === "ramenetapoire"
+                        ? project.technologies.filter((technology) =>
+                            [
+                              "Next.js",
+                              "NestJS",
+                              "PostgreSQL",
+                              "Socket.IO",
+                            ].includes(technology),
+                          )
+                        : project.technologies.slice(0, 4)
                     ).map((technology) => (
                       <li key={technology}>{technology}</li>
                     ))}
@@ -85,6 +96,7 @@ export function SelectedWork() {
                   </Link>
                 </div>
                 {project.slug === "the-river" && <RiverScreens />}
+                {project.slug === "ramenetapoire" && <PoireDetails />}
               </article>
             ))}
           </div>
