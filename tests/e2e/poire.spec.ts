@@ -90,6 +90,12 @@ test("RamèneTaPoire reste réversible, lisible et navigable dans ses neuf scèn
           "true",
         );
       }
+      if (phase === "reading") {
+        const technologies = (await panel
+          .locator(".work-technologies")
+          .boundingBox())!;
+        expect(technologies.y).toBeGreaterThanOrEqual(copy.y + copy.height);
+      }
     }
   }
   await page.getByRole("link", { name: "Projet suivant", exact: true }).click();

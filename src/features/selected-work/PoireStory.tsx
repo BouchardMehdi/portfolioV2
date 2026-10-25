@@ -35,13 +35,23 @@ export function PoireDetails() {
       </p>
       {poireScreens.map((screen) => (
         <figure key={screen.id} data-poire-screen={screen.id}>
-          <Image
-            src={`/projects/ramenetapoire/${screen.file}`}
-            width={screen.width}
-            height={screen.height}
-            alt={screen.caption}
-            sizes="70vw"
-          />
+          <div
+            className="poire-image-crop"
+            style={{ aspectRatio: screen.focus.width / screen.focus.height }}
+          >
+            <Image
+              src={`/projects/ramenetapoire/${screen.file}`}
+              width={screen.width}
+              height={screen.height}
+              alt={screen.caption}
+              sizes="(min-width: 1400px) 1900px, 1200px"
+              style={{
+                width: `${(screen.width / screen.focus.width) * 100}%`,
+                left: `${(-screen.focus.x / screen.focus.width) * 100}%`,
+                top: `${(-screen.focus.y / screen.focus.height) * 100}%`,
+              }}
+            />
+          </div>
           <figcaption>{screen.caption}</figcaption>
         </figure>
       ))}

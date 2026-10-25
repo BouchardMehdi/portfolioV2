@@ -198,22 +198,31 @@
   .poire-details figure {
     display: none;
     position: absolute;
-    inset: 34% 19% auto;
-    margin: 0;
+    inset: calc(12% + 8rem) 0 auto;
+    width: min(84vw, 83vh);
+    margin-inline: auto;
     text-align: center;
+  }
+  .poire-details [data-poire-screen="reading"] {
+    top: calc(12% + 11.5rem);
   }
   [data-poire-phase="messages"] [data-poire-screen="messages"],
   [data-poire-phase="host"] [data-poire-screen="host"],
   [data-poire-phase="reading"] [data-poire-screen="reading"] {
     display: block;
   }
-  .poire-details figure img {
-    width: 100%;
-    height: auto;
-    max-height: 38vh;
-    object-fit: contain;
+  .poire-image-crop {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #61735b;
   }
-  .poire-panel:has([data-poire-screen-ready]) .poire-details figure img {
+  .poire-details .poire-image-crop img {
+    position: absolute;
+    max-width: none;
+    height: auto;
+    max-height: none;
+  }
+  .poire-panel:has([data-poire-screen-ready]) .poire-image-crop {
     visibility: hidden;
   }
   .poire-panel:has([data-poire-screen-ready]) .poire-details figcaption {
@@ -243,7 +252,7 @@
     .poire-panel[data-poire-phase="reading"]
     .work-technologies {
     position: absolute;
-    top: 34%;
+    top: calc(12% + 9rem);
     left: 0;
     width: 100%;
     display: flex;
@@ -251,6 +260,23 @@
     margin: 0;
     color: var(--accent);
     font-size: 0.875rem;
+  }
+  [data-poire-beat="messages"],
+  [data-poire-beat="host"],
+  [data-poire-beat="reading"] {
+    width: calc(100% - 2 * var(--gutter));
+    max-width: 80rem;
+  }
+  [data-poire-beat="messages"] .poire-headline,
+  [data-poire-beat="host"] .poire-headline,
+  [data-poire-beat="reading"] .poire-headline {
+    font-size: clamp(1.5rem, 2vw, 2rem);
+  }
+  [data-poire-beat="messages"] .poire-description,
+  [data-poire-beat="host"] .poire-description,
+  [data-poire-beat="reading"] .poire-description {
+    max-width: 80ch;
+    margin-top: 0.5rem;
   }
 }
 @media (max-height: 800px) and (min-width: 1024px) {
@@ -280,5 +306,17 @@
   .poire-details figcaption {
     font-size: 0.8125rem;
     margin-top: 0.5rem;
+  }
+  .poire-details figure {
+    top: calc(15% + 7rem);
+    width: min(84vw, 72vh);
+  }
+  .poire-details [data-poire-screen="reading"] {
+    top: calc(15% + 10rem);
+  }
+  .selected-work[data-horizontal]
+    .poire-panel[data-poire-phase="reading"]
+    .work-technologies {
+    top: calc(15% + 8rem);
   }
 }

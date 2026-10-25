@@ -90,6 +90,7 @@ export const poireScreens = [
     file: "page-messagerie-3.png",
     width: 1896,
     height: 906,
+    focus: { x: 460, y: 370, width: 990, height: 530 },
     caption: "La conversation de groupe liée au repas",
   },
   {
@@ -97,6 +98,7 @@ export const poireScreens = [
     file: "page-creation-evenement.png",
     width: 1915,
     height: 898,
+    focus: { x: 720, y: 325, width: 875, height: 530 },
     caption: "Créer un repas depuis le parcours hôte",
   },
   {
@@ -104,6 +106,7 @@ export const poireScreens = [
     file: "page-fiche-repas.png",
     width: 1908,
     height: 894,
+    focus: { x: 490, y: 420, width: 930, height: 474 },
     caption: "Les informations d’un repas avant réservation",
   },
 ] as const;
