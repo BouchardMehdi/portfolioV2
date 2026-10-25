@@ -2,6 +2,12 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { HomeMotion } from "@/lib/home-motion";
 import {
+  poireBeatIndex,
+  poireBeats,
+  poireDuration,
+  poireSegment,
+} from "./poire-story";
+import {
   riverBeatIndex,
   riverBeats,
   riverDuration,
@@ -28,11 +34,15 @@ export function createSelectedWorkScroll(
   const next = section.querySelector<HTMLAnchorElement>("[data-next-project]")!;
   const river = section.querySelector<HTMLElement>(".river-panel");
   const beats = river?.querySelectorAll<HTMLElement>("[data-river-beat]");
+  const poire = section.querySelector<HTMLElement>(".poire-panel");
+  const poireCopy = poire?.querySelectorAll<HTMLElement>("[data-poire-beat]");
+  const poireIndex = panels.findIndex((panel) => panel === poire);
   const setTrackX = gsap.quickSetter(track, "x", "px");
   let exiting = false;
   let exitTween: gsap.core.Tween | undefined;
   let active = -1;
   let activeBeat = -1;
+  let activePoireBeat = -1;
   let destroyed = false;
   section.dataset.horizontal = "true";
 
@@ -57,7 +67,34 @@ export function createSelectedWorkScroll(
     }, 0);
     setTrackX(-position * viewport.clientWidth);
     motion.riverProgress = riverProgress;
-    motion.invalidate();
+    const poireProgress =
+      poireIndex < 0
+        ? 0
+        : Math.max(
+            0,
+            Math.min(
+              1,
+              (time - timeline.labels[`project-${poireIndex}`]) / poireDuration,
+            ),
+          );
+    motion.poireProgress = poireProgress;
+    if (poire) {
+      const beat = poireBeatIndex(poireProgress);
+      if (beat !== activePoireBeat) {
+        activePoireBeat = beat;
+        poire.dataset.poirePhase = poireBeats[beat].id;
+        poireCopy?.forEach((element, index) => {
+          element.hidden = index !== beat;
+        });
+      }
+      const start = poireBeats[beat].start;
+      const end = poireBeats[beat + 1]?.start ?? 1.04;
+      const opacity =
+        (beat === 0 ? 1 : poireSegment(poireProgress, start, start + 0.012)) *
+        (1 - poireSegment(poireProgress, end - 0.012, end));
+      poire.style.setProperty("--poire-copy-opacity", String(opacity));
+      section.dataset.poireExit = String(poireProgress > 0.983);
+    }
     section.style.setProperty("--work-progress", String(timeline.progress()));
     if (river) {
       const beat = riverBeatIndex(riverProgress);
@@ -84,9 +121,12 @@ export function createSelectedWorkScroll(
       0,
       Math.min(panels.length - 1, Math.round(position)),
     );
+    motion.projectIndex = index;
+    motion.invalidate();
     if (index === active) return;
     active = index;
     section.dataset.riverActive = String(panels[index] === river);
+    section.dataset.poireActive = String(panels[index] === poire);
     next.hidden = index === panels.length - 1;
     if (!next.hidden) next.href = `#${panels[index + 1].id}`;
     counter.textContent = String(index + 1).padStart(2, "0");
@@ -106,7 +146,17 @@ export function createSelectedWorkScroll(
   panels.forEach((panel, index) => {
     if (index > 0) timeline.to({}, { duration: 0.35 });
     timeline.addLabel(`project-${index}`);
-    timeline.to({}, { duration: panel === river ? riverDuration : 0.65 });
+    timeline.to(
+      {},
+      {
+        duration:
+          panel === river
+            ? riverDuration
+            : panel === poire
+              ? poireDuration
+              : 0.65,
+      },
+    );
   });
 
   const trigger = ScrollTrigger.create({
@@ -188,6 +238,8 @@ export function createSelectedWorkScroll(
       delete section.dataset.horizontal;
       delete section.dataset.riverActive;
       delete section.dataset.riverMap;
+      delete section.dataset.poireActive;
+      delete section.dataset.poireExit;
       section.style.removeProperty("--work-progress");
       if (river) delete river.dataset.riverPhase;
       river?.style.removeProperty("--river-copy-opacity");
@@ -195,6 +247,13 @@ export function createSelectedWorkScroll(
         element.hidden = index !== 0;
       });
       motion.riverProgress = 0;
+      motion.poireProgress = 0;
+      motion.projectIndex = 0;
+      if (poire) delete poire.dataset.poirePhase;
+      poire?.style.removeProperty("--poire-copy-opacity");
+      poireCopy?.forEach((element, index) => {
+        element.hidden = index !== 0;
+      });
       next.hidden = true;
       panels.forEach((panel) => {
         panel.inert = false;

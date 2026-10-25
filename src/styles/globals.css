@@ -2,6 +2,7 @@
 @import "lenis/dist/lenis.css";
 @import "./home.css";
 @import "./river.css";
+@import "./poire.css";
 
 :root {
   color-scheme: light;
