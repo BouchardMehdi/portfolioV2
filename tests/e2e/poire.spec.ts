@@ -1,10 +1,11 @@
 import { expect, test, type Page } from "@playwright/test";
 import { riverDuration } from "../../src/features/selected-work/river-story";
 import { poireDuration } from "../../src/features/selected-work/poire-story";
+import { wankulDuration } from "../../src/features/selected-work/wankul-story";
 
 async function seek(page: Page, progress: number) {
   const time = riverDuration + 0.35 + poireDuration * progress;
-  const ratio = time / (riverDuration + poireDuration + 1.35);
+  const ratio = time / (riverDuration + poireDuration + wankulDuration + 0.7);
   await page.locator("#selected-work").evaluate((section, progress) => {
     const bounds = section.getBoundingClientRect();
     const height = section
@@ -63,7 +64,7 @@ test("RamèneTaPoire reste réversible, lisible et navigable dans ses neuf scèn
       )
       .toBe(
         Math.round(
-          (riverDuration + poireDuration + 1.35) *
+          (riverDuration + poireDuration + wankulDuration + 0.7) *
             Math.max(650, size.height * 0.85),
         ),
       );

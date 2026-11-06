@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { riverDuration } from "../../src/features/selected-work/river-story";
 import { poireDuration } from "../../src/features/selected-work/poire-story";
+import { wankulDuration } from "../../src/features/selected-work/wankul-story";
 
 async function seek(page: Page, progress: number) {
   const range = await page.locator("#selected-work").evaluate((section) => ({
@@ -14,7 +15,8 @@ async function seek(page: Page, progress: number) {
     (top) => window.scrollTo({ top, behavior: "instant" }),
     range.start +
       range.distance *
-        (riverDuration / (riverDuration + poireDuration + 1.35)) *
+        (riverDuration /
+          (riverDuration + poireDuration + wankulDuration + 0.7)) *
         progress,
   );
 }
@@ -91,7 +93,9 @@ test("The River déroule ses étapes dans les deux sens, y compris après redime
           ),
         ),
     )
-    .toBe(Math.round((riverDuration + poireDuration + 1.35) * 650));
+    .toBe(
+      Math.round((riverDuration + poireDuration + wankulDuration + 0.7) * 650),
+    );
   await seek(page, 0.59);
   await expect(river).toHaveAttribute("data-river-phase", "realtime");
   await expect(page.locator("[data-work-current]")).toHaveText("01");

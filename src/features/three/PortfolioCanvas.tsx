@@ -16,12 +16,14 @@ import { SceneLighting } from "./SceneLighting";
 import { ProjectScreen } from "./project/ProjectScreen";
 import { RiverWorld } from "./project/RiverWorld";
 import { PoireWorld } from "./project/PoireWorld";
+import { WankulWorld } from "./project/WankulWorld";
 import type { PortfolioCanvasProps } from "./scene-types";
 
 function readPalette(root: HTMLElement) {
   const styles = getComputedStyle(root);
   return {
     surface: styles.getPropertyValue("--surface-elevated").trim(),
+    background: styles.getPropertyValue("--background").trim(),
     border: styles.getPropertyValue("--border").trim(),
     accent: styles.getPropertyValue("--accent").trim(),
     dark: styles.colorScheme === "dark",
@@ -94,6 +96,7 @@ export function PortfolioCanvas({
   const [galleryLoaded, setGalleryLoaded] = useState(false);
   const [activeProject, setActiveProject] = useState(motion.projectIndex);
   const [poireLoaded, setPoireLoaded] = useState(motion.projectIndex >= 1);
+  const [wankulLoaded, setWankulLoaded] = useState(motion.projectIndex >= 2);
   const [palette, setPalette] = useState(() => readPalette(root));
   const fail = useCallback(() => setFailed(true), []);
   const targets = useMemo(
@@ -115,6 +118,8 @@ export function PortfolioCanvas({
       setActiveProject(motion.projectIndex);
       if (motion.riverProgress > 0.9 || motion.projectIndex >= 1)
         setPoireLoaded(true);
+      if (motion.poireProgress > 0.9 || motion.projectIndex >= 2)
+        setWankulLoaded(true);
     };
     update();
     return motion.subscribe(update);
@@ -191,13 +196,15 @@ export function PortfolioCanvas({
                 key={project.slug}
                 track={
                   project.slug === "the-river" ||
-                  project.slug === "ramenetapoire"
+                  project.slug === "ramenetapoire" ||
+                  project.slug === "wankultcg"
                     ? targets.stage
                     : targets.projects[index]
                 }
                 visible={
                   project.slug === "the-river" ||
-                  project.slug === "ramenetapoire"
+                  project.slug === "ramenetapoire" ||
+                  project.slug === "wankultcg"
                     ? activeProject === index
                     : true
                 }
@@ -213,6 +220,14 @@ export function PortfolioCanvas({
                     <PoireWorld
                       target={targets.projects[index].current}
                       motion={motion}
+                    />
+                  )
+                ) : project.slug === "wankultcg" ? (
+                  wankulLoaded && (
+                    <WankulWorld
+                      target={targets.projects[index].current}
+                      motion={motion}
+                      backgroundColor={palette.background}
                     />
                   )
                 ) : (

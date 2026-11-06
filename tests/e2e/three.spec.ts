@@ -198,11 +198,9 @@ test("une texture indisponible laisse sa capture DOM visible", async ({
   isMobile,
 }) => {
   test.skip(isMobile, "Aucune texture 3D sur mobile.");
-  await page.route("**/_next/image?*", (route) => {
-    const url = new URL(route.request().url());
-    if (url.searchParams.get("w") === "1200") return route.abort();
-    return route.continue();
-  });
+  await page.route("**/projects/wankultcg/scene/booster.png", (route) =>
+    route.abort(),
+  );
   await page.goto("/#project-wankultcg");
   const image = page.locator('[data-project-preview="wankultcg"] img');
   await expect(image).toHaveCSS("opacity", "1");

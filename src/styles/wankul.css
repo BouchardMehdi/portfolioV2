@@ -1,0 +1,338 @@
+@layer components {
+  .wankul-copy,
+  .wankul-details {
+    display: none;
+  }
+  .selected-work[data-horizontal][data-wankul-active="true"]:not(
+      [data-wankul-exit="true"]
+    ) {
+    --foreground: #f2edf8;
+    --muted: #c8bfd4;
+    --accent: #d3b5f3;
+    --border: #554563;
+    --border-subtle: #30273b;
+    --surface: #100e18;
+    --background: #100e18;
+    color: var(--foreground);
+  }
+  .selected-work[data-horizontal][data-wankul-active="true"]
+    .selected-work__header
+    h2 {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .selected-work[data-horizontal] .wankul-panel {
+    position: relative;
+    display: block;
+    padding: 0;
+  }
+  .selected-work[data-horizontal] .wankul-panel .work-preview {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border: 0;
+    padding: 0;
+    background: #100e18;
+  }
+  .selected-work[data-horizontal]
+    .wankul-panel
+    .work-preview[data-three-ready] {
+    background: transparent;
+  }
+  .selected-work[data-horizontal] .wankul-panel .work-preview__image {
+    max-width: 55%;
+    max-height: 42%;
+  }
+  .selected-work[data-horizontal] .wankul-panel .work-information {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    align-self: stretch;
+    z-index: 20;
+    pointer-events: none;
+  }
+  .selected-work[data-horizontal] .wankul-panel .work-information > .eyebrow,
+  .selected-work[data-horizontal] .wankul-panel .work-description,
+  .selected-work[data-horizontal] .wankul-panel .work-technologies {
+    display: none;
+  }
+  .selected-work[data-horizontal] .wankul-panel h3 {
+    position: absolute;
+    top: 4rem;
+    left: var(--gutter);
+    margin: 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .selected-work[data-horizontal] .wankul-panel[data-wankul-phase="intro"] h3 {
+    top: 16%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: clamp(3.5rem, 8vw, 8rem);
+    line-height: 1;
+    letter-spacing: -0.065em;
+  }
+  .selected-work[data-horizontal] .wankul-panel .work-information > .button {
+    position: absolute;
+    bottom: 6.5rem;
+    left: var(--gutter);
+    pointer-events: auto;
+    min-height: 2.75rem;
+    padding: 0.65rem 1rem;
+    font-size: 0.8125rem;
+  }
+  .selected-work[data-horizontal] .wankul-copy,
+  .selected-work[data-horizontal] .wankul-details {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .wankul-details {
+    z-index: 20;
+  }
+  .wankul-disclaimer {
+    position: absolute;
+    right: var(--gutter);
+    top: 4.1rem;
+    color: var(--muted);
+    font-size: 0.8125rem;
+  }
+  [data-wankul-beat] {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 74%;
+    max-width: 64rem;
+    text-align: center;
+    opacity: var(--wankul-copy-opacity, 1);
+  }
+  .wankul-chapter {
+    color: var(--accent);
+    font-size: clamp(0.875rem, 1.05vw, 1rem);
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+  .wankul-headline {
+    margin-top: 0.65rem;
+    font-family: var(--font-space-grotesk), sans-serif;
+    font-size: clamp(1.5rem, 2.8vw, 2.75rem);
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+  .wankul-description {
+    margin: 0.8rem auto 0;
+    max-width: 70ch;
+    color: var(--muted);
+    font-size: clamp(0.8125rem, 1.1vw, 1rem);
+    line-height: 1.6;
+    text-wrap: balance;
+  }
+  [data-wankul-beat="intro"] {
+    top: auto;
+    bottom: 20%;
+  }
+  [data-wankul-beat="intro"] .wankul-headline {
+    font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  }
+  [data-wankul-beat="rare"] {
+    left: var(--gutter);
+    transform: none;
+    top: 26%;
+    width: 28%;
+    text-align: left;
+  }
+  [data-wankul-beat="rare"] .wankul-description {
+    margin-left: 0;
+  }
+  .wankul-collection-labels,
+  .wankul-market-labels,
+  .wankul-economy,
+  .wankul-summary {
+    display: none;
+    position: absolute;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.4vw, 1.4rem);
+  }
+  [data-wankul-phase="collection"] .wankul-collection-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    left: var(--gutter);
+    top: 49%;
+  }
+  [data-wankul-phase="market"] .wankul-market-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    right: 9%;
+    top: 42%;
+  }
+  [data-wankul-phase="economy"] .wankul-economy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    left: 0;
+    width: 100%;
+    bottom: 20%;
+  }
+  [data-wankul-phase="reading"] .wankul-summary {
+    display: flex;
+    justify-content: space-around;
+    left: 20%;
+    width: 60%;
+    bottom: 21%;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .selected-work[data-horizontal]
+    .wankul-panel[data-wankul-phase="reading"]
+    .work-technologies {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: calc(15% + 9rem);
+    width: 100%;
+    margin: 0;
+    justify-content: center;
+    color: var(--muted);
+  }
+  .wankul-details figure {
+    display: none;
+    position: absolute;
+    top: 35%;
+    bottom: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(57vw, 54rem);
+    margin: 0;
+    text-align: center;
+  }
+  .wankul-screen-crop {
+    width: 100%;
+    height: calc(100% - 2rem);
+  }
+  .wankul-details figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  [data-wankul-screen="market"] .wankul-screen-crop {
+    position: relative;
+    height: auto;
+    aspect-ratio: 565 / 244;
+    overflow: hidden;
+  }
+  [data-wankul-screen="market"] .wankul-screen-crop img {
+    position: absolute;
+    top: -13.9344%;
+    height: auto;
+  }
+  .wankul-details figcaption {
+    margin-top: 0.65rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  [data-wankul-phase="collection"] [data-wankul-screen="collection"],
+  [data-wankul-phase="market"] [data-wankul-screen="collection"] {
+    display: block;
+    opacity: var(--wankul-collection-opacity, 0);
+  }
+  [data-wankul-phase="collection"] [data-wankul-screen="market"],
+  [data-wankul-phase="market"] [data-wankul-screen="market"] {
+    display: block;
+    opacity: var(--wankul-market-opacity, 0);
+  }
+  [data-wankul-phase="collection"] .work-preview__image,
+  [data-wankul-phase="market"] .work-preview__image {
+    visibility: hidden;
+  }
+  .wankul-panel:not(:has([data-three-ready])) [data-wankul-screen] {
+    display: none;
+  }
+  .wankul-panel:not(:has([data-three-ready]))[data-wankul-phase="collection"]
+    [data-wankul-screen="collection"],
+  .wankul-panel:not(:has([data-three-ready]))[data-wankul-phase="market"]
+    [data-wankul-screen="market"] {
+    display: block;
+    opacity: 1;
+  }
+  .wankul-scroll-cue {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 7rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .wankul-scroll-cue span {
+    margin-left: 1rem;
+  }
+  [data-wankul-phase="exit"] .wankul-scroll-cue {
+    display: none;
+  }
+}
+@media (max-height: 800px) and (min-width: 1024px) {
+  .selected-work[data-horizontal] .wankul-panel h3 {
+    top: 3.5rem;
+  }
+  .wankul-disclaimer {
+    top: 3.55rem;
+    font-size: 0.75rem;
+  }
+  .wankul-headline {
+    font-size: 1.5rem;
+  }
+  .wankul-description {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+  }
+  .selected-work[data-horizontal] .wankul-panel .work-information > .button {
+    bottom: 5.75rem;
+  }
+  .wankul-scroll-cue {
+    bottom: 6.5rem;
+  }
+  .wankul-details figure {
+    top: 33%;
+    bottom: 14%;
+  }
+  .wankul-details figcaption {
+    font-size: 0.75rem;
+  }
+  .wankul-collection-labels,
+  .wankul-market-labels,
+  .wankul-summary {
+    font-size: 1rem;
+  }
+  .selected-work[data-horizontal]
+    .wankul-panel[data-wankul-phase="reading"]
+    .work-technologies {
+    top: calc(15% + 7.5rem);
+    font-size: 0.8125rem;
+  }
+}
+
+@media (min-width: 1024px) and (min-height: 700px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .home-about {
+    position: relative;
+  }
+  .home-about::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 3rem;
+    background: var(--border);
+  }
+}

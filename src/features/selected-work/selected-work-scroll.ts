@@ -2,6 +2,13 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { HomeMotion } from "@/lib/home-motion";
 import {
+  wankulBeatIndex,
+  wankulBeats,
+  wankulDuration,
+  wankulSegment,
+  wankulScreenState,
+} from "./wankul-story";
+import {
   poireBeatIndex,
   poireBeats,
   poireDuration,
@@ -37,12 +44,17 @@ export function createSelectedWorkScroll(
   const poire = section.querySelector<HTMLElement>(".poire-panel");
   const poireCopy = poire?.querySelectorAll<HTMLElement>("[data-poire-beat]");
   const poireIndex = panels.findIndex((panel) => panel === poire);
+  const wankul = section.querySelector<HTMLElement>(".wankul-panel");
+  const wankulCopy =
+    wankul?.querySelectorAll<HTMLElement>("[data-wankul-beat]");
+  const wankulIndex = panels.findIndex((panel) => panel === wankul);
   const setTrackX = gsap.quickSetter(track, "x", "px");
   let exiting = false;
   let exitTween: gsap.core.Tween | undefined;
   let active = -1;
   let activeBeat = -1;
   let activePoireBeat = -1;
+  let activeWankulBeat = -1;
   let destroyed = false;
   section.dataset.horizontal = "true";
 
@@ -78,6 +90,46 @@ export function createSelectedWorkScroll(
             ),
           );
     motion.poireProgress = poireProgress;
+    const wankulProgress =
+      wankulIndex < 0
+        ? 0
+        : Math.max(
+            0,
+            Math.min(
+              1,
+              (time - timeline.labels[`project-${wankulIndex}`]) /
+                wankulDuration,
+            ),
+          );
+    motion.wankulProgress = wankulProgress;
+    if (wankul) {
+      const beat = wankulBeatIndex(wankulProgress);
+      if (beat !== activeWankulBeat) {
+        activeWankulBeat = beat;
+        wankul.dataset.wankulPhase = wankulBeats[beat].id;
+        wankulCopy?.forEach((element, index) => {
+          element.hidden = index !== beat;
+        });
+      }
+      const start = wankulBeats[beat].start;
+      const end = wankulBeats[beat + 1]?.start ?? 1.04;
+      wankul.style.setProperty(
+        "--wankul-copy-opacity",
+        String(
+          (beat === 0
+            ? 1
+            : wankulSegment(wankulProgress, start, start + 0.012)) *
+            (1 - wankulSegment(wankulProgress, end - 0.012, end)),
+        ),
+      );
+      const { collection, market } = wankulScreenState(wankulProgress);
+      wankul.style.setProperty(
+        "--wankul-collection-opacity",
+        String(collection),
+      );
+      wankul.style.setProperty("--wankul-market-opacity", String(market));
+      section.dataset.wankulExit = String(wankulProgress > 0.985);
+    }
     if (poire) {
       const beat = poireBeatIndex(poireProgress);
       if (beat !== activePoireBeat) {
@@ -127,6 +179,7 @@ export function createSelectedWorkScroll(
     active = index;
     section.dataset.riverActive = String(panels[index] === river);
     section.dataset.poireActive = String(panels[index] === poire);
+    section.dataset.wankulActive = String(panels[index] === wankul);
     next.hidden = index === panels.length - 1;
     if (!next.hidden) next.href = `#${panels[index + 1].id}`;
     counter.textContent = String(index + 1).padStart(2, "0");
@@ -154,7 +207,9 @@ export function createSelectedWorkScroll(
             ? riverDuration
             : panel === poire
               ? poireDuration
-              : 0.65,
+              : panel === wankul
+                ? wankulDuration
+                : 0.65,
       },
     );
   });
@@ -240,6 +295,8 @@ export function createSelectedWorkScroll(
       delete section.dataset.riverMap;
       delete section.dataset.poireActive;
       delete section.dataset.poireExit;
+      delete section.dataset.wankulActive;
+      delete section.dataset.wankulExit;
       section.style.removeProperty("--work-progress");
       if (river) delete river.dataset.riverPhase;
       river?.style.removeProperty("--river-copy-opacity");
@@ -248,6 +305,16 @@ export function createSelectedWorkScroll(
       });
       motion.riverProgress = 0;
       motion.poireProgress = 0;
+      motion.wankulProgress = 0;
+      if (wankul) delete wankul.dataset.wankulPhase;
+      [
+        "--wankul-copy-opacity",
+        "--wankul-collection-opacity",
+        "--wankul-market-opacity",
+      ].forEach((property) => wankul?.style.removeProperty(property));
+      wankulCopy?.forEach((element, index) => {
+        element.hidden = index !== 0;
+      });
       motion.projectIndex = 0;
       if (poire) delete poire.dataset.poirePhase;
       poire?.style.removeProperty("--poire-copy-opacity");
